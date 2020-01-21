@@ -31,7 +31,6 @@ class ArticleItem extends StatelessWidget {
           child: Text(
             "老人与海",
             style: TextStyle(
-                fontFamily: "HuaWen",
                 fontSize: 0.017 * width,
                 fontWeight: FontWeight.bold,),
             maxLines: 1,
@@ -43,7 +42,6 @@ class ArticleItem extends StatelessWidget {
           child: Text(
             "在山的那边海的那边…",
             style: TextStyle(
-              fontFamily: "HuaWen",
               fontSize: 0.014 * width,
               color: Color(0xff8D8D8D),
             ),
