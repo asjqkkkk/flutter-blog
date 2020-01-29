@@ -66,6 +66,6 @@ class WebBar extends StatelessWidget {
   }
 
   double getScaleSizeByWidth(double width, double size) {
-    return size * width / 1440;
+    return size * width / 1600;
   }
 }

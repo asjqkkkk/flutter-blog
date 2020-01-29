@@ -25,6 +25,7 @@ class ArticleItem extends StatelessWidget {
               child: Image.asset("assets/images/00${Random().nextInt(3) + 1}.png",fit: BoxFit.cover,),
             ),
           ),
+          scale: 1.1,
         ),
         Container(
           margin: EdgeInsets.only(left: 0.07 * cardWidth,top: 0.015 * height),

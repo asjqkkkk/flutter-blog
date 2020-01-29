@@ -32,7 +32,9 @@ class HolePage extends StatelessWidget {
                       Text(
                         "我的\n博客",
                         style: TextStyle(
-                            fontSize: getScaleSizeByHeight(height, 90.0)),
+                          fontSize: getScaleSizeByHeight(height, 90.0),
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       SizedBox(
                         height: getScaleSizeByHeight(height, 80.0),
@@ -57,7 +59,7 @@ class HolePage extends StatelessWidget {
                       ),
                       Text(
                         "游戏",
-                        style: TextStyle( fontSize: fontSizeByHeight),
+                        style: TextStyle(fontSize: fontSizeByHeight),
                       ),
                     ],
                   ),
@@ -65,7 +67,8 @@ class HolePage extends StatelessWidget {
                     child: Container(
                       margin: EdgeInsets.only(
                           top: 0.1 * height, left: 0.06 * width),
-                      child: NotificationListener<OverscrollIndicatorNotification>(
+                      child:
+                          NotificationListener<OverscrollIndicatorNotification>(
                         onNotification: (overScroll) {
                           overScroll.disallowGlow();
                           return true;
@@ -75,12 +78,17 @@ class HolePage extends StatelessWidget {
                           child: Wrap(
                             children: List.generate(20, (index) {
                               return Container(
-                                margin: EdgeInsets.fromLTRB(0.02 * width,0.04 * height, 0.02 * width,0.04 * height),
-                                child: GestureDetector(child: ArticleItem(),onTap: (){
-                                  Navigator.of(context).push(new MaterialPageRoute(builder: (ctx){
+                                margin: EdgeInsets.fromLTRB(0.02 * width,
+                                    0.04 * height, 0.02 * width, 0.04 * height),
+                                child: GestureDetector(
+                                  child: ArticleItem(),
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                        new MaterialPageRoute(builder: (ctx) {
                                       return ArticlePage();
-                                  }));
-                                },),
+                                    }));
+                                  },
+                                ),
                               );
                             }),
                           ),
