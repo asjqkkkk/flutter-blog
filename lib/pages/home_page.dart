@@ -14,7 +14,7 @@ class HolePage extends StatelessWidget {
     final width = size.width;
     final height = size.height;
     final fontSize = width * 30 / 1440;
-    final fontSizeByHeight = height * 30 / 1024;
+    final fontSizeByHeight = height * 30 / 1200;
     print("Size:${size.width}   ${size.height}");
 
     return Scaffold(
@@ -98,10 +98,10 @@ class HolePage extends StatelessWidget {
   }
 
   double getScaleSizeByWidth(double width, double size) {
-    return size * width / 1440;
+    return size * width / 1600;
   }
 
   double getScaleSizeByHeight(double height, double size) {
-    return size * height / 1024;
+    return size * height / 1200;
   }
 }

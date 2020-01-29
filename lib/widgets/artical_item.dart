@@ -9,8 +9,8 @@ class ArticleItem extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     final width = size.width;
     final height = size.height;
-    final cardWidth = 0.185 * width;
-    final cardHeight = 0.65 * cardWidth;
+    final cardWidth = 0.18 * width;
+    final cardHeight = 0.6 * cardWidth;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,7 +31,7 @@ class ArticleItem extends StatelessWidget {
           child: Text(
             "老人与海",
             style: TextStyle(
-                fontSize: 0.017 * width,
+                fontSize: 0.015 * width,
                 fontWeight: FontWeight.bold,),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -42,7 +42,7 @@ class ArticleItem extends StatelessWidget {
           child: Text(
             "在山的那边海的那边…",
             style: TextStyle(
-              fontSize: 0.014 * width,
+              fontSize: 0.012 * width,
               color: Color(0xff8D8D8D),
             ),
             maxLines: 1,
