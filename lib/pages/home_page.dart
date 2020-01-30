@@ -22,6 +22,7 @@ class HolePage extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             WebBar(),
+            SizedBox(height: 20,),
             Container(
               child: Row(
                 children: <Widget>[
@@ -33,7 +34,7 @@ class HolePage extends StatelessWidget {
                         "我的\n博客",
                         style: TextStyle(
                           fontSize: getScaleSizeByHeight(height, 90.0),
-                          fontWeight: FontWeight.bold,
+                          fontFamily: "huawen_kt"
                         ),
                       ),
                       SizedBox(

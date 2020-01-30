@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        fontFamily: "HuaWen"
+        fontFamily: "huawen_kt"
       ),
       home: HolePage(),
     );

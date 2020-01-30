@@ -38,9 +38,9 @@ dev_dependencies:
 # The following section is specific to Flutter.
 flutter:
   fonts:
-    - family: HuaWen
+    - family: huawen_kt
       fonts:
-        - asset: assets/fonts/huawen.ttf
+        - asset: assets/fonts/huawen_kt.ttf
   assets:
     - assets/images/
     - assets/markdowns/
