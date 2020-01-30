@@ -26,7 +26,7 @@ class BarButton<T> extends StatelessWidget {
             height: 4,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.black,
+              color: Colors.grey,
             ),
           ) : Container(),
         ],

@@ -32,8 +32,7 @@ class ArticleItem extends StatelessWidget {
           child: Text(
             "老人与海",
             style: TextStyle(
-                fontSize: 0.015 * width,
-                fontWeight: FontWeight.bold,),
+                fontSize: 0.015 * width,),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
