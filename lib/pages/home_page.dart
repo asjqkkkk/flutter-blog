@@ -1,13 +1,32 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_blog/widgets/web_bar.dart';
-
 import 'article_page.dart';
+import '../json/article_item_bean.dart';
+import '../widgets/web_bar.dart';
+import '../logic/home_page_logic.dart';
 import '../widgets/artical_item.dart';
 import '../widgets/common_layout.dart';
 
-class HolePage extends StatelessWidget {
+class HolePage extends StatefulWidget {
+  @override
+  _HolePageState createState() => _HolePageState();
+}
+
+class _HolePageState extends State<HolePage> {
+  final logic = HomePageLogic();
+
+  List<ArticleItemBean> showDataList = [];
+
+  @override
+  void initState() {
+    logic.getArticleData("config_life.json").then((List<ArticleItemBean> data) {
+      showDataList.addAll(data);
+      setState(() {});
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -22,7 +41,9 @@ class HolePage extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             WebBar(),
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             Container(
               child: Row(
                 children: <Widget>[
@@ -33,9 +54,8 @@ class HolePage extends StatelessWidget {
                       Text(
                         "我的\n博客",
                         style: TextStyle(
-                          fontSize: getScaleSizeByHeight(height, 90.0),
-                          fontFamily: "huawen_kt"
-                        ),
+                            fontSize: getScaleSizeByHeight(height, 90.0),
+                            fontFamily: "huawen_kt"),
                       ),
                       SizedBox(
                         height: getScaleSizeByHeight(height, 80.0),
@@ -43,8 +63,8 @@ class HolePage extends StatelessWidget {
                       Text(
                         "生活",
                         style: TextStyle(
-                            fontSize: fontSizeByHeight,
-                            color: Color(0xff9E9E9E)),
+                          fontSize: fontSizeByHeight,
+                        ),
                       ),
                       SizedBox(
                         height: getScaleSizeByHeight(height, 80.0),
@@ -60,7 +80,10 @@ class HolePage extends StatelessWidget {
                       ),
                       Text(
                         "游戏",
-                        style: TextStyle(fontSize: fontSizeByHeight),
+                        style: TextStyle(
+                          fontSize: fontSizeByHeight,
+                          color: Color(0xff9E9E9E),
+                        ),
                       ),
                     ],
                   ),
@@ -68,33 +91,45 @@ class HolePage extends StatelessWidget {
                     child: Container(
                       margin: EdgeInsets.only(
                           top: 0.1 * height, left: 0.06 * width),
-                      child:
-                          NotificationListener<OverscrollIndicatorNotification>(
-                        onNotification: (overScroll) {
-                          overScroll.disallowGlow();
-                          return true;
-                        },
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.vertical,
-                          child: Wrap(
-                            children: List.generate(20, (index) {
-                              return Container(
-                                margin: EdgeInsets.fromLTRB(0.02 * width,
-                                    0.04 * height, 0.02 * width, 0.04 * height),
-                                child: GestureDetector(
-                                  child: ArticleItem(),
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                        new MaterialPageRoute(builder: (ctx) {
-                                      return ArticlePage();
-                                    }));
-                                  },
+                      child: showDataList.isEmpty
+                          ? Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : NotificationListener<
+                              OverscrollIndicatorNotification>(
+                              onNotification: (overScroll) {
+                                overScroll.disallowGlow();
+                                return true;
+                              },
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.vertical,
+                                child: Wrap(
+                                  children: List.generate(showDataList.length,
+                                      (index) {
+                                    return Container(
+                                      margin: EdgeInsets.fromLTRB(
+                                          0.02 * width,
+                                          0.04 * height,
+                                          0.02 * width,
+                                          0.04 * height),
+                                      child: GestureDetector(
+                                        child: ArticleItem(
+                                            bean: showDataList[index]),
+                                        onTap: () {
+                                          Navigator.of(context).push(
+                                              new MaterialPageRoute(
+                                                  builder: (ctx) {
+                                            return ArticlePage(
+                                              bean: showDataList[index],
+                                            );
+                                          }));
+                                        },
+                                      ),
+                                    );
+                                  }),
                                 ),
-                              );
-                            }),
-                          ),
-                        ),
-                      ),
+                              ),
+                            ),
                     ),
                   )
                 ],

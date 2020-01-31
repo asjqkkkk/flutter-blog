@@ -5,8 +5,12 @@ import 'package:flutter/services.dart';
 
 class ArticlePageLogic{
 
-  Future<String> getText(String fileName) async{
-    String file = "assets/markdowns/$fileName";
+  Future<String> getText(String filePath) async{
+    String file = "assets/$filePath";
+
+//    final ByteData data = await rootBundle.load(file);
+//    print("$data");
+
     String json = await rootBundle.loadString(file);
     return json;
   }
