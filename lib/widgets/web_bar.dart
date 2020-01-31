@@ -55,59 +55,79 @@ class _WebBarState extends State<WebBar> {
             style: TextStyle(fontSize: fontSize),
           ),
           Spacer(
-            flex: 1,
+            flex: width ~/ 150,
           ),
-          BarButton(
-            child: Text(
-              "首页",
-              style: TextStyle(fontSize: fontSize),
-            ),
-            onPressed: (){
-              setState(() {
+          Expanded(
+            child: BarButton(
+              child: Text(
+                "首页",
+                style: TextStyle(fontSize: fontSize),
+              ),
+              onPressed: (){
+                if(pageType == PageType.home) return;
+                Navigator.of(context).popUntil((route) => route.isFirst);
                 pageType = PageType.home;
-              });
-            },
-            isChecked: pageType == PageType.home,
-          ),
-          BarButton(
-            child: Text(
-              "标签",
-              style: TextStyle(fontSize: fontSize),
+                setState(() {});
+              },
+              isChecked: pageType == PageType.home,
             ),
-            onPressed: (){
-              setState(() {
+          ),
+          Expanded(
+            child: BarButton(
+              child: Text(
+                "标签",
+                style: TextStyle(fontSize: fontSize),
+              ),
+              onPressed: (){
+                if(pageType == PageType.tag) return;
+                showWaitingDialog(context);
                 pageType = PageType.tag;
-              });
-            },
-            isChecked: pageType == PageType.tag,
-          ),
-          BarButton(
-            child: Text(
-              "归档",
-              style: TextStyle(fontSize: fontSize),
+                setState(() {});
+              },
+              isChecked: pageType == PageType.tag,
             ),
-            onPressed: (){
-              setState(() {
+          ),
+          Expanded(
+            child: BarButton(
+              child: Text(
+                "归档",
+                style: TextStyle(fontSize: fontSize),
+              ),
+              onPressed: (){
+                if(pageType == PageType.archive) return;
+                showWaitingDialog(context);
                 pageType = PageType.archive;
-              });
-            },
-            isChecked: pageType == PageType.archive,
-          ),
-          BarButton(
-            child: Text(
-              "关于",
-              style: TextStyle(fontSize: fontSize),
+                setState(() {});
+              },
+              isChecked: pageType == PageType.archive,
             ),
-            onPressed: (){
-              setState(() {
+          ),
+          Expanded(
+            child: BarButton(
+              child: Text(
+                "关于",
+                style: TextStyle(fontSize: fontSize),
+              ),
+              onPressed: (){
+                if(pageType == PageType.about) return;
+                showWaitingDialog(context);
                 pageType = PageType.about;
-              });
-            },
-            isChecked: pageType == PageType.about,
+                setState(() {});
+              },
+              isChecked: pageType == PageType.about,
+            ),
           ),
         ],
       ),
     );
+  }
+
+  void showWaitingDialog(BuildContext context) {
+    showDialog(context: context,builder: (ctx){
+      return AlertDialog(
+        content: Text("功能尚在开发中..."),
+      );
+    });
   }
 
   double getScaleSizeByHeight(double height, double size) {

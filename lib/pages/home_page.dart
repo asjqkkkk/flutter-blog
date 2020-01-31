@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -15,12 +16,15 @@ class HolePage extends StatefulWidget {
 
 class _HolePageState extends State<HolePage> {
   final logic = HomePageLogic();
+  ArticleType type = ArticleType.life;
 
   List<ArticleItemBean> showDataList = [];
+  Map<ArticleType, List<ArticleItemBean>> dataMap = Map();
 
   @override
   void initState() {
     logic.getArticleData("config_life.json").then((List<ArticleItemBean> data) {
+      dataMap[ArticleType.life] = data;
       showDataList.addAll(data);
       setState(() {});
     });
@@ -41,9 +45,6 @@ class _HolePageState extends State<HolePage> {
         child: Stack(
           children: <Widget>[
             WebBar(),
-            SizedBox(
-              height: 20,
-            ),
             Container(
               child: Row(
                 children: <Widget>[
@@ -58,39 +59,72 @@ class _HolePageState extends State<HolePage> {
                             fontFamily: "huawen_kt"),
                       ),
                       SizedBox(
-                        height: getScaleSizeByHeight(height, 80.0),
+                        height: getScaleSizeByHeight(height, 40.0),
                       ),
-                      Text(
-                        "生活",
-                        style: TextStyle(
-                          fontSize: fontSizeByHeight,
-                        ),
-                      ),
-                      SizedBox(
-                        height: getScaleSizeByHeight(height, 80.0),
-                      ),
-                      Text(
-                        "学习",
-                        style: TextStyle(
+                      FlatButton(
+                        onPressed: (){
+                          if(type == ArticleType.life) return;
+                          type = ArticleType.life;
+                          showDataList.clear();
+                          showDataList.addAll(dataMap[ArticleType.life]);
+                          setState(() {});
+                        },
+                        child: Text(
+                          "生活",
+                          style: TextStyle(
                             fontSize: fontSizeByHeight,
-                            color: Color(0xff9E9E9E)),
-                      ),
-                      SizedBox(
-                        height: getScaleSizeByHeight(height, 80.0),
-                      ),
-                      Text(
-                        "游戏",
-                        style: TextStyle(
-                          fontSize: fontSizeByHeight,
-                          color: Color(0xff9E9E9E),
+                            color: type == ArticleType.life ? null : Color(0xff9E9E9E),
+                          ),
                         ),
                       ),
+                      SizedBox(
+                        height: getScaleSizeByHeight(height, 40.0),
+                      ),
+                      FlatButton(
+                        onPressed: (){
+                          if(type == ArticleType.study) return;
+                          type = ArticleType.study;
+                          showDataList.clear();
+                          if(dataMap[ArticleType.study] != null) {
+                            showDataList.addAll(dataMap[ArticleType.study]);
+                            setState(() {});
+                          } else {
+                            logic.getArticleData("config_study.json").then((List<ArticleItemBean> data) {
+                              dataMap[ArticleType.study] = data;
+                              showDataList.addAll(data);
+                              setState(() {});
+                            });
+                          }
+                        },
+
+                        child: Text(
+                          "学习",
+                          style: TextStyle(
+                              fontSize: fontSizeByHeight,
+                              color: type == ArticleType.study ? null : Color(0xff9E9E9E),),
+                        ),
+                      ),
+                      SizedBox(
+                        height: getScaleSizeByHeight(height, 40.0),
+                      ),
+//                      FlatButton(
+//                        onPressed: (){
+//                          if(type == ArticleType.read) return;
+//                        },
+//                        child: Text(
+//                          "阅读",
+//                          style: TextStyle(
+//                            fontSize: fontSizeByHeight,
+//                            color: type == ArticleType.read ? null : Color(0xff9E9E9E),
+//                          ),
+//                        ),
+//                      ),
                     ],
                   ),
                   Expanded(
                     child: Container(
                       margin: EdgeInsets.only(
-                          top: 0.1 * height, left: 0.06 * width),
+                          top: 70, left: 0.06 * width),
                       child: showDataList.isEmpty
                           ? Center(
                               child: CircularProgressIndicator(),
@@ -148,4 +182,11 @@ class _HolePageState extends State<HolePage> {
   double getScaleSizeByHeight(double height, double size) {
     return size * height / 1200;
   }
+}
+
+
+enum ArticleType{
+  life,
+  study,
+  read
 }

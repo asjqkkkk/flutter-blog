@@ -33,6 +33,8 @@ class _ArticlePageState extends State<ArticlePage> {
       List<String> splits = widget.bean.articleContent.split("---");
       if(splits.length == 3){
         data = splits[2];
+      } else {
+        data = widget.bean.articleContent;
       }
       setState(() {});
     super.initState();
@@ -52,7 +54,7 @@ class _ArticlePageState extends State<ArticlePage> {
             WebBar(),
             Container(
                 alignment: Alignment.center,
-                margin: EdgeInsets.only(top: 0.1 * height),
+                margin: EdgeInsets.only(top: 70),
                 child: data.isEmpty ?Center(
                   child: CircularProgressIndicator(),
                 ) : ListView(

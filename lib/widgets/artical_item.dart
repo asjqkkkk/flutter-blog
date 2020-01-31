@@ -28,7 +28,13 @@ class ArticleItem extends StatelessWidget {
               height: cardHeight,
               color: Color(Random().nextInt(0xffffffff)),
               child: bean.imageAddress.isEmpty
-                  ? Container()
+                  ? Container(
+                      margin: EdgeInsets.all(10),
+                      child: Text(
+                        bean.articleContent,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    )
                   : Image.asset(
                       "assets${bean.imageAddress}",
                       fit: BoxFit.cover,
@@ -38,6 +44,7 @@ class ArticleItem extends StatelessWidget {
           scale: 1.1,
         ),
         Container(
+          width: 0.86 * cardWidth,
           margin: EdgeInsets.only(left: 0.07 * cardWidth, top: 0.015 * height),
           child: Text(
             bean.articleName,
@@ -52,7 +59,7 @@ class ArticleItem extends StatelessWidget {
           margin: EdgeInsets.only(left: 0.07 * cardWidth),
           width: 0.86 * cardWidth,
           child: Text(
-            bean.summary,
+            bean.summary.replaceAll("\n", " "),
             style: TextStyle(
               fontSize: 0.012 * width,
               color: Color(0xff8D8D8D),
