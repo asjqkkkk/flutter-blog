@@ -24,6 +24,10 @@ class ArticleItemBean {
   ///文章地址
   String articleAddress;
 
+
+  ///文章内容(当flutter修复rootbundle.loadString对于中文的识别问题后再去掉这个)
+  String articleContent;
+
   ArticleItemBean({
     this.articleName,
     this.createTime,
@@ -32,6 +36,7 @@ class ArticleItemBean {
     this.summary,
     this.imageAddress,
     this.articleAddress,
+    this.articleContent,
   });
 
   static ArticleItemBean fromMap(Map<String, dynamic> map) {
@@ -43,6 +48,7 @@ class ArticleItemBean {
     bean.summary = map['summary'];
     bean.imageAddress = map['imageAddress'];
     bean.articleAddress = map['articleAddress'];
+    bean.articleContent = map['articleContent'];
     return bean;
   }
 
@@ -68,7 +74,8 @@ class ArticleItemBean {
       'tag': tag ?? "",
       'summary': summary ?? "",
       'imageAddress': imageAddress ?? "",
-      'articleAddress': articleAddress ?? ""
+      'articleAddress': articleAddress ?? "",
+      'articleContent': articleContent ?? ""
     };
   }
 

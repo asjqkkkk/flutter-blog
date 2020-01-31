@@ -22,14 +22,19 @@ class _ArticlePageState extends State<ArticlePage> {
 
   @override
   void initState() {
-    logic.getText(widget.bean.articleAddress).then((v) {
-      data = v;
-      List<String> splits = data.split("---");
+//    logic.getText(widget.bean.articleAddress).then((v) {
+//      data = v;
+//      List<String> splits = data.split("---");
+//      if(splits.length == 3){
+//        data = splits[2];
+//      }
+//      setState(() {});
+//    });
+      List<String> splits = widget.bean.articleContent.split("---");
       if(splits.length == 3){
         data = splits[2];
       }
       setState(() {});
-    });
     super.initState();
   }
 

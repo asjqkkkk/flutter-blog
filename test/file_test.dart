@@ -70,7 +70,8 @@ void main() {
         tag: tag,
         summary: subContent.replaceAll("#", ""),
         imageAddress: imageAdress,
-        articleAddress: "/markdowns/$markdownFilePath/$fileName"
+        articleAddress: "/markdowns/$markdownFilePath/$fileName",
+        articleContent: content,
       );
       beans.add(bean);
     }
