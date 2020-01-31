@@ -30,7 +30,7 @@ class ArticleItem extends StatelessWidget {
               child: bean.imageAddress.isEmpty
                   ? Container()
                   : Image.asset(
-                      "assets/${bean.imageAddress}",
+                      "assets${bean.imageAddress}",
                       fit: BoxFit.cover,
                     ),
             ),
