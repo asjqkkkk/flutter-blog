@@ -49,34 +49,29 @@ class _ArticlePageState extends State<ArticlePage> {
 
     return Scaffold(
       body: CommonLayout(
-        child: Stack(
-          children: <Widget>[
-            WebBar(),
-            Container(
-                alignment: Alignment.center,
-                margin: EdgeInsets.only(top: 70),
-                child: data.isEmpty ?Center(
-                  child: CircularProgressIndicator(),
-                ) : ListView(
-                  children: <Widget>[
-                    Container(
-                      child: Text(
-                        widget.bean.articleName,
-                        style: theme.textTheme.headline5,
+        child: Container(
+            alignment: Alignment.center,
+            margin: EdgeInsets.only(top: 70),
+            child: data.isEmpty ?Center(
+              child: CircularProgressIndicator(),
+            ) : ListView(
+              children: <Widget>[
+                Container(
+                  child: Text(
+                    widget.bean.articleName,
+                    style: theme.textTheme.headline5,
+                  ),
+                  alignment: Alignment.center,
+                ),
+                MarkdownBody(
+                        fitContent: false,
+                        data: data,
+                        styleSheet: MarkdownStyleSheet(
+                            codeblockPadding:
+                                EdgeInsets.fromLTRB(10, 20, 10, 20)),
                       ),
-                      alignment: Alignment.center,
-                    ),
-                    MarkdownBody(
-                            fitContent: false,
-                            data: data,
-                            styleSheet: MarkdownStyleSheet(
-                                codeblockPadding:
-                                    EdgeInsets.fromLTRB(10, 20, 10, 20)),
-                          ),
-                  ],
-                )),
-          ],
-        ),
+              ],
+            )),
       ),
     );
   }

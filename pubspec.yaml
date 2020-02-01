@@ -48,6 +48,7 @@ flutter:
     - assets/markdowns/life/
     - assets/markdowns/study/
     - assets/config/
+    - assets/svg/
 
 
   # The following line ensures that the Material Icons font is

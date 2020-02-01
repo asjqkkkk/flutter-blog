@@ -75,6 +75,7 @@ void main() {
       );
       beans.add(bean);
     }
+    beans.sort((left, right) => left.compareTo(right));
     File file = File("${current.path + "/assets/config/config_$markdownFilePath.json"}");
     if(file.existsSync()){
       file.deleteSync();

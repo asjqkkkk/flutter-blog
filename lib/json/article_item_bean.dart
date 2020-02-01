@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 
-class ArticleItemBean {
+class ArticleItemBean extends Comparable{
   ///文章标题
   String articleName;
 
@@ -78,6 +78,13 @@ class ArticleItemBean {
       'articleContent': articleContent ?? ""
     };
   }
+
+  @override
+  int compareTo(other) {
+    return DateTime.parse(createTime).isAfter(DateTime.parse(other.createTime)) ? -1 : 1;
+  }
+
+
 
 
 }
