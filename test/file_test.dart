@@ -24,10 +24,10 @@ void main() {
   }
 
 
-  void printFiles(String markdownFilePath){
+  void printFiles(String markdownFilePath, String dirPath){
 
     final current = Directory.current;
-    final assetPath = Directory(current.path + "/assets/markdowns/$markdownFilePath/");
+    final assetPath = Directory(current.path + "/$dirPath/markdowns/$markdownFilePath/");
     final dirs = assetPath.listSync();
     final List<ArticleItemBean> beans = [];
 
@@ -70,7 +70,7 @@ void main() {
         tag: tag,
         summary: subContent.replaceAll("#", ""),
         imageAddress: imageAdress,
-        articleAddress: "/markdowns/$markdownFilePath/$fileName",
+        articleAddress: "/$dirPath/$markdownFilePath/$fileName",
         articleContent: content,
       );
       beans.add(bean);
@@ -96,8 +96,8 @@ void main() {
 
 
   test('测试文件输出', () {
-    printFiles("study");
-    printFiles("life");
+    printFiles("study","config");
+    printFiles("life","config");
   });
 
 
