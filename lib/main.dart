@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
     ]);
 
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'old🍊blog',
       theme: ThemeData(fontFamily: "huawen_kt"),
       home: HolePage(),
     );

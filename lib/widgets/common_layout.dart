@@ -25,7 +25,7 @@ class CommonLayout extends StatelessWidget {
             isHome: isHome,
             pageType: pageType,
           ),
-          child,
+          Container(child: child,margin: EdgeInsets.only(top: 70),),
         ],
       ),
     );

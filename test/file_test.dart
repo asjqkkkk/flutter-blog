@@ -1,7 +1,9 @@
+import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_blog/json/article_item_bean.dart';
+import 'package:flutter_blog/json/archive_item_bean.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart' as path;
 import 'package:intl/intl.dart';
@@ -23,8 +25,26 @@ void main() {
     //把list转换为string的时候不要直接使用tostring，要用jsonEncode
   }
 
+  List<ArchiveItemBean> sortByYear(List<ArticleItemBean> beans){
+    List<ArchiveItemBean> results = [];
+    final map = LinkedHashMap<int, List<YearBean>>();
+    for (var bean in beans) {
+      final data = DateTime.parse(bean.createTime);
+      if(map[data.year] == null){
+        map[data.year] = [YearBean.fromItemBean(bean)];
+      } else {
+        map[data.year].add(YearBean.fromItemBean(bean));
+      }
+    }
+    for (var year in map.keys) {
+      ArchiveItemBean articleItemYearBean = ArchiveItemBean(year: year, beans: map[year]);
+      results.add(articleItemYearBean);
+    }
+    return results;
+  }
 
-  void printFiles(String markdownFilePath, String dirPath){
+
+  void printFiles(String markdownFilePath, String dirPath, {bool outputArchivesConfig = false}){
 
     final current = Directory.current;
     final assetPath = Directory(current.path + "/$dirPath/markdowns/$markdownFilePath/");
@@ -85,9 +105,21 @@ void main() {
     for (var bean in beans) {
       datas.add(bean.toMap());
     }
-    print(datas);
     file.writeAsStringSync(jsonEncode(datas));
-    print(file.readAsStringSync());
+
+    if(outputArchivesConfig){
+      File file = File("${current.path + "/assets/config/config_archive.json"}");
+      if(file.existsSync()){
+        file.deleteSync();
+      }
+      file.createSync();
+      List<ArchiveItemBean> archiveBeans = sortByYear(beans);
+      final archiveDatas = [];
+      for (var bean in archiveBeans) {
+        archiveDatas.add(bean.toMap());
+      }
+      file.writeAsStringSync(jsonEncode(archiveDatas));
+    }
 //    List<Map<String, dynamic>> jsons = List.generate(beans.length, (index){
 //      return toStringMap(beans[index]);
 //    });
@@ -97,7 +129,7 @@ void main() {
 
   test('测试文件输出', () {
     printFiles("study","config");
-    printFiles("life","config");
+    printFiles("life","config",outputArchivesConfig: true);
   });
 
 

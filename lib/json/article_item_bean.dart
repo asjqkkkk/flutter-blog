@@ -61,11 +61,6 @@ class ArticleItemBean extends Comparable{
     return list;
   }
 
-  static Future<List<ArticleItemBean>> loadAsset() async {
-    String json = await rootBundle.loadString('assets/config/config.json');
-    return ArticleItemBean.fromMapList(jsonDecode(json));
-  }
-
   Map<dynamic, dynamic> toMap() {
     return {
       'articleName': articleName ?? "",

@@ -117,8 +117,7 @@ class _HolePageState extends State<HolePage> {
               ),
               Expanded(
                 child: Container(
-                  margin: EdgeInsets.only(
-                      top: 70, left: 0.06 * width),
+                  margin: EdgeInsets.only(left: 0.06 * width),
                   child: showDataList.isEmpty
                       ? Center(
                           child: CircularProgressIndicator(),

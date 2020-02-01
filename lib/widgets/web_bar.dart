@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../pages/archive_page.dart';
 import '../pages/about_page.dart';
 
 import 'bar_button.dart';
@@ -95,7 +97,7 @@ class _WebBarState extends State<WebBar> {
                 ),
                 onPressed: () {
                   if (pageType == PageType.archive) return;
-                  showWaitingDialog(context);
+                  Navigator.of(context).push(new CupertinoPageRoute(builder: (ctx){return ArchivePage();}));
 //                  pageType = PageType.archive;
 //                  setState(() {});
                 },
@@ -110,7 +112,7 @@ class _WebBarState extends State<WebBar> {
                 ),
                 onPressed: () {
                   if (pageType == PageType.about) return;
-                  Navigator.of(context).push(new MaterialPageRoute(builder: (ctx){return AboutPage();}));
+                  Navigator.of(context).push(new CupertinoPageRoute(builder: (ctx){return AboutPage();}));
 //                  pageType = PageType.about;
 //                  setState(() {});
                 },
