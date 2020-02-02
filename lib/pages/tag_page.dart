@@ -50,7 +50,7 @@ class _TagPageState extends State<TagPage> {
                           return FlatButton(
                             onPressed: () {
                               Navigator.of(context)
-                                  .push(new CupertinoPageRoute(builder: (ctx) {
+                                  .push(new MaterialPageRoute(builder: (ctx) {
                                 return ArchivePage(
                                   beans: [bean],
                                 );

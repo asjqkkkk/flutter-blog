@@ -83,7 +83,7 @@ class _WebBarState extends State<WebBar> {
                 ),
                 onPressed: () {
                   if (pageType == PageType.tag) return;
-                  Navigator.of(context).push(new CupertinoPageRoute(builder: (ctx){return TagPage();}));
+                  Navigator.of(context).push(new MaterialPageRoute(builder: (ctx){return TagPage();}));
 //                  pageType = PageType.tag;
 //                  setState(() {});
                 },
@@ -98,7 +98,7 @@ class _WebBarState extends State<WebBar> {
                 ),
                 onPressed: () {
                   if (pageType == PageType.archive) return;
-                  Navigator.of(context).push(new CupertinoPageRoute(builder: (ctx){return ArchivePage();}));
+                  Navigator.of(context).push(new MaterialPageRoute(builder: (ctx){return ArchivePage();}));
 //                  pageType = PageType.archive;
 //                  setState(() {});
                 },
@@ -113,7 +113,7 @@ class _WebBarState extends State<WebBar> {
                 ),
                 onPressed: () {
                   if (pageType == PageType.about) return;
-                  Navigator.of(context).push(new CupertinoPageRoute(builder: (ctx){return AboutPage();}));
+                  Navigator.of(context).push(new MaterialPageRoute(builder: (ctx){return AboutPage();}));
 //                  pageType = PageType.about;
 //                  setState(() {});
                 },

@@ -145,7 +145,7 @@ class _HolePageState extends State<HolePage> {
                                         bean: showDataList[index]),
                                     onTap: () {
                                       Navigator.of(context).push(
-                                          new CupertinoPageRoute(
+                                          new MaterialPageRoute(
                                               builder: (ctx) {
                                         return ArticlePage(
                                           bean: showDataList[index],

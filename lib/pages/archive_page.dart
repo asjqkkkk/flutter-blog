@@ -22,7 +22,7 @@ class _ArchivePageState extends State<ArchivePage> {
 
   @override
   void initState() {
-    if (widget.beans.isEmpty) {
+    if (widget.beans == null) {
       ArchiveItemBean.loadAsset().then((data) {
         beans.addAll(data);
         setState(() {});
@@ -36,7 +36,7 @@ class _ArchivePageState extends State<ArchivePage> {
     return Scaffold(
       body: CommonLayout(
         pageType: PageType.archive,
-        child: (widget.beans.isEmpty ? beans.isEmpty : false)
+        child: (widget.beans == null ? beans.isEmpty : false)
             ? Center(
                 child: CircularProgressIndicator(),
               )
@@ -47,15 +47,15 @@ class _ArchivePageState extends State<ArchivePage> {
                   child: Container(
                     margin: EdgeInsets.only(top: 20, left: 50, right: 50),
                     child: ListView.builder(
-                      itemCount:widget.beans.isEmpty ? beans.length : widget.beans.length,
+                      itemCount:widget.beans == null ? beans.length : widget.beans.length,
                       itemBuilder: (ctx, index) {
-                        final bean = widget.beans.isEmpty ? beans[index] : widget.beans[index];
-                        final yearBeans = widget.beans.isEmpty ? beans[index].beans : widget.beans[index].beans;
+                        final bean = widget.beans == null ? beans[index] : widget.beans[index];
+                        final yearBeans = widget.beans == null ? beans[index].beans : widget.beans[index].beans;
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              "${widget.beans.isEmpty ? beans[index].year : widget.beans[index].tag}",
+                              "${widget.beans == null ? beans[index].year : widget.beans[index].tag}",
                               style: Theme.of(context).textTheme.headline4,
                             ),
                             Container(
