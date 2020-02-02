@@ -1,0 +1,46 @@
+[
+  {
+    "tag": "奇思妙想",
+    "beans": [
+      {
+        "articleName": "奇思妙想",
+        "createTime": "2019-09-08T22:30:58.000",
+        "lastModifiedTime": "2020-01-31T09:51:45.000",
+        "articleAddress": "/config/life/奇思妙想.md"
+      }
+    ]
+  },
+  {
+    "tag": "杂谈",
+    "beans": [
+      {
+        "articleName": "开始新的一天吧",
+        "createTime": "2019-09-01T22:15:31.000",
+        "lastModifiedTime": "2020-01-31T09:51:55.000",
+        "articleAddress": "/config/life/开始新的一天吧.md"
+      }
+    ]
+  },
+  {
+    "tag": "随笔",
+    "beans": [
+      {
+        "articleName": "早睡早起身体好",
+        "createTime": "2019-09-03T22:37:57.000",
+        "lastModifiedTime": "2020-01-31T09:51:50.000",
+        "articleAddress": "/config/life/早睡早起身体好.md"
+      }
+    ]
+  },
+  {
+    "tag": "总结",
+    "beans": [
+      {
+        "articleName": "2019年总结",
+        "createTime": "2019-12-31T22:16:06.000",
+        "lastModifiedTime": "2020-01-31T09:51:26.000",
+        "articleAddress": "/config/life/2019年总结.md"
+      }
+    ]
+  }
+]

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../pages/tag_page.dart';
 import '../pages/archive_page.dart';
 import '../pages/about_page.dart';
 
@@ -82,7 +83,7 @@ class _WebBarState extends State<WebBar> {
                 ),
                 onPressed: () {
                   if (pageType == PageType.tag) return;
-                  showWaitingDialog(context);
+                  Navigator.of(context).push(new CupertinoPageRoute(builder: (ctx){return TagPage();}));
 //                  pageType = PageType.tag;
 //                  setState(() {});
                 },
@@ -124,17 +125,6 @@ class _WebBarState extends State<WebBar> {
       ),
     );
   }
-
-  void showWaitingDialog(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (ctx) {
-          return AlertDialog(
-            content: Text("功能尚在开发中..."),
-          );
-        });
-  }
-
   double getScaleSizeByHeight(double height, double size) {
     return size * height / 1200;
   }

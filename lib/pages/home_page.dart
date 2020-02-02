@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'article_page.dart';
 import '../json/article_item_bean.dart';
@@ -144,7 +145,7 @@ class _HolePageState extends State<HolePage> {
                                         bean: showDataList[index]),
                                     onTap: () {
                                       Navigator.of(context).push(
-                                          new MaterialPageRoute(
+                                          new CupertinoPageRoute(
                                               builder: (ctx) {
                                         return ArticlePage(
                                           bean: showDataList[index],

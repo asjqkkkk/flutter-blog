@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_blog/json/archive_item_bean.dart';
-import 'package:flutter_blog/widgets/web_bar.dart';
+import 'package:flutter_blog/json/tag_item_bean.dart';
 import 'package:intl/intl.dart';
+import '../json/archive_item_bean.dart';
+import '../widgets/web_bar.dart';
 import '../widgets/common_layout.dart';
 
 class ArchivePage extends StatefulWidget {
+  final List<TagItemBean> beans;
+
+
+  ArchivePage({this.beans});
+
   @override
   _ArchivePageState createState() => _ArchivePageState();
 }
@@ -12,12 +18,16 @@ class ArchivePage extends StatefulWidget {
 class _ArchivePageState extends State<ArchivePage> {
   List<ArchiveItemBean> beans = [];
 
+
+
   @override
   void initState() {
-    ArchiveItemBean.loadAsset().then((data) {
-      beans.addAll(data);
-      setState(() {});
-    });
+    if (widget.beans.isEmpty) {
+      ArchiveItemBean.loadAsset().then((data) {
+        beans.addAll(data);
+        setState(() {});
+      });
+    }
     super.initState();
   }
 
@@ -26,7 +36,7 @@ class _ArchivePageState extends State<ArchivePage> {
     return Scaffold(
       body: CommonLayout(
         pageType: PageType.archive,
-        child: beans.isEmpty
+        child: (widget.beans.isEmpty ? beans.isEmpty : false)
             ? Center(
                 child: CircularProgressIndicator(),
               )
@@ -37,45 +47,49 @@ class _ArchivePageState extends State<ArchivePage> {
                   child: Container(
                     margin: EdgeInsets.only(top: 20, left: 50, right: 50),
                     child: ListView.builder(
-                      itemCount: beans.length,
+                      itemCount:widget.beans.isEmpty ? beans.length : widget.beans.length,
                       itemBuilder: (ctx, index) {
-                        ArchiveItemBean archiveItemBean = beans[index];
+                        final bean = widget.beans.isEmpty ? beans[index] : widget.beans[index];
+                        final yearBeans = widget.beans.isEmpty ? beans[index].beans : widget.beans[index].beans;
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              "${beans[index].year}",
+                              "${widget.beans.isEmpty ? beans[index].year : widget.beans[index].tag}",
                               style: Theme.of(context).textTheme.headline4,
                             ),
                             Container(
-                                margin: EdgeInsets.only(
-                                    top: 10, left: 50, right: 50),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: List.generate(
-                                      archiveItemBean.beans.length, (index2) {
-                                    final yearBean =
-                                        archiveItemBean.beans[index2];
-                                    return Container(
-                                      margin: EdgeInsets.only(top: 8),
-                                      child: ListTile(
-                                        onTap: (){
-                                          showWaitingDialog(context);
-                                        },
-                                        leading: Text(
-                                          "${yearBean.articleName}",
-                                          style:
-                                          Theme.of(context).textTheme.subtitle1,
-                                        ),
-                                        trailing: Text(
-                                          "${DateFormat.yMd().format(DateTime.parse(yearBean.createTime))}",
-                                          style:
-                                          Theme.of(context).textTheme.subtitle1,
-                                        ),
+                              margin:
+                                  EdgeInsets.only(top: 10, left: 50, right: 50),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: List.generate(
+                                    yearBeans.length, (index2) {
+                                  final yearBean =
+                                  yearBeans[index2];
+                                  return Container(
+                                    margin: EdgeInsets.only(top: 8),
+                                    child: ListTile(
+                                      onTap: () {
+                                        showWaitingDialog(context);
+                                      },
+                                      leading: Text(
+                                        "${yearBean.articleName}",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .subtitle1,
                                       ),
-                                    );
-                                  }),
-                                ))
+                                      trailing: Text(
+                                        "${DateFormat.yMd().format(DateTime.parse(yearBean.createTime))}",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .subtitle1,
+                                      ),
+                                    ),
+                                  );
+                                }),
+                              ),
+                            ),
                           ],
                         );
                       },
