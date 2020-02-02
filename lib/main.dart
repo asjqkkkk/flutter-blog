@@ -4,11 +4,11 @@ import 'package:flutter/services.dart';
 
 import 'pages/home_page.dart';
 
-void main(){
+void main() async{
 
   var fontLoader = FontLoader('huawen_kt');
   fontLoader.addFont(fetchFont());
-  fontLoader.load();
+  await fontLoader.load();
 
   runApp(MyApp());
 
@@ -18,13 +18,11 @@ void main(){
 }
 
 Future<ByteData> fetchFont() async {
-  final dio = Dio();
   final response = await Dio().get(
       'https://oldchen-blog-1256696029.cos.ap-guangzhou.myqcloud.com/huawen_kt.ttf',
       onReceiveProgress: (int count, int total) {
         print("count:$count   total:$total}");
       });
-
   if (response.statusCode == 200) {
     return ByteData.view(response.data);
   } else {
