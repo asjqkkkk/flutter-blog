@@ -118,7 +118,7 @@ class _HolePageState extends State<HolePage> {
               ),
               Expanded(
                 child: Container(
-                  margin: EdgeInsets.only(left: 0.06 * width),
+                  margin: EdgeInsets.only(left: 0.06 * width,right: 0.06 * width),
                   child: showDataList.isEmpty
                       ? Center(
                           child: CircularProgressIndicator(),
@@ -129,34 +129,28 @@ class _HolePageState extends State<HolePage> {
                             overScroll.disallowGlow();
                             return true;
                           },
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.vertical,
-                            child: Wrap(
-                              children: List.generate(showDataList.length,
-                                  (index) {
-                                return Container(
-                                  margin: EdgeInsets.fromLTRB(
-                                      0.02 * width,
-                                      0.04 * height,
-                                      0.02 * width,
-                                      0.04 * height),
-                                  child: GestureDetector(
-                                    child: ArticleItem(
-                                        bean: showDataList[index]),
-                                    onTap: () {
-                                      Navigator.of(context).push(
-                                          new MaterialPageRoute(
-                                              builder: (ctx) {
-                                        return ArticlePage(
-                                          bean: showDataList[index],
-                                        );
-                                      }));
-                                    },
-                                  ),
-                                );
-                              }),
-                            ),
-                          ),
+                          child: GridView.count(crossAxisCount: 3,children: List.generate(showDataList.length, (index){
+                            return Container(
+                              margin: EdgeInsets.fromLTRB(
+                                  0.02 * width,
+                                  0.04 * height,
+                                  0.02 * width,
+                                  0.04 * height),
+                              child: GestureDetector(
+                                child: ArticleItem(
+                                    bean: showDataList[index]),
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                      new MaterialPageRoute(
+                                          builder: (ctx) {
+                                            return ArticlePage(
+                                              bean: showDataList[index],
+                                            );
+                                          }));
+                                },
+                              ),
+                            );
+                          }),)
                         ),
                 ),
               )
