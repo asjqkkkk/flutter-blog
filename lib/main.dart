@@ -1,14 +1,15 @@
-import 'package:dio/dio.dart';
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'package:http/http.dart' as http;
 import 'pages/home_page.dart';
 
-void main() async{
+void main() {
 
   var fontLoader = FontLoader('huawen_kt');
   fontLoader.addFont(fetchFont());
-  await fontLoader.load();
+  fontLoader.load();
 
   runApp(MyApp());
 
@@ -18,13 +19,14 @@ void main() async{
 }
 
 Future<ByteData> fetchFont() async {
-  final response = await Dio().get(
+  Map map = HashMap<String,String>();
+  map["Access-Control-Allow-Origin"] = "";
+  final response = await http.get(
       'https://oldchen-blog-1256696029.cos.ap-guangzhou.myqcloud.com/huawen_kt.ttf',
-      onReceiveProgress: (int count, int total) {
-        print("count:$count   total:$total}");
-      });
+    headers: map,
+  );
   if (response.statusCode == 200) {
-    return ByteData.view(response.data);
+    return ByteData.view(response.bodyBytes.buffer);
   } else {
     // If that call was not successful, throw an error.
     throw Exception('Failed to load font');
