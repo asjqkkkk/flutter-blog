@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blog/json/article_item_bean.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:markdown/markdown.dart' as md;
 import '../widgets/common_layout.dart';
-import '../widgets/web_bar.dart';
 import '../logic/article_page_logic.dart';
 
 class ArticlePage extends StatefulWidget {
@@ -66,6 +64,7 @@ class _ArticlePageState extends State<ArticlePage> {
                 MarkdownBody(
                         fitContent: false,
                         data: data,
+                        selectable: true,
                         styleSheet: MarkdownStyleSheet(
                             codeblockPadding:
                                 EdgeInsets.fromLTRB(10, 20, 10, 20)),

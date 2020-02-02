@@ -21,7 +21,7 @@ dependencies:
     sdk: flutter
 
   #markdown
-  flutter_markdown: ^0.3.2
+  flutter_markdown: ^0.3.3
   #intl
   intl: ^0.16.1
 
@@ -45,10 +45,9 @@ flutter:
         - asset: assets/fonts/huawen_kt.ttf
   assets:
     - assets/img/
-    - assets/markdowns/life/
-    - assets/markdowns/study/
+#    - assets/markdowns/life/
+#    - assets/markdowns/study/
     - assets/config/
-    - assets/svg/
 
 
   # The following line ensures that the Material Icons font is
