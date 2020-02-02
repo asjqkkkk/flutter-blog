@@ -7,6 +7,7 @@ import 'pages/home_page.dart';
 
 void main() {
 
+  ///异步加载字体文件
   var fontLoader = FontLoader('huawen_kt');
   fontLoader.addFont(fetchFont());
   fontLoader.load();
@@ -46,7 +47,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'old🍊blog',
       theme: ThemeData(fontFamily: "huawen_kt"),
-      home: HolePage(),
+      home: HomePage(),
     );
   }
 }

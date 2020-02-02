@@ -6,12 +6,12 @@ import '../logic/home_page_logic.dart';
 import '../widgets/artical_item.dart';
 import '../widgets/common_layout.dart';
 
-class HolePage extends StatefulWidget {
+class HomePage extends StatefulWidget {
   @override
-  _HolePageState createState() => _HolePageState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _HolePageState extends State<HolePage> {
+class _HomePageState extends State<HomePage> {
   final logic = HomePageLogic();
   ArticleType type = ArticleType.life;
 
@@ -57,8 +57,8 @@ class _HolePageState extends State<HolePage> {
                     height: getScaleSizeByHeight(height, 40.0),
                   ),
                   FlatButton(
-                    onPressed: (){
-                      if(type == ArticleType.life) return;
+                    onPressed: () {
+                      if (type == ArticleType.life) return;
                       type = ArticleType.life;
                       showDataList.clear();
                       showDataList.addAll(dataMap[ArticleType.life]);
@@ -68,7 +68,8 @@ class _HolePageState extends State<HolePage> {
                       "生活",
                       style: TextStyle(
                         fontSize: fontSizeByHeight,
-                        color: type == ArticleType.life ? null : Color(0xff9E9E9E),
+                        color:
+                            type == ArticleType.life ? null : Color(0xff9E9E9E),
                       ),
                     ),
                   ),
@@ -76,27 +77,31 @@ class _HolePageState extends State<HolePage> {
                     height: getScaleSizeByHeight(height, 40.0),
                   ),
                   FlatButton(
-                    onPressed: (){
-                      if(type == ArticleType.study) return;
+                    onPressed: () {
+                      if (type == ArticleType.study) return;
                       type = ArticleType.study;
                       showDataList.clear();
-                      if(dataMap[ArticleType.study] != null) {
+                      if (dataMap[ArticleType.study] != null) {
                         showDataList.addAll(dataMap[ArticleType.study]);
                         setState(() {});
                       } else {
-                        logic.getArticleData("config_study.json").then((List<ArticleItemBean> data) {
+                        logic
+                            .getArticleData("config_study.json")
+                            .then((List<ArticleItemBean> data) {
                           dataMap[ArticleType.study] = data;
                           showDataList.addAll(data);
                           setState(() {});
                         });
                       }
                     },
-
                     child: Text(
                       "学习",
                       style: TextStyle(
-                          fontSize: fontSizeByHeight,
-                          color: type == ArticleType.study ? null : Color(0xff9E9E9E),),
+                        fontSize: fontSizeByHeight,
+                        color: type == ArticleType.study
+                            ? null
+                            : Color(0xff9E9E9E),
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -118,40 +123,36 @@ class _HolePageState extends State<HolePage> {
               ),
               Expanded(
                 child: Container(
-                  margin: EdgeInsets.only(left: 0.06 * width,right: 0.06 * width),
+                  margin:
+                      EdgeInsets.only(left: 0.06 * width, right: 0.06 * width,top: 0.02 * width),
                   child: showDataList.isEmpty
                       ? Center(
                           child: CircularProgressIndicator(),
                         )
-                      : NotificationListener<
-                          OverscrollIndicatorNotification>(
+                      : NotificationListener<OverscrollIndicatorNotification>(
                           onNotification: (overScroll) {
                             overScroll.disallowGlow();
                             return true;
                           },
-                          child: GridView.count(crossAxisCount: 3,children: List.generate(showDataList.length, (index){
-                            return Container(
-                              margin: EdgeInsets.fromLTRB(
-                                  0.02 * width,
-                                  0.04 * height,
-                                  0.02 * width,
-                                  0.04 * height),
-                              child: GestureDetector(
-                                child: ArticleItem(
-                                    bean: showDataList[index]),
+                          child: GridView.count(
+                            crossAxisCount: 3,
+                            padding: EdgeInsets.fromLTRB(0.02 * width,
+                                0.02 * height, 0.02 * width,  0),
+                            children:
+                                List.generate(showDataList.length, (index) {
+                              return GestureDetector(
+                                child: ArticleItem(bean: showDataList[index]),
                                 onTap: () {
                                   Navigator.of(context).push(
-                                      new MaterialPageRoute(
-                                          builder: (ctx) {
-                                            return ArticlePage(
-                                              bean: showDataList[index],
-                                            );
-                                          }));
+                                      new MaterialPageRoute(builder: (ctx) {
+                                    return ArticlePage(
+                                      bean: showDataList[index],
+                                    );
+                                  }));
                                 },
-                              ),
-                            );
-                          }),)
-                        ),
+                              );
+                            }),
+                          )),
                 ),
               )
             ],
@@ -170,9 +171,4 @@ class _HolePageState extends State<HolePage> {
   }
 }
 
-
-enum ArticleType{
-  life,
-  study,
-  read
-}
+enum ArticleType { life, study, read }
