@@ -4,7 +4,7 @@ on:
     branches:
       - dev
       - master
-      - asnyc_font_test
+      - async_font_test
 jobs:
   build:
     name: Build Web
