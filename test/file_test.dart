@@ -64,11 +64,10 @@ void main() {
     return results;
   }
 
-  void printFiles(
+  List<ArticleItemBean> printFiles(
     String markdownFilePath,
     String dirPath, {
     bool outputArchivesConfig = false,
-    bool outputTagConfig = false,
   }) {
     final current = Directory.current;
     final assetPath =
@@ -90,7 +89,7 @@ void main() {
       String subContent;
       if (splits.length == 1) {
         subContent = content.trim();
-      } else if (splits.length == 3) {
+      } else if (splits.length >= 3) {
         subContent = splits[2].trim();
         List<String> infos = splits[1].split("\n");
         for (var info in infos) {
@@ -148,29 +147,53 @@ void main() {
       }
       file.writeAsStringSync(jsonEncode(archiveDatas));
     }
+//
+//    if (outputTagConfig) {
+//      File file =
+//      File("${current.path + "/assets/config/config_tag.json"}");
+//      if (file.existsSync()) {
+//        file.deleteSync();
+//      }
+//      file.createSync();
+//      List<TagItemBean> tagBeans = sortByTag(beans);
+//      final tagDatas = [];
+//      for (var bean in tagBeans) {
+//        tagDatas.add(bean.toMap());
+//      }
+//      file.writeAsStringSync(jsonEncode(tagDatas));
+//    }
 
-    if (outputTagConfig) {
-      File file =
-      File("${current.path + "/assets/config/config_tag.json"}");
-      if (file.existsSync()) {
-        file.deleteSync();
-      }
-      file.createSync();
-      List<TagItemBean> tagBeans = sortByTag(beans);
-      final tagDatas = [];
-      for (var bean in tagBeans) {
-        tagDatas.add(bean.toMap());
-      }
-      file.writeAsStringSync(jsonEncode(tagDatas));
-    }
+    return beans;
 //    List<Map<String, dynamic>> jsons = List.generate(beans.length, (index){
 //      return toStringMap(beans[index]);
 //    });
 //    print(jsons);
   }
 
+  void printTagFile(List<ArticleItemBean> beans){
+    final current = Directory.current;
+
+    File file =
+    File("${current.path + "/assets/config/config_tag.json"}");
+    if (file.existsSync()) {
+      file.deleteSync();
+    }
+    file.createSync();
+    List<TagItemBean> tagBeans = sortByTag(beans);
+    final tagDatas = [];
+    for (var bean in tagBeans) {
+      tagDatas.add(bean.toMap());
+    }
+    file.writeAsStringSync(jsonEncode(tagDatas));
+  }
+
   test('测试文件输出', () {
-    printFiles("study", "config");
-    printFiles("life", "config", outputArchivesConfig: true,outputTagConfig: true);
+    printFiles("topic", "config");
+    final lifeBeans = printFiles("life", "config", outputArchivesConfig: true);
+    final studyBeans = printFiles("study", "config", outputArchivesConfig: true);
+    List<ArticleItemBean> tagBeans = [];
+    tagBeans.addAll(lifeBeans);
+    tagBeans.addAll(studyBeans);
+    printTagFile(tagBeans);
   });
 }

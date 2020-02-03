@@ -5,12 +5,16 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'pages/home_page.dart';
 
+const bool inProduction = const bool.fromEnvironment("dart.vm.product");
+
 void main() {
 
-  ///异步加载字体文件
-  var fontLoader = FontLoader('huawen_kt');
-  fontLoader.addFont(fetchFont());
-  fontLoader.load();
+  if(inProduction){
+    ///异步加载字体文件
+    var fontLoader = FontLoader('huawen_kt');
+    fontLoader.addFont(fetchFont());
+    fontLoader.load();
+  }
 
   runApp(MyApp());
 

@@ -26,12 +26,18 @@ class ArticleItem extends StatelessWidget {
             child: Container(
               width: cardWidth,
               height: cardHeight,
-              color: Color(Random().nextInt(0xffffffff)),
+              color: Colors.primaries[Random().nextInt(Colors.primaries.length)],
               child: bean.imageAddress.isEmpty
                   ? Container(
                       margin: EdgeInsets.all(10),
+                      alignment: Alignment.center,
                       child: Text(
-                        bean.articleContent,
+                        "Leecode",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 0.02 * width,
+                          color: Colors.white
+                        ),
                         overflow: TextOverflow.ellipsis,
                       ),
                     )

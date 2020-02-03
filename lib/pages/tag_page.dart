@@ -59,8 +59,8 @@ class _TagPageState extends State<TagPage> {
                             child: Text(
                               bean.tag,
                               style: TextStyle(
-                                fontSize: (Random().nextInt(20) + 20).toDouble(),
-                                color: Color(Random().nextInt(0xffffffff)),
+                                fontSize: (Random().nextInt(40) + 20).toDouble(),
+                                color: Colors.primaries[Random().nextInt(Colors.primaries.length)],
                               ),
                             ),
                           );

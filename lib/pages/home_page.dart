@@ -58,26 +58,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                   FlatButton(
                     onPressed: () {
-                      if (type == ArticleType.life) return;
-                      type = ArticleType.life;
-                      showDataList.clear();
-                      showDataList.addAll(dataMap[ArticleType.life]);
-                      setState(() {});
-                    },
-                    child: Text(
-                      "生活",
-                      style: TextStyle(
-                        fontSize: fontSizeByHeight,
-                        color:
-                            type == ArticleType.life ? null : Color(0xff9E9E9E),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: getScaleSizeByHeight(height, 40.0),
-                  ),
-                  FlatButton(
-                    onPressed: () {
                       if (type == ArticleType.study) return;
                       type = ArticleType.study;
                       showDataList.clear();
@@ -107,18 +87,52 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                     height: getScaleSizeByHeight(height, 40.0),
                   ),
-//                      FlatButton(
-//                        onPressed: (){
-//                          if(type == ArticleType.read) return;
-//                        },
-//                        child: Text(
-//                          "阅读",
-//                          style: TextStyle(
-//                            fontSize: fontSizeByHeight,
-//                            color: type == ArticleType.read ? null : Color(0xff9E9E9E),
-//                          ),
-//                        ),
-//                      ),
+                  FlatButton(
+                    onPressed: () {
+                      if (type == ArticleType.life) return;
+                      type = ArticleType.life;
+                      showDataList.clear();
+                      showDataList.addAll(dataMap[ArticleType.life]);
+                      setState(() {});
+                    },
+                    child: Text(
+                      "生活",
+                      style: TextStyle(
+                        fontSize: fontSizeByHeight,
+                        color:
+                        type == ArticleType.life ? null : Color(0xff9E9E9E),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: getScaleSizeByHeight(height, 40.0),
+                  ),
+                      FlatButton(
+                        onPressed: (){
+                          if(type == ArticleType.topic) return;
+                          type = ArticleType.topic;
+                          showDataList.clear();
+                          if (dataMap[ArticleType.topic] != null) {
+                            showDataList.addAll(dataMap[ArticleType.topic]);
+                            setState(() {});
+                          } else {
+                            logic
+                                .getArticleData("config_topic.json")
+                                .then((List<ArticleItemBean> data) {
+                              dataMap[ArticleType.topic] = data;
+                              showDataList.addAll(data);
+                              setState(() {});
+                            });
+                          }
+                        },
+                        child: Text(
+                          "习题",
+                          style: TextStyle(
+                            fontSize: fontSizeByHeight,
+                            color: type == ArticleType.topic ? null : Color(0xff9E9E9E),
+                          ),
+                        ),
+                      ),
                 ],
               ),
               Expanded(
@@ -171,4 +185,4 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-enum ArticleType { life, study, read }
+enum ArticleType { life, study, topic }
