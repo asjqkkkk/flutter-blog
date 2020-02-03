@@ -29,7 +29,7 @@ class _ArticlePageState extends State<ArticlePage> {
 //      setState(() {});
 //    });
       List<String> splits = widget.bean.articleContent.split("---");
-      if(splits.length == 3){
+      if(splits.length >= 3){
         data = splits[2];
       } else {
         data = widget.bean.articleContent;
