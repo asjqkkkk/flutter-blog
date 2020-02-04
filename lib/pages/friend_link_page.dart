@@ -9,8 +9,15 @@ class FriendLinkPage extends StatelessWidget {
     LinkItemBean(
         linkName: "冷石的博客",
         linkAddress: "https://coldstone.fun/",
-        linkDescription: ["前端开发","顺便写写flutter","全栈","炒粉大师！"],
-        linkAvatar: "https://avatars2.githubusercontent.com/u/18013127?s=460&v=4"),
+        linkDescription: ["前端开发", "顺便写写flutter", "全栈", "炒粉大师！"],
+        linkAvatar:
+            "https://avatars2.githubusercontent.com/u/18013127?s=460&v=4"),
+    LinkItemBean(
+        linkName: "ColMugX的博客",
+        linkAddress: "https://colmugx.github.io/",
+        linkDescription: ["前端开发", "权限洁癖", "有一说一","猛男落泪", "掌握对象高级编程"],
+        linkAvatar:
+            "https://avatars2.githubusercontent.com/u/21327913?s=460&v=4"),
   ];
 
   @override
