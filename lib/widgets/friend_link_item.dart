@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import '../json/link_item_bean.dart';
 import 'dart:html' as html;
 
+import 'loading_image.dart';
+
 class FriendLinkItem extends StatelessWidget {
   final LinkItemBean bean;
 
@@ -72,10 +74,7 @@ class FriendLinkItem extends StatelessWidget {
               width: 100,
               height: 100,
               child: ClipRRect(
-                child: Image.network(
-                  bean.linkAvatar,
-                  fit: BoxFit.cover,
-                ),
+                child: LoadingImage(url: bean.linkAvatar,),
                 borderRadius: BorderRadius.all(Radius.circular(50.0)),
               ),
             ),
@@ -87,7 +86,10 @@ class FriendLinkItem extends StatelessWidget {
               child: FlatButton(
                 color:
                     Colors.primaries[Random().nextInt(Colors.primaries.length)],
-                child: Text("进入博客"),
+                child: Text(
+                  "进入博客",
+                  style: TextStyle(color: Colors.white),
+                ),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0)),
                 onPressed: () {
