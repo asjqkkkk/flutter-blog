@@ -31,13 +31,15 @@ class FriendLinkPage extends StatelessWidget {
               overScroll.disallowGlow();
               return true;
             },
-            child: GridView.count(
-              crossAxisCount: 3,
-              children: List.generate(beans.length, (index) {
-                return FriendLinkItem(
-                  bean: beans[index],
-                );
-              }),
+            child: SingleChildScrollView(
+              child: Wrap(
+
+                children: List.generate(beans.length, (index) {
+                  return FriendLinkItem(
+                    bean: beans[index],
+                  );
+                }),
+              ),
             ),
           ),
         ),
