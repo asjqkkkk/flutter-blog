@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blog/pages/friend_link_page.dart';
 import '../pages/tag_page.dart';
 import '../pages/archive_page.dart';
 import '../pages/about_page.dart';
@@ -69,8 +70,6 @@ class _WebBarState extends State<WebBar> {
                 onPressed: () {
                   if (pageType == PageType.home && widget.isHome) return;
                   Navigator.of(context).popUntil((route) => route.isFirst);
-//                  pageType = PageType.home;
-//                  setState(() {});
                 },
                 isChecked: pageType == PageType.home,
               ),
@@ -84,8 +83,6 @@ class _WebBarState extends State<WebBar> {
                 onPressed: () {
                   if (pageType == PageType.tag) return;
                   Navigator.of(context).push(new MaterialPageRoute(builder: (ctx){return TagPage();}));
-//                  pageType = PageType.tag;
-//                  setState(() {});
                 },
                 isChecked: pageType == PageType.tag,
               ),
@@ -99,10 +96,21 @@ class _WebBarState extends State<WebBar> {
                 onPressed: () {
                   if (pageType == PageType.archive) return;
                   Navigator.of(context).push(new MaterialPageRoute(builder: (ctx){return ArchivePage();}));
-//                  pageType = PageType.archive;
-//                  setState(() {});
                 },
                 isChecked: pageType == PageType.archive,
+              ),
+            ),
+            Expanded(
+              child: BarButton(
+                child: Text(
+                  "友链",
+                  style: TextStyle(fontSize: fontSize),
+                ),
+                onPressed: () {
+                  if (pageType == PageType.link) return;
+                  Navigator.of(context).push(new MaterialPageRoute(builder: (ctx){return FriendLinkPage();}));
+                },
+                isChecked: pageType == PageType.link,
               ),
             ),
             Expanded(
@@ -114,8 +122,6 @@ class _WebBarState extends State<WebBar> {
                 onPressed: () {
                   if (pageType == PageType.about) return;
                   Navigator.of(context).push(new MaterialPageRoute(builder: (ctx){return AboutPage();}));
-//                  pageType = PageType.about;
-//                  setState(() {});
                 },
                 isChecked: pageType == PageType.about,
               ),
@@ -130,4 +136,4 @@ class _WebBarState extends State<WebBar> {
   }
 }
 
-enum PageType { home, tag, archive, about }
+enum PageType { home, tag, archive, about,link }

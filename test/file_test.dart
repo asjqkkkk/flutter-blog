@@ -10,19 +10,6 @@ import 'package:path/path.dart' as path;
 import 'package:intl/intl.dart';
 
 void main() {
-  Map<String, dynamic> toStringMap(ArticleItemBean bean) {
-    return {
-      '\"articleName\"': "\"${bean.articleName ?? ""}\"",
-      '\"createTime\"': "\"${bean.createTime ?? ""}\"",
-      '\"lastModifiedTime\"': "\"${bean.lastModifiedTime ?? ""}\"",
-      '\"tag\"': "\"${bean.tag ?? ""}\"",
-      '\"summary\"': "\"${bean.summary ?? ""}\"",
-      '\"imageAddress\"': "\"${bean.imageAddress ?? ""}\"",
-      '\"articleAddress\"': "\"${bean.articleAddress ?? ""}\""
-    };
-    //把list转换为string的时候不要直接使用tostring，要用jsonEncode
-  }
-
   ///将文章列表按年份排序
   List<ArchiveItemBean> sortByYear(List<ArticleItemBean> beans) {
     List<ArchiveItemBean> results = [];
@@ -147,27 +134,8 @@ void main() {
       }
       file.writeAsStringSync(jsonEncode(archiveDatas));
     }
-//
-//    if (outputTagConfig) {
-//      File file =
-//      File("${current.path + "/assets/config/config_tag.json"}");
-//      if (file.existsSync()) {
-//        file.deleteSync();
-//      }
-//      file.createSync();
-//      List<TagItemBean> tagBeans = sortByTag(beans);
-//      final tagDatas = [];
-//      for (var bean in tagBeans) {
-//        tagDatas.add(bean.toMap());
-//      }
-//      file.writeAsStringSync(jsonEncode(tagDatas));
-//    }
 
     return beans;
-//    List<Map<String, dynamic>> jsons = List.generate(beans.length, (index){
-//      return toStringMap(beans[index]);
-//    });
-//    print(jsons);
   }
 
   void printTagFile(List<ArticleItemBean> beans){
