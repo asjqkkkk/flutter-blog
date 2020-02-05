@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       title: 'old🍊blog',
-      theme: ThemeData(fontFamily: "huawen_kt"),
+      theme: ThemeData(fontFamily: "huawen_kt",brightness: DateTime.now().hour > 18 ? Brightness.dark : Brightness.light),
       initialRoute: "/home",
       routes: {
         "/home":(context) => HomePage(),

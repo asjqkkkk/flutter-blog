@@ -1,14 +1,17 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_blog/json/article_item_bean.dart';
+import 'package:flutter_blog/widgets/loading_image.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import '../widgets/common_layout.dart';
 import '../logic/article_page_logic.dart';
+import 'dart:html' as html;
 
 class ArticlePage extends StatefulWidget {
-
   final ArticleItemBean bean;
 
-  const ArticlePage({Key key,@required this.bean}) : super(key: key);
+  const ArticlePage({Key key, @required this.bean}) : super(key: key);
 
   @override
   _ArticlePageState createState() => _ArticlePageState();
@@ -28,13 +31,13 @@ class _ArticlePageState extends State<ArticlePage> {
 //      }
 //      setState(() {});
 //    });
-      List<String> splits = widget.bean.articleContent.split("---");
-      if(splits.length >= 3){
-        data = splits[2];
-      } else {
-        data = widget.bean.articleContent;
-      }
-      setState(() {});
+    List<String> splits = widget.bean.articleContent.split("---");
+    if (splits.length >= 3) {
+      data = splits[2];
+    } else {
+      data = widget.bean.articleContent;
+    }
+    setState(() {});
     super.initState();
   }
 
@@ -50,27 +53,55 @@ class _ArticlePageState extends State<ArticlePage> {
         child: Container(
             alignment: Alignment.center,
             margin: EdgeInsets.only(top: 70),
-            child: data.isEmpty ?Center(
-              child: CircularProgressIndicator(),
-            ) : ListView(
-              children: <Widget>[
-                Container(
-                  child: Text(
-                    widget.bean.articleName,
-                    style: theme.textTheme.headline5,
-                  ),
-                  alignment: Alignment.center,
-                ),
-                MarkdownBody(
+            child: data.isEmpty
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : ListView(
+                    children: <Widget>[
+                      Container(
+                        child: Text(widget.bean.articleName,
+                            style: TextStyle(
+                                fontSize: 40, fontWeight: FontWeight.bold)),
+                        alignment: Alignment.center,
+                      ),
+                      MarkdownBody(
                         fitContent: false,
                         data: data,
-                        selectable: true,
+                        selectable: false,
+                        onTapLink: (link) {
+                          html.window.open(link, link);
+                        },
+                        imageBuilder: (Uri url) {
+                          return Container(
+                            margin: EdgeInsets.all(10),
+                            alignment: Alignment.center,
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(
+                                  maxHeight: height / 3 * 2,
+                                  maxWidth: width / 3 * 2),
+                              child: GestureDetector(
+                                onTap: () {
+                                  html.window.open("$url", "image");
+                                },
+                                child: Card(
+                                  child: Image.network(
+                                    "$url",
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
                         styleSheet: MarkdownStyleSheet(
-                            codeblockPadding:
-                                EdgeInsets.fromLTRB(10, 20, 10, 20)),
+                          codeblockPadding: EdgeInsets.fromLTRB(10, 20, 10, 20),
+                          p: Theme.of(context).textTheme.subtitle1,
+                          blockSpacing: 10
+                        ),
                       ),
-              ],
-            )),
+                    ],
+                  )),
       ),
     );
   }

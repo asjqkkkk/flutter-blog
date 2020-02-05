@@ -5,8 +5,9 @@ import 'package:http/http.dart' as http;
 class LoadingImage extends StatelessWidget {
 
   final String url;
+  final BoxFit fit;
 
-  const LoadingImage({Key key,@required this.url}) : super(key: key);
+  const LoadingImage({Key key,@required this.url, this.fit}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +23,8 @@ class LoadingImage extends StatelessWidget {
             return CircularProgressIndicator();
           case ConnectionState.done:
             if (snapshot.hasError)
-              return Text('图片加载错误: ${snapshot.error}');
-            // when we get the data from the http call, we give the bodyBytes to Image.memory for showing the image
-            return Image.memory(snapshot.data.bodyBytes);
+              return Text('图片加载错误: ${snapshot.error}   url:$url');
+            return Image.memory(snapshot.data.bodyBytes,fit: fit ?? BoxFit.cover,);
         }
         return null; // unreachable
       },
