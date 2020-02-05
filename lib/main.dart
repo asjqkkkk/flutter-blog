@@ -2,6 +2,10 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_blog/pages/about_page.dart';
+import 'package:flutter_blog/pages/archive_page.dart';
+import 'package:flutter_blog/pages/friend_link_page.dart';
+import 'package:flutter_blog/pages/tag_page.dart';
 import 'package:http/http.dart' as http;
 import 'pages/home_page.dart';
 
@@ -51,6 +55,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'old🍊blog',
       theme: ThemeData(fontFamily: "huawen_kt"),
+      initialRoute: "/home",
+      routes: {
+        "/home":(context) => HomePage(),
+        "/tag":(context) => TagPage(),
+        "/archive":(context) => ArchivePage(),
+        "/link":(context) => FriendLinkPage(),
+        "/about":(context) => AboutPage(),
+      },
       home: HomePage(),
     );
   }

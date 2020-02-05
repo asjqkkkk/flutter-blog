@@ -15,7 +15,7 @@ class FriendLinkItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 300,
-      height: 350,
+      height: 380,
       child: Stack(
         children: <Widget>[
           Container(

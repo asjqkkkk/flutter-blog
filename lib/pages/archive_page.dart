@@ -80,7 +80,7 @@ class _ArchivePageState extends State<ArchivePage> {
                                             .subtitle1,
                                       ),
                                       trailing: Text(
-                                        "${DateFormat.yMd().format(DateTime.parse(yearBean.createTime))}",
+                                        "${getDate(DateTime.parse(yearBean.createTime))}",
                                         style: Theme.of(context)
                                             .textTheme
                                             .subtitle1,
@@ -109,5 +109,9 @@ class _ArchivePageState extends State<ArchivePage> {
             content: Text("功能尚在开发中..."),
           );
         });
+  }
+
+  String getDate(DateTime time){
+    return "${time.year}.${time.month}.${time.day}";
   }
 }

@@ -14,6 +14,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final logic = HomePageLogic();
   ArticleType type = ArticleType.life;
+  bool isInOtherPage = false;
 
   List<ArticleItemBean> showDataList = [];
   Map<ArticleType, List<ArticleItemBean>> dataMap = Map();
@@ -40,7 +41,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: CommonLayout(
         isHome: true,
-        child: Container(
+        child: isInOtherPage ? Container() : Container(
           child: Row(
             children: <Widget>[
               Column(
@@ -65,8 +66,8 @@ class _HomePageState extends State<HomePage> {
                         showDataList.addAll(dataMap[ArticleType.study]);
                         setState(() {});
                       } else {
-                        logic
-                            .getArticleData("config_study.json")
+                        setState(() {});
+                        logic.getArticleData("config_study.json")
                             .then((List<ArticleItemBean> data) {
                           dataMap[ArticleType.study] = data;
                           showDataList.addAll(data);
@@ -116,8 +117,8 @@ class _HomePageState extends State<HomePage> {
                             showDataList.addAll(dataMap[ArticleType.topic]);
                             setState(() {});
                           } else {
-                            logic
-                                .getArticleData("config_topic.json")
+                            setState(() {});
+                            logic.getArticleData("config_topic.json")
                                 .then((List<ArticleItemBean> data) {
                               dataMap[ArticleType.topic] = data;
                               showDataList.addAll(data);

@@ -37,7 +37,7 @@ class AboutPage extends StatelessWidget {
                         children: <Widget>[
                           Center(
                             child: Text(
-                              "Designed by Flutter",
+                              "Designed by Flutter Web",
                               style: Theme.of(context).textTheme.headline5,
                             ),
                           ),
@@ -67,18 +67,18 @@ class AboutPage extends StatelessWidget {
                               SizedBox(
                                 width: 10,
                               ),
-                              GestureDetector(
-                                onTap: () {
-                                  html.window.open(
-                                      "https://juejin.im/user/5badbff26fb9a05cef173bf0",
-                                      "juejin");
-                                },
-                                child: HoverTapAssetImage(
-                                    image: "assets/img/juejin.png"),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
+//                              GestureDetector(
+//                                onTap: () {
+//                                  html.window.open(
+//                                      "https://juejin.im/user/5badbff26fb9a05cef173bf0",
+//                                      "juejin");
+//                                },
+//                                child: HoverTapAssetImage(
+//                                    image: "assets/img/juejin.png"),
+//                              ),
+//                              SizedBox(
+//                                width: 10,
+//                              ),
                               GestureDetector(
                                 onTap: () {
                                   html.window.open(

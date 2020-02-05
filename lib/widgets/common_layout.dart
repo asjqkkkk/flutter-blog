@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/web_bar.dart';
+import '../pages/home_page.dart';
 
 class CommonLayout extends StatelessWidget {
   final Widget child;
@@ -7,7 +8,10 @@ class CommonLayout extends StatelessWidget {
   final PageType pageType;
 
   const CommonLayout(
-      {Key key, @required this.child, this.isHome = false, this.pageType = PageType.home})
+      {Key key,
+      @required this.child,
+      this.isHome = false,
+      this.pageType = PageType.home})
       : super(key: key);
 
   @override
@@ -25,7 +29,10 @@ class CommonLayout extends StatelessWidget {
             isHome: isHome,
             pageType: pageType,
           ),
-          Container(child: child,margin: EdgeInsets.only(top: 70),),
+          Container(
+            child: child,
+            margin: EdgeInsets.only(top: 70),
+          ),
         ],
       ),
     );

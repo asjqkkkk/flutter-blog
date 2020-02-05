@@ -33,7 +33,6 @@ class FriendLinkPage extends StatelessWidget {
             },
             child: SingleChildScrollView(
               child: Wrap(
-
                 children: List.generate(beans.length, (index) {
                   return FriendLinkItem(
                     bean: beans[index],
