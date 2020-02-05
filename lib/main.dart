@@ -51,10 +51,10 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
     ]);
-
+    final curHour = DateTime.now().hour;
     return MaterialApp(
       title: 'old🍊blog',
-      theme: ThemeData(fontFamily: "huawen_kt",brightness: DateTime.now().hour > 18 ? Brightness.dark : Brightness.light),
+      theme: ThemeData(fontFamily: "huawen_kt",brightness: (curHour > 18 || curHour < 7) ? Brightness.dark : Brightness.light),
       initialRoute: "/home",
       routes: {
         "/home":(context) => HomePage(),

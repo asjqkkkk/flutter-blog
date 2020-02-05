@@ -72,12 +72,17 @@ class FriendLinkItem extends StatelessWidget {
           ),
           Align(
             alignment: Alignment.topCenter,
-            child: Container(
-              width: 100,
-              height: 100,
-              child: ClipRRect(
-                child: LoadingImage(url: bean.linkAvatar,),
-                borderRadius: BorderRadius.all(Radius.circular(50.0)),
+            child: GestureDetector(
+              onTap: (){
+                html.window.open(bean.linkAvatar, bean.linkName);
+              },
+              child: Container(
+                width: 100,
+                height: 100,
+                child: ClipRRect(
+                  child: LoadingImage(url: bean.linkAvatar,),
+                  borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                ),
               ),
             ),
           ),

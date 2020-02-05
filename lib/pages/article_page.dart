@@ -96,7 +96,7 @@ class _ArticlePageState extends State<ArticlePage> {
                         },
                         styleSheet: MarkdownStyleSheet(
                           codeblockPadding: EdgeInsets.fromLTRB(10, 20, 10, 20),
-                          p: Theme.of(context).textTheme.subtitle1,
+                          p: TextStyle(fontSize: 18,color: Theme.of(context).textTheme.subtitle2.color),
                           blockSpacing: 10
                         ),
                       ),
