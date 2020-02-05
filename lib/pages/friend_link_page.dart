@@ -24,6 +24,12 @@ class FriendLinkPage extends StatelessWidget {
         linkDescription: ["大佬","一开始，我是拒绝的","我不要你觉得","东野圭吾爱好者"],
         linkAvatar:
         "https://avatars3.githubusercontent.com/u/9384365?s=460&v=4"),
+    LinkItemBean(
+        linkName: "senfangblog",
+        linkAddress: "https://senfangblog.cn/",
+        linkDescription: ["和平主义者","后端开发","摸鱼宗师","王者手速"],
+        linkAvatar:
+        "https://oldchen-blog-1256696029.cos.ap-guangzhou.myqcloud.com/senfangblog.jpeg"),
   ];
 
   @override

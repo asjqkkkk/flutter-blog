@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -11,6 +13,7 @@ class LoadingImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return  FutureBuilder(
       // Paste your image URL inside the htt.get method as a parameter
       future: http.get(url),
