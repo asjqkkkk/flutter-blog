@@ -52,7 +52,6 @@ class _ArticlePageState extends State<ArticlePage> {
       body: CommonLayout(
         child: Container(
             alignment: Alignment.center,
-            margin: EdgeInsets.only(top: 70),
             child: data.isEmpty
                 ? Center(
                     child: CircularProgressIndicator(),
@@ -63,7 +62,7 @@ class _ArticlePageState extends State<ArticlePage> {
                         child: Text(widget.bean.articleName,
                             style: TextStyle(
                                 fontFamily: "huawen_kt",
-                                fontSize: 40, fontWeight: FontWeight.bold)),
+                                fontSize: 40,)),
                         alignment: Alignment.center,
                       ),
                       MarkdownBody(
@@ -73,6 +72,7 @@ class _ArticlePageState extends State<ArticlePage> {
                         onTapLink: (link) {
                           html.window.open(link, link);
                         },
+                        styleSheetTheme: MarkdownStyleSheetBaseTheme.cupertino,
                         imageBuilder: (Uri url) {
                           return Container(
                             margin: EdgeInsets.all(10),

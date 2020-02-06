@@ -35,12 +35,6 @@ class AboutPage extends StatelessWidget {
                       child: ListView(
                         padding: EdgeInsets.all(20),
                         children: <Widget>[
-                          Center(
-                            child: Text(
-                              "Designed by Flutter Web",
-                              style: Theme.of(context).textTheme.headline5,
-                            ),
-                          ),
                           SizedBox(
                             height: 5,
                           ),
@@ -101,13 +95,13 @@ class AboutPage extends StatelessWidget {
                               "目前看来，还只是一个半成品，但对于没有前端技术又想自定义一个博客的人来说,我得到了极大的满足。\n\n"
                               "后续随着flutter web的更新,我也会继续进行博客的完善\n\n"
                               "同时,希望这次疫情早点结束。加油吧！",
-                              style: TextStyle(fontSize: 20),
+                              style: TextStyle(fontSize: 18,fontWeight: FontWeight.w100),
                             ),
                           ),
                           Container(
                             margin: EdgeInsets.only(left: 40, right: 60, top: 10),
                             alignment: Alignment.bottomRight,
-                            child: Text("--- 2020.2.1 中午"),
+                            child: Text("--- 2020.2.1 中午",style: TextStyle(fontSize: 10,fontWeight: FontWeight.w100),),
                           )
                         ],
                       ),
