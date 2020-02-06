@@ -62,6 +62,7 @@ class _ArticlePageState extends State<ArticlePage> {
                       Container(
                         child: Text(widget.bean.articleName,
                             style: TextStyle(
+                                fontFamily: "huawen_kt",
                                 fontSize: 40, fontWeight: FontWeight.bold)),
                         alignment: Alignment.center,
                       ),
@@ -95,10 +96,19 @@ class _ArticlePageState extends State<ArticlePage> {
                           );
                         },
                         styleSheet: MarkdownStyleSheet(
-                          codeblockPadding: EdgeInsets.fromLTRB(10, 20, 10, 20),
-                          p: TextStyle(fontSize: 18,color: Theme.of(context).textTheme.subtitle2.color),
-                          blockSpacing: 10
-                        ),
+                            codeblockPadding:
+                                EdgeInsets.fromLTRB(10, 20, 10, 20),
+                            p: TextStyle(
+                              fontSize: 18,
+                              color:
+                                  Theme.of(context).textTheme.subtitle2.color,
+                              fontFamily: "",
+                            ),
+                            h1: Theme.of(context).textTheme.headline4,
+                            h2: Theme.of(context).textTheme.headline3,
+                            h3: Theme.of(context).textTheme.headline2,
+                            h4: Theme.of(context).textTheme.headline1,
+                            blockSpacing: 10),
                       ),
                     ],
                   )),

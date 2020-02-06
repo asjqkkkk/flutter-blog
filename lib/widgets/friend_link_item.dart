@@ -42,6 +42,7 @@ class FriendLinkItem extends StatelessWidget {
                             bean.linkName,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
+                              fontFamily: "huawen_kt",
                               fontSize: 20,
                             ),
                           ),
@@ -55,6 +56,7 @@ class FriendLinkItem extends StatelessWidget {
                                   margin: EdgeInsets.all(10),
                                   child: Text(bean.linkDescription[index],
                                       style: TextStyle(
+                                        fontFamily: "huawen_kt",
                                         fontSize: (Random().nextInt(10) + 10)
                                             .toDouble(),
                                         color: Colors.primaries[Random()
@@ -95,7 +97,7 @@ class FriendLinkItem extends StatelessWidget {
                     Colors.primaries[Random().nextInt(Colors.primaries.length)],
                 child: Text(
                   "进入博客",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.white,fontFamily: "huawen_kt",),
                 ),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0)),

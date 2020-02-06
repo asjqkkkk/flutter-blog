@@ -12,26 +12,21 @@ import 'pages/home_page.dart';
 const bool inProduction = const bool.fromEnvironment("dart.vm.product");
 
 void main() {
-
-  if(inProduction){
-    ///异步加载字体文件
-    var fontLoader = FontLoader('huawen_kt');
-    fontLoader.addFont(fetchFont());
-    fontLoader.load();
-  }
+//  if(inProduction){
+//    ///异步加载字体文件
+//    var fontLoader = FontLoader('huawen_kt');
+//    fontLoader.addFont(fetchFont());
+//    fontLoader.load();
+//  }
 
   runApp(MyApp());
-
-
-
-
 }
 
 Future<ByteData> fetchFont() async {
-  Map map = HashMap<String,String>();
+  Map map = HashMap<String, String>();
   map["Access-Control-Allow-Origin"] = "";
   final response = await http.get(
-      'https://oldchen-blog-1256696029.cos.ap-guangzhou.myqcloud.com/huawen_kt.ttf',
+    'https://oldchen-blog-1256696029.cos.ap-guangzhou.myqcloud.com/huawen_kt.ttf',
     headers: map,
   );
   if (response.statusCode == 200) {
@@ -54,14 +49,17 @@ class MyApp extends StatelessWidget {
     final curHour = DateTime.now().hour;
     return MaterialApp(
       title: 'old🍊blog',
-      theme: ThemeData(fontFamily: "huawen_kt",brightness: (curHour > 18 || curHour < 7) ? Brightness.dark : Brightness.light),
+      theme: ThemeData(
+          brightness: (curHour > 18 || curHour < 7)
+              ? Brightness.dark
+              : Brightness.light),
       initialRoute: "/home",
       routes: {
-        "/home":(context) => HomePage(),
-        "/tag":(context) => TagPage(),
-        "/archive":(context) => ArchivePage(),
-        "/link":(context) => FriendLinkPage(),
-        "/about":(context) => AboutPage(),
+        "/home": (context) => HomePage(),
+        "/tag": (context) => TagPage(),
+        "/archive": (context) => ArchivePage(),
+        "/link": (context) => FriendLinkPage(),
+        "/about": (context) => AboutPage(),
       },
       home: HomePage(),
     );

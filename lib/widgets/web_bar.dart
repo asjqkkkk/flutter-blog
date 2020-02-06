@@ -59,7 +59,7 @@ class _WebBarState extends State<WebBar> {
             ),
             Text(
               "Flutter",
-              style: TextStyle(fontSize: fontSize),
+              style: TextStyle(fontSize: fontSize, fontFamily: "huawen_kt",),
             ),
             Spacer(
               flex: width ~/ 150,
@@ -68,7 +68,7 @@ class _WebBarState extends State<WebBar> {
               child: BarButton(
                 child: Text(
                   "首页",
-                  style: TextStyle(fontSize: fontSize),
+                  style: TextStyle(fontSize: fontSize, fontFamily: "huawen_kt",),
                 ),
                 onPressed: () {
                   if (pageType == PageType.home && widget.isHome) return;
@@ -82,7 +82,7 @@ class _WebBarState extends State<WebBar> {
               child: BarButton(
                 child: Text(
                   "标签",
-                  style: TextStyle(fontSize: fontSize),
+                  style: TextStyle(fontSize: fontSize, fontFamily: "huawen_kt",),
                 ),
                 onPressed: () {
                   if (pageType == PageType.tag) return;
@@ -96,7 +96,7 @@ class _WebBarState extends State<WebBar> {
               child: BarButton(
                 child: Text(
                   "归档",
-                  style: TextStyle(fontSize: fontSize),
+                  style: TextStyle(fontSize: fontSize, fontFamily: "huawen_kt",),
                 ),
                 onPressed: () {
                   if (pageType == PageType.archive) return;
@@ -110,7 +110,7 @@ class _WebBarState extends State<WebBar> {
               child: BarButton(
                 child: Text(
                   "友链",
-                  style: TextStyle(fontSize: fontSize),
+                  style: TextStyle(fontSize: fontSize, fontFamily: "huawen_kt",),
                 ),
                 onPressed: () {
                   if (pageType == PageType.link) return;
@@ -124,7 +124,7 @@ class _WebBarState extends State<WebBar> {
               child: BarButton(
                 child: Text(
                   "关于",
-                  style: TextStyle(fontSize: fontSize),
+                  style: TextStyle(fontSize: fontSize, fontFamily: "huawen_kt",),
                 ),
                 onPressed: () {
                   if (pageType == PageType.about) return;

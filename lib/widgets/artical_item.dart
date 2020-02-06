@@ -51,11 +51,11 @@ class ArticleItem extends StatelessWidget {
         ),
         Container(
           width: 0.86 * cardWidth,
-          margin: EdgeInsets.only(left: 0.07 * cardWidth, top: 0.015 * height),
+          margin: EdgeInsets.only(left: bean.articleName.startsWith(RegExp(r'\d')) ? 0.09 * cardWidth : 0.07 * cardWidth, top: 0.015 * height),
           child: Text(
             bean.articleName,
             style: TextStyle(
-              fontSize: 0.015 * width,
+              fontSize: 0.015 * width, fontFamily: "huawen_kt",
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,

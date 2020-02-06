@@ -8,7 +8,6 @@ import '../widgets/common_layout.dart';
 class ArchivePage extends StatefulWidget {
   final List<TagItemBean> beans;
 
-
   ArchivePage({this.beans});
 
   @override
@@ -17,8 +16,6 @@ class ArchivePage extends StatefulWidget {
 
 class _ArchivePageState extends State<ArchivePage> {
   List<ArchiveItemBean> beans = [];
-
-
 
   @override
   void initState() {
@@ -47,10 +44,16 @@ class _ArchivePageState extends State<ArchivePage> {
                   child: Container(
                     margin: EdgeInsets.only(top: 20, left: 50, right: 50),
                     child: ListView.builder(
-                      itemCount:widget.beans == null ? beans.length : widget.beans.length,
+                      itemCount: widget.beans == null
+                          ? beans.length
+                          : widget.beans.length,
                       itemBuilder: (ctx, index) {
-                        final bean = widget.beans == null ? beans[index] : widget.beans[index];
-                        final yearBeans = widget.beans == null ? beans[index].beans : widget.beans[index].beans;
+                        final bean = widget.beans == null
+                            ? beans[index]
+                            : widget.beans[index];
+                        final yearBeans = widget.beans == null
+                            ? beans[index].beans
+                            : widget.beans[index].beans;
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
@@ -63,10 +66,9 @@ class _ArchivePageState extends State<ArchivePage> {
                                   EdgeInsets.only(top: 10, left: 50, right: 50),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: List.generate(
-                                    yearBeans.length, (index2) {
-                                  final yearBean =
-                                  yearBeans[index2];
+                                children:
+                                    List.generate(yearBeans.length, (index2) {
+                                  final yearBean = yearBeans[index2];
                                   return Container(
                                     margin: EdgeInsets.only(top: 8),
                                     child: ListTile(
@@ -75,9 +77,9 @@ class _ArchivePageState extends State<ArchivePage> {
                                       },
                                       leading: Text(
                                         "${yearBean.articleName}",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .subtitle1,
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontFamily: "huawen_kt"),
                                       ),
                                       trailing: Text(
                                         "${getDate(DateTime.parse(yearBean.createTime))}",
@@ -111,7 +113,7 @@ class _ArchivePageState extends State<ArchivePage> {
         });
   }
 
-  String getDate(DateTime time){
+  String getDate(DateTime time) {
     return "${time.year}.${time.month}.${time.day}";
   }
 }

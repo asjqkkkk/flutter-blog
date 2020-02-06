@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:flutter_blog/json/article_item_bean.dart';
 import 'package:flutter_blog/json/archive_item_bean.dart';
+import 'package:flutter_blog/json/friend_link_bean.dart';
 import 'package:flutter_blog/json/tag_item_bean.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart' as path;
@@ -155,13 +156,38 @@ void main() {
     file.writeAsStringSync(jsonEncode(tagDatas));
   }
 
+  void printFontFile(List<ArticleItemBean> beans){
+    final current = Directory.current;
+    File file =
+    File("${current.path + "/config/config_font.json"}");
+    if (file.existsSync()) {
+      file.deleteSync();
+    }
+    String result = "我的博客 首页 标签 归档 友链 关于 学习 生活 习题 进入博客";
+    for (var bean in beans) {
+      result += bean.articleName;
+      result += bean.tag ?? "";
+    }
+
+    for (var bean in FriendLinkBean().beans) {
+      result += bean.linkName;
+      for (var des in bean.linkDescription) {
+        result += des;
+      }
+    }
+//    result.replaceAll(RegExp(r'\d'), "").replaceAll(RegExp('[a-zA-Z]'), "");
+    file.writeAsStringSync(result);
+  }
+
   test('测试文件输出', () {
-    printFiles("topic", "config");
+    final topicBeans = printFiles("topic", "config");
     final lifeBeans = printFiles("life", "config", outputArchivesConfig: true);
     final studyBeans = printFiles("study", "config", outputArchivesConfig: true);
     List<ArticleItemBean> tagBeans = [];
     tagBeans.addAll(lifeBeans);
     tagBeans.addAll(studyBeans);
     printTagFile(tagBeans);
+    tagBeans.addAll(topicBeans);
+    printFontFile(tagBeans);
   });
 }

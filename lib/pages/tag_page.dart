@@ -60,6 +60,7 @@ class _TagPageState extends State<TagPage> {
                               bean.tag,
                               style: TextStyle(
                                 fontSize: (Random().nextInt(40) + 20).toDouble(),
+                                fontFamily: "huawen_kt",
                                 color: Colors.primaries[Random().nextInt(Colors.primaries.length)],
                               ),
                             ),
