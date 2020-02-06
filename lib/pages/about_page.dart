@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -111,15 +112,16 @@ class AboutPage extends StatelessWidget {
               ),
               Align(
                 alignment: Alignment.topCenter,
-                child: Container(
-                  width: 160,
-                  height: 160,
-                  child: ClipRRect(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(80)),
+                  child: Container(
+                    width: 160,
+                    height: 160,
+                    color: Colors.primaries[Random().nextInt(Colors.primaries.length)],
                     child: Image.asset(
                       "assets/img/avatar.jpg",
                       fit: BoxFit.cover,
                     ),
-                    borderRadius: BorderRadius.all(Radius.circular(80)),
                   ),
                 ),
               ),

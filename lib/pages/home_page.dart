@@ -163,7 +163,6 @@ class _HomePageState extends State<HomePage> {
                                   return true;
                                 },
                                 child: GridView.count(
-                                  childAspectRatio: 1.1,
                                   crossAxisCount: 3,
                                   padding: EdgeInsets.fromLTRB(0.02 * width,
                                       0.02 * height, 0.02 * width, 0),
