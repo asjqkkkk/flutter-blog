@@ -65,9 +65,9 @@ class ArticleItem extends StatelessWidget {
           margin: EdgeInsets.only(left: 0.07 * cardWidth),
           width: 0.86 * cardWidth,
           child: Text(
-            bean.summary.replaceAll("\n", " "),
+            bean.summary.replaceAll("\n", ""),
             style: TextStyle(
-              fontSize: 0.012 * width,
+              fontSize: 0.01 * width,
               color: Color(0xff8D8D8D),
             ),
             maxLines: 2,
