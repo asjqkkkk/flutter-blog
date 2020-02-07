@@ -13,6 +13,9 @@ class FriendLinkItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
+
     return Container(
       width: 300,
       height: 380,
@@ -20,14 +23,14 @@ class FriendLinkItem extends StatelessWidget {
         children: <Widget>[
           Container(
             alignment: Alignment.topCenter,
-            margin: EdgeInsets.only(top: 50),
+            margin: const EdgeInsets.only(top: 50),
             child: Card(
               child: Container(
-                margin: EdgeInsets.only(top: 50),
+                margin: const EdgeInsets.only(top: 50),
                 width: 250,
                 height: 250,
                 child: Container(
-                  margin: EdgeInsets.only(bottom: 50),
+                  margin: const EdgeInsets.only(bottom: 50),
                   child: NotificationListener<OverscrollIndicatorNotification>(
                     onNotification: (overScroll) {
                       overScroll.disallowGlow();
@@ -42,21 +45,22 @@ class FriendLinkItem extends StatelessWidget {
                             bean.linkName,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontFamily: "huawen_kt",
+                              fontFamily: 'huawen_kt',
                               fontSize: 20,
                             ),
                           ),
                         ),
                         Container(
-                            margin: EdgeInsets.all(10),
+                            margin: const EdgeInsets.all(10),
                             child: Wrap(
+                              // ignore: always_specify_types
                               children: List.generate(
                                   bean.linkDescription.length, (index) {
                                 return Container(
-                                  margin: EdgeInsets.all(10),
+                                  margin: const EdgeInsets.all(10),
                                   child: Text(bean.linkDescription[index],
                                       style: TextStyle(
-                                        fontFamily: "huawen_kt",
+                                        fontFamily: 'huawen_kt',
                                         fontSize: (Random().nextInt(10) + 10)
                                             .toDouble(),
                                         color: Colors.primaries[Random()

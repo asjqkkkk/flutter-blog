@@ -6,11 +6,12 @@ import '../widgets/common_layout.dart';
 import '../json/link_item_bean.dart';
 
 class FriendLinkPage extends StatelessWidget {
-
   final beans = FriendLinkBean().beans;
 
   @override
   Widget build(BuildContext context) {
+    final isNotMobile = !PlatformDetector().isMobile();
+
     return Scaffold(
       body: CommonLayout(
         pageType: PageType.link,
@@ -20,15 +21,24 @@ class FriendLinkPage extends StatelessWidget {
               overScroll.disallowGlow();
               return true;
             },
-            child: SingleChildScrollView(
-              child: Wrap(
-                children: List.generate(beans.length, (index) {
-                  return FriendLinkItem(
-                    bean: beans[index],
-                  );
-                }),
-              ),
-            ),
+            child: isNotMobile
+                ? SingleChildScrollView(
+                    child: Wrap(
+                      children: List.generate(beans.length, (index) {
+                        return FriendLinkItem(
+                          bean: beans[index],
+                        );
+                      }),
+                    ),
+                  )
+                : ListView.builder(
+                    itemBuilder: (ctx, index) {
+                      return FriendLinkItem(
+                        bean: beans[index],
+                      );
+                    },
+                    itemCount: beans.length,
+                  ),
           ),
         ),
       ),

@@ -46,8 +46,9 @@ flutter:
         - asset: assets/fonts/huawen_kt.ttf
   assets:
     - assets/img/
-#    - assets/markdowns/life/
-#    - assets/markdowns/study/
+#    - config/markdowns/life/
+#    - config/markdowns/study/
+#    - config/markdowns/topic/
     - assets/config/
 
 

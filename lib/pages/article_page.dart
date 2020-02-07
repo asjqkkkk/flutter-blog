@@ -47,21 +47,24 @@ class _ArticlePageState extends State<ArticlePage> {
     final theme = Theme.of(context);
     final width = size.width;
     final height = size.height;
+    final isNotMobile = !PlatformDetector().isMobile();
+
 
     return Scaffold(
       body: CommonLayout(
         child: Container(
             alignment: Alignment.center,
+            margin: isNotMobile ? const EdgeInsets.all(0) : const EdgeInsets.all(20),
             child: data.isEmpty
-                ? Center(
+                ? const Center(
                     child: CircularProgressIndicator(),
                   )
                 : ListView(
                     children: <Widget>[
                       Container(
                         child: Text(widget.bean.articleName,
-                            style: TextStyle(
-                                fontFamily: "huawen_kt",
+                            style: const TextStyle(
+                                fontFamily: 'huawen_kt',
                                 fontSize: 40,)),
                         alignment: Alignment.center,
                       ),

@@ -42,6 +42,9 @@ class _HomePageState extends State<HomePage> {
     final isNotMobile = !detector.isMobile();
 
     return Scaffold(
+      drawer: isNotMobile ? null : Drawer(
+        child: getTypeChangeWidegt(height, fontSizeByHeight),
+      ),
       body: CommonLayout(
         isHome: true,
         child: Container(
@@ -131,11 +134,11 @@ class _HomePageState extends State<HomePage> {
             }
           },
           child: Text(
-            "学习",
+            '学习',
             style: TextStyle(
               fontSize: fontSizeByHeight,
-              color: type == ArticleType.study ? null : Color(0xff9E9E9E),
-              fontFamily: "huawen_kt",
+              color: type == ArticleType.study ? null : const Color(0xff9E9E9E),
+              fontFamily: 'huawen_kt',
             ),
           ),
         ),
@@ -151,11 +154,11 @@ class _HomePageState extends State<HomePage> {
             setState(() {});
           },
           child: Text(
-            "生活",
+            '生活',
             style: TextStyle(
               fontSize: fontSizeByHeight,
               color: type == ArticleType.life ? null : Color(0xff9E9E9E),
-              fontFamily: "huawen_kt",
+              fontFamily: 'huawen_kt',
             ),
           ),
         ),
@@ -173,7 +176,7 @@ class _HomePageState extends State<HomePage> {
             } else {
               setState(() {});
               logic
-                  .getArticleData("config_topic.json")
+                  .getArticleData('config_topic.json')
                   .then((List<ArticleItemBean> data) {
                 dataMap[ArticleType.topic] = data;
                 showDataList.addAll(data);
@@ -182,11 +185,11 @@ class _HomePageState extends State<HomePage> {
             }
           },
           child: Text(
-            "习题",
+            '习题',
             style: TextStyle(
               fontSize: fontSizeByHeight,
               color: type == ArticleType.topic ? null : Color(0xff9E9E9E),
-              fontFamily: "huawen_kt",
+              fontFamily: 'huawen_kt',
             ),
           ),
         ),

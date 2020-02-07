@@ -5,7 +5,6 @@ import '../json/article_item_bean.dart';
 import '../widgets/hover_zoom_widget.dart';
 import '../config/platform.dart';
 
-
 class ArticleItem extends StatelessWidget {
   final ArticleItemBean bean;
 
@@ -16,10 +15,9 @@ class ArticleItem extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     final width = size.width;
     final height = size.height;
-    final cardWidth = 0.18 * width < 260 ? 260 : 0.18 * width;
-    final cardHeight = 0.6 * cardWidth;
     final isNotMobile = !PlatformDetector().isMobile();
-
+    final cardWidth = isNotMobile ? (0.18 * width < 260 ? 260 : 0.18 * width) : width - 50;
+    final cardHeight = 0.6 * cardWidth;
 
     return Container(
       height: cardHeight * 1.5,
@@ -32,44 +30,49 @@ class ArticleItem extends StatelessWidget {
               child: Container(
                 width: cardWidth,
                 height: cardHeight,
-                color: Colors.primaries[Random().nextInt(Colors.primaries.length)],
+                color:
+                    Colors.primaries[Random().nextInt(Colors.primaries.length)],
                 child: bean.imageAddress.isEmpty
                     ? Container(
                         margin: EdgeInsets.all(10),
                         alignment: Alignment.center,
                         child: Text(
-                          "Leecode",
+                          'Leecode',
                           style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 0.02 * width,
-                            color: Colors.white
-                          ),
+                              fontWeight: FontWeight.bold,
+                              fontSize: isNotMobile ? 0.02 * width : 25,
+                              color: Colors.white),
                           overflow: TextOverflow.ellipsis,
                         ),
                       )
                     : Image.asset(
-                        "assets${bean.imageAddress}",
+                        'assets${bean.imageAddress}',
                         fit: BoxFit.cover,
                       ),
               ),
             ),
-            scale:isNotMobile ? 1.1 : 1.0,
+            scale: isNotMobile ? 1.1 : 1.0,
           ),
           Container(
-            width: 0.86 * cardWidth,
-            margin: EdgeInsets.only(left: bean.articleName.startsWith(RegExp(r'\d')) ? 0.09 * cardWidth : 0.07 * cardWidth, top: 0.015 * height),
+            width: isNotMobile ? 0.86 * cardWidth : 0.95 * cardWidth,
+            margin: EdgeInsets.only(
+                left: bean.articleName.startsWith(RegExp(r'\d'))
+                    ? (isNotMobile ? 0.09 * cardWidth : 0.03 * cardWidth)
+                    : (isNotMobile ? 0.07 * cardWidth : 0.02 * cardWidth),
+                top: 0.015 * height),
             child: Text(
               bean.articleName,
               style: TextStyle(
-                fontSize: 0.015 * width, fontFamily: "huawen_kt",
+                fontSize: isNotMobile ? 0.015 * width : 20,
+                fontFamily: 'huawen_kt',
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
           ),
           Container(
-            margin: EdgeInsets.only(left: 0.07 * cardWidth),
-            width: 0.86 * cardWidth,
+            margin: EdgeInsets.only(left: isNotMobile ? 0.07 * cardWidth : 0.02 * cardWidth),
+            width: isNotMobile ? 0.86 * cardWidth : 0.95 * cardWidth,
             child: Text(
               bean.summary.replaceAll("\n", ""),
               style: TextStyle(

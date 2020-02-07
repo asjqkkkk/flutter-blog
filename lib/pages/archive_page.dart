@@ -42,7 +42,7 @@ class _ArchivePageState extends State<ArchivePage> {
                 child: CircularProgressIndicator(),
               )
             : Container(
-                margin: isNotMobile ? const EdgeInsets.only(top: 50, left: 50, right: 50) : const EdgeInsets.all(10),
+                margin: isNotMobile ? const EdgeInsets.only(top: 50, left: 50, right: 50) : const EdgeInsets.all(20),
                 child: Card(
                   margin: const EdgeInsets.only(bottom: 0.0),
                   child: Container(

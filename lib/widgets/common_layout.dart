@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../widgets/web_bar.dart';
+export '../widgets/web_bar.dart';
 
 
 class CommonLayout extends StatelessWidget {
@@ -23,12 +24,13 @@ class CommonLayout extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     final width = size.width;
     final height = size.height;
-    final detector = PlatformDetector();
+    final isNotMobile = !PlatformDetector().isMobile();
+
 
 
     return Container(
-      margin: EdgeInsets.only(
-          left: 0.07 * width, right: 0.07 * width, top: 0.05 * height),
+      margin: isNotMobile ? EdgeInsets.only(
+          left: 0.07 * width, right: 0.07 * width, top: 0.05 * height) : EdgeInsets.all(0),
       child: Stack(
         children: <Widget>[
           WebBar(

@@ -24,7 +24,7 @@ class AboutPage extends StatelessWidget {
             children: <Widget>[
               Container(
                 margin: isNotMobile ? EdgeInsets.only(
-                    top: 80, left: width / 10, right: width / 10) : const EdgeInsets.only(top: 40,bottom: 20),
+                    top: 80, left: width / 10, right: width / 10) : const EdgeInsets.fromLTRB(20, 40, 20, 20),
                 child: Card(
                   margin: EdgeInsets.only(bottom: 0),
                   child: Container(
