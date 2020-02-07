@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_blog/json/article_item_bean.dart';
-import 'package:flutter_blog/widgets/loading_image.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import '../widgets/common_layout.dart';
 import '../logic/article_page_logic.dart';
@@ -19,25 +18,25 @@ class ArticlePage extends StatefulWidget {
 
 class _ArticlePageState extends State<ArticlePage> {
   final logic = ArticlePageLogic();
-  String data = "";
+  String data = '';
 
   @override
   void initState() {
-//    logic.getText(widget.bean.articleAddress).then((v) {
-//      data = v;
-//      List<String> splits = data.split("---");
-//      if(splits.length == 3){
-//        data = splits[2];
-//      }
-//      setState(() {});
-//    });
-    List<String> splits = widget.bean.articleContent.split("---");
-    if (splits.length >= 3) {
-      data = splits[2];
-    } else {
-      data = widget.bean.articleContent;
-    }
-    setState(() {});
+    logic.getText(widget.bean.articleAddress).then((v) {
+      data = v;
+      List<String> splits = data.split("---");
+      if(splits.length == 3){
+        data = splits[2];
+      }
+      setState(() {});
+    });
+//    List<String> splits = widget.bean.articleContent.split('---');
+//    if (splits.length >= 3) {
+//      data = splits[2];
+//    } else {
+//      data = widget.bean.articleContent;
+//    }
+//    setState(() {});
     super.initState();
   }
 
@@ -86,7 +85,7 @@ class _ArticlePageState extends State<ArticlePage> {
                                   maxWidth: width / 3 * 2),
                               child: GestureDetector(
                                 onTap: () {
-                                  html.window.open("$url", "image");
+                                  html.window.open('$url', "image");
                                 },
                                 child: Card(
                                   child: Image.network(

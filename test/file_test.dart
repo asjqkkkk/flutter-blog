@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:flutter_blog/json/article_item_bean.dart';
 import 'package:flutter_blog/json/archive_item_bean.dart';
 import 'package:flutter_blog/json/friend_link_bean.dart';
-import 'package:flutter_blog/json/tag_item_bean.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart' as path;
 import 'package:intl/intl.dart';
@@ -32,8 +31,8 @@ void main() {
   }
 
   ///将文章列表按照标签排序
-  List<TagItemBean> sortByTag(List<ArticleItemBean> beans){
-    List<TagItemBean> results = [];
+  List<ArchiveItemBean> sortByTag(List<ArticleItemBean> beans){
+    List<ArchiveItemBean> results = [];
     final map = HashMap<String, List<YearBean>>();
     for (var bean in beans) {
       final tag = bean.tag;
@@ -45,8 +44,8 @@ void main() {
       }
     }
     for (var tag in map.keys) {
-      TagItemBean tagItemBean =
-      TagItemBean(tag: tag, beans: map[tag]);
+      ArchiveItemBean tagItemBean =
+      ArchiveItemBean(tag: tag, beans: map[tag]);
       results.add(tagItemBean);
     }
     return results;
@@ -148,7 +147,7 @@ void main() {
       file.deleteSync();
     }
     file.createSync();
-    List<TagItemBean> tagBeans = sortByTag(beans);
+    List<ArchiveItemBean> tagBeans = sortByTag(beans);
     final tagDatas = [];
     for (var bean in tagBeans) {
       tagDatas.add(bean.toMap());

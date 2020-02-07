@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_blog/json/tag_item_bean.dart';
-import 'package:intl/intl.dart';
 import '../json/archive_item_bean.dart';
 import '../widgets/web_bar.dart';
 import '../widgets/common_layout.dart';
 
 class ArchivePage extends StatefulWidget {
-  final List<TagItemBean> beans;
+  final List<ArchiveItemBean> beans;
 
   ArchivePage({this.beans});
 
@@ -20,53 +18,55 @@ class _ArchivePageState extends State<ArchivePage> {
   @override
   void initState() {
     if (widget.beans == null) {
-      ArchiveItemBean.loadAsset().then((data) {
+      ArchiveItemBean.loadAsset('archive').then((data) {
         beans.addAll(data);
         setState(() {});
       });
+    } else {
+      beans.addAll(widget.beans);
     }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
     final isNotMobile = !PlatformDetector().isMobile();
-
 
     return Scaffold(
       body: CommonLayout(
         pageType: PageType.archive,
-        child: (widget.beans == null ? beans.isEmpty : false)
+        child: beans.isEmpty
             ? const Center(
                 child: CircularProgressIndicator(),
               )
             : Container(
-                margin: isNotMobile ? const EdgeInsets.only(top: 50, left: 50, right: 50) : const EdgeInsets.all(20),
+                margin: isNotMobile
+                    ? const EdgeInsets.only(top: 50, left: 50, right: 50)
+                    : const EdgeInsets.all(20),
                 child: Card(
                   margin: const EdgeInsets.only(bottom: 0.0),
                   child: Container(
-                    margin: isNotMobile ? const EdgeInsets.only(top: 20, left: 50, right: 50) : const EdgeInsets.only(left: 10,top: 10),
+                    margin: isNotMobile
+                        ? const EdgeInsets.only(top: 20, left: 50, right: 50)
+                        : const EdgeInsets.only(left: 10, top: 10),
                     child: ListView.builder(
-                      itemCount: widget.beans == null
-                          ? beans.length
-                          : widget.beans.length,
+                      itemCount: beans.length,
                       itemBuilder: (ctx, index) {
-                        final Object bean = widget.beans == null
-                            ? beans[index]
-                            : widget.beans[index];
-                        final List<YearBean> yearBeans = widget.beans == null
-                            ? beans[index].beans
-                            : widget.beans[index].beans;
+                        final List<YearBean> yearBeans = beans[index].beans;
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
                               '${widget.beans == null ? beans[index].year : widget.beans[index].tag}',
-                              style: isNotMobile ? Theme.of(context).textTheme.headline4 : Theme.of(context).textTheme.headline6,
+                              style: isNotMobile
+                                  ? Theme.of(context).textTheme.headline4
+                                  : Theme.of(context).textTheme.headline6,
                             ),
                             Container(
-                              margin: isNotMobile ? const EdgeInsets.only(top: 10, left: 50, right: 50) : EdgeInsets.all(0),
+                              margin: isNotMobile
+                                  ? const EdgeInsets.only(
+                                      top: 10, left: 50, right: 50)
+                                  : EdgeInsets.all(0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children:
@@ -74,28 +74,35 @@ class _ArchivePageState extends State<ArchivePage> {
                                   final yearBean = yearBeans[index2];
                                   return Container(
                                     margin: EdgeInsets.only(top: 8),
-                                    child: isNotMobile ? ListTile(
-                                      onTap: () {
-                                        showWaitingDialog(context);
-                                      },
-                                      leading: Text(
-                                        '${yearBean.articleName}',
-                                        style: const TextStyle(
-                                            fontSize: 20,
-                                            fontFamily: 'huawen_kt'),
-                                      ),
-                                      trailing: Text(
-                                        '${getDate(DateTime.parse(yearBean.createTime))}',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .subtitle1,
-                                      ),
-                                    ) : FlatButton(onPressed :() => showWaitingDialog(context), child: Text(
-                                      '${yearBean.articleName}',
-                                      style: TextStyle(
-                                          fontSize: isNotMobile ? 20 : 15,
-                                          fontFamily: 'huawen_kt'),
-                                    ),),
+                                    child: isNotMobile
+                                        ? ListTile(
+                                            onTap: () {
+                                              showWaitingDialog(context);
+                                            },
+                                            leading: Text(
+                                              '${yearBean.articleName}',
+                                              style: const TextStyle(
+                                                  fontSize: 20,
+                                                  fontFamily: 'huawen_kt'),
+                                            ),
+                                            trailing: Text(
+                                              '${getDate(DateTime.parse(yearBean.createTime))}',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .subtitle1,
+                                            ),
+                                          )
+                                        : FlatButton(
+                                            onPressed: () =>
+                                                showWaitingDialog(context),
+                                            child: Text(
+                                              '${yearBean.articleName}',
+                                              style: TextStyle(
+                                                  fontSize:
+                                                      isNotMobile ? 20 : 15,
+                                                  fontFamily: 'huawen_kt'),
+                                            ),
+                                          ),
                                   );
                                 }),
                               ),

@@ -25,7 +25,7 @@ void main() {
 Future<ByteData> fetchFont() async {
   Map map = HashMap<String, String>();
   map['Access-Control-Allow-Origin'] = '';
-  final http.Response response = await http.get(
+  final response = await http.get(
     'https://oldchen-blog-1256696029.cos.ap-guangzhou.myqcloud.com/huawen_kt.ttf',
     headers: map,
   );

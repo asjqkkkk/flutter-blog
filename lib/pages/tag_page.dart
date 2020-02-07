@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../json/tag_item_bean.dart';
+import '../json/archive_item_bean.dart';
 import '../widgets/common_layout.dart';
 import '../widgets/web_bar.dart';
 import 'dart:math';
@@ -13,11 +13,11 @@ class TagPage extends StatefulWidget {
 }
 
 class _TagPageState extends State<TagPage> {
-  List<TagItemBean> beans = [];
+  List<ArchiveItemBean> beans = [];
 
   @override
   void initState() {
-    TagItemBean.loadAsset().then((data) {
+    ArchiveItemBean.loadAsset('tag').then((data) {
       beans.addAll(data);
       setState(() {});
     });
@@ -39,7 +39,7 @@ class _TagPageState extends State<TagPage> {
           margin: isNotMobile ? EdgeInsets.only(top: 80, left: width / 10, right: width / 10) : const EdgeInsets.all(20),
           child: Card(
             child: beans.isEmpty
-                ? Center(
+                ? const Center(
                     child: CircularProgressIndicator(),
                   )
                 : Container(
@@ -62,7 +62,7 @@ class _TagPageState extends State<TagPage> {
                               bean.tag,
                               style: TextStyle(
                                 fontSize: (Random().nextInt(40) + 20).toDouble(),
-                                fontFamily: "huawen_kt",
+                                fontFamily: 'huawen_kt',
                                 color: Colors.primaries[Random().nextInt(Colors.primaries.length)],
                               ),
                             ),

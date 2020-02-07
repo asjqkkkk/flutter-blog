@@ -5,13 +5,15 @@ import 'package:flutter_blog/json/article_item_bean.dart';
 
 class ArchiveItemBean {
   int year;
+  String tag;
   List<YearBean> beans;
 
-  ArchiveItemBean({this.year, this.beans});
+  ArchiveItemBean({this.year, this.beans,this.tag});
 
   static ArchiveItemBean fromMap(Map<String, dynamic> map) {
     ArchiveItemBean bean = new ArchiveItemBean();
     bean.year = map['year'];
+    bean.tag = map['tag'];
     bean.beans = YearBean.fromMapList(map['beans']);
     return bean;
   }
@@ -27,16 +29,19 @@ class ArchiveItemBean {
   Map<dynamic, dynamic> toMap() {
     return {
       'year': year,
+      'tag': tag,
       'beans': List.generate(beans.length, (index){
         return beans[index].toMap();
       })
     };
   }
 
-  static Future<List<ArchiveItemBean>> loadAsset() async {
-    String json = await rootBundle.loadString('assets/config/config_archive.json');
+  static Future<List<ArchiveItemBean>> loadAsset(String type) async {
+    String json = await rootBundle.loadString('assets/config/config_$type.json');
     return ArchiveItemBean.fromMapList(jsonDecode(json));
   }
+
+
 
 }
 
@@ -61,7 +66,7 @@ class YearBean {
   });
 
   static YearBean fromMap(Map<String, dynamic> map) {
-    YearBean bean = new YearBean();
+    final YearBean bean = YearBean();
     bean.articleName = map['articleName'];
     bean.createTime = map['createTime'];
     bean.lastModifiedTime = map['lastModifiedTime'];
@@ -69,7 +74,7 @@ class YearBean {
   }
 
   static List<YearBean> fromMapList(dynamic mapList) {
-    List<YearBean> list = new List(mapList.length);
+    final List<YearBean> list = List(mapList.length);
     for (int i = 0; i < mapList.length; i++) {
       list[i] = fromMap(mapList[i]);
     }
@@ -87,10 +92,10 @@ class YearBean {
 
   Map<dynamic, dynamic> toMap() {
     return {
-      'articleName': articleName ?? "",
-      'createTime': createTime ?? "",
-      'lastModifiedTime': lastModifiedTime ?? "",
-      'articleAddress': articleAddress ?? ""
+      'articleName': articleName ?? '',
+      'createTime': createTime ?? '',
+      'lastModifiedTime': lastModifiedTime ?? '',
+      'articleAddress': articleAddress ?? ''
     };
   }
 

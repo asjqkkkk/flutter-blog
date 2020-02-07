@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    logic.getArticleData("config_life.json").then((List<ArticleItemBean> data) {
+    logic.getArticleData('config_life.json').then((List<ArticleItemBean> data) {
       dataMap[ArticleType.life] = data;
       showDataList.addAll(data);
       print(showDataList.length);
@@ -42,9 +42,11 @@ class _HomePageState extends State<HomePage> {
     final isNotMobile = !detector.isMobile();
 
     return Scaffold(
-      drawer: isNotMobile ? null : Drawer(
-        child: getTypeChangeWidegt(height, fontSizeByHeight),
-      ),
+      drawer: isNotMobile
+          ? null
+          : Drawer(
+              child: getTypeChangeWidegt(height, fontSizeByHeight),
+            ),
       body: CommonLayout(
         isHome: true,
         child: Container(
@@ -198,22 +200,25 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget getMobileList() {
-    return ListView.builder(
-      itemCount: showDataList.length,
-      itemBuilder: (ctx, index) {
-        return GestureDetector(
-          child: ArticleItem(bean: showDataList[index]),
-          onTap: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (ctx) {
-              return ArticlePage(
-                bean: showDataList[index],
+    return showDataList.isEmpty
+        ? const Center(
+            child: CircularProgressIndicator(),
+          )
+        : ListView.builder(
+            itemCount: showDataList.length,
+            itemBuilder: (ctx, index) {
+              return GestureDetector(
+                child: ArticleItem(bean: showDataList[index]),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
+                    return ArticlePage(
+                      bean: showDataList[index],
+                    );
+                  }));
+                },
               );
-            }));
-          },
-        );
-      },
-    );
+            },
+          );
   }
 
   double getScaleSizeByWidth(double width, double size) {

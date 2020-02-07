@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_blog/pages/friend_link_page.dart';
+import '../pages/friend_link_page.dart';
 import '../pages/tag_page.dart';
 import '../pages/archive_page.dart';
 import '../pages/about_page.dart';
@@ -49,11 +49,13 @@ class _WebBarState extends State<WebBar> {
                     colors: Colors.blueGrey,
                   )
                 : Container(),
+
             isNotMobile
                 ? const SizedBox(
                     width: 30.0,
                   )
                 : Container(),
+
             isNotMobile
                 ? Container(
                     height: getScaleSizeByHeight(height, 50.0),
@@ -61,11 +63,13 @@ class _WebBarState extends State<WebBar> {
                     color: const Color(0xff979797),
                   )
                 : Container(),
+
             isNotMobile
                 ? const SizedBox(
                     width: 30.0,
                   )
                 : Container(),
+
             isNotMobile
                 ? Text(
                     'Flutter',
@@ -75,11 +79,13 @@ class _WebBarState extends State<WebBar> {
                     ),
                   )
                 : Container(),
+
             isNotMobile
                 ? Spacer(
                     flex: width ~/ 150,
                   )
                 : Container(),
+
             (!isNotMobile && widget.isHome)
                 ? IconButton(
                     icon: Icon(Icons.menu),
