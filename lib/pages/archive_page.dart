@@ -30,40 +30,43 @@ class _ArchivePageState extends State<ArchivePage> {
 
   @override
   Widget build(BuildContext context) {
+
+    final isNotMobile = !PlatformDetector().isMobile();
+
+
     return Scaffold(
       body: CommonLayout(
         pageType: PageType.archive,
         child: (widget.beans == null ? beans.isEmpty : false)
-            ? Center(
+            ? const Center(
                 child: CircularProgressIndicator(),
               )
             : Container(
-                margin: EdgeInsets.only(top: 50, left: 50, right: 50),
+                margin: isNotMobile ? const EdgeInsets.only(top: 50, left: 50, right: 50) : const EdgeInsets.all(10),
                 child: Card(
-                  margin: EdgeInsets.only(bottom: 0.0),
+                  margin: const EdgeInsets.only(bottom: 0.0),
                   child: Container(
-                    margin: EdgeInsets.only(top: 20, left: 50, right: 50),
+                    margin: isNotMobile ? const EdgeInsets.only(top: 20, left: 50, right: 50) : const EdgeInsets.only(left: 10,top: 10),
                     child: ListView.builder(
                       itemCount: widget.beans == null
                           ? beans.length
                           : widget.beans.length,
                       itemBuilder: (ctx, index) {
-                        final bean = widget.beans == null
+                        final Object bean = widget.beans == null
                             ? beans[index]
                             : widget.beans[index];
-                        final yearBeans = widget.beans == null
+                        final List<YearBean> yearBeans = widget.beans == null
                             ? beans[index].beans
                             : widget.beans[index].beans;
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              "${widget.beans == null ? beans[index].year : widget.beans[index].tag}",
-                              style: Theme.of(context).textTheme.headline4,
+                              '${widget.beans == null ? beans[index].year : widget.beans[index].tag}',
+                              style: isNotMobile ? Theme.of(context).textTheme.headline4 : Theme.of(context).textTheme.headline6,
                             ),
                             Container(
-                              margin:
-                                  EdgeInsets.only(top: 10, left: 50, right: 50),
+                              margin: isNotMobile ? const EdgeInsets.only(top: 10, left: 50, right: 50) : EdgeInsets.all(0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children:
@@ -71,23 +74,28 @@ class _ArchivePageState extends State<ArchivePage> {
                                   final yearBean = yearBeans[index2];
                                   return Container(
                                     margin: EdgeInsets.only(top: 8),
-                                    child: ListTile(
+                                    child: isNotMobile ? ListTile(
                                       onTap: () {
                                         showWaitingDialog(context);
                                       },
                                       leading: Text(
-                                        "${yearBean.articleName}",
-                                        style: TextStyle(
+                                        '${yearBean.articleName}',
+                                        style: const TextStyle(
                                             fontSize: 20,
-                                            fontFamily: "huawen_kt"),
+                                            fontFamily: 'huawen_kt'),
                                       ),
                                       trailing: Text(
-                                        "${getDate(DateTime.parse(yearBean.createTime))}",
+                                        '${getDate(DateTime.parse(yearBean.createTime))}',
                                         style: Theme.of(context)
                                             .textTheme
                                             .subtitle1,
                                       ),
-                                    ),
+                                    ) : FlatButton(onPressed :() => showWaitingDialog(context), child: Text(
+                                      '${yearBean.articleName}',
+                                      style: TextStyle(
+                                          fontSize: isNotMobile ? 20 : 15,
+                                          fontFamily: 'huawen_kt'),
+                                    ),),
                                   );
                                 }),
                               ),
@@ -104,16 +112,16 @@ class _ArchivePageState extends State<ArchivePage> {
   }
 
   void showWaitingDialog(BuildContext context) {
-    showDialog(
+    showDialog<dynamic>(
         context: context,
         builder: (ctx) {
-          return AlertDialog(
-            content: Text("功能尚在开发中..."),
+          return const AlertDialog(
+            content: Text('功能尚在开发中...'),
           );
         });
   }
 
   String getDate(DateTime time) {
-    return "${time.year}.${time.month}.${time.day}";
+    return '${time.year}.${time.month}.${time.day}';
   }
 }

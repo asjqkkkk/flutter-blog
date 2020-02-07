@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../config/platform.dart';
 import 'article_page.dart';
 import '../json/article_item_bean.dart';
 import '../logic/home_page_logic.dart';
@@ -14,7 +15,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final logic = HomePageLogic();
   ArticleType type = ArticleType.life;
-  bool isInOtherPage = false;
 
   List<ArticleItemBean> showDataList = [];
   Map<ArticleType, List<ArticleItemBean>> dataMap = Map();
@@ -24,6 +24,8 @@ class _HomePageState extends State<HomePage> {
     logic.getArticleData("config_life.json").then((List<ArticleItemBean> data) {
       dataMap[ArticleType.life] = data;
       showDataList.addAll(data);
+      print(showDataList.length);
+
       setState(() {});
     });
     super.initState();
@@ -36,116 +38,17 @@ class _HomePageState extends State<HomePage> {
     final height = size.height;
     final fontSize = width * 30 / 1440;
     final fontSizeByHeight = height * 30 / 1200;
-    print("Size:${size.width}   ${size.height}");
+    final detector = PlatformDetector();
+    final isNotMobile = !detector.isMobile();
 
     return Scaffold(
       body: CommonLayout(
         isHome: true,
-        child: isInOtherPage
-            ? Container()
-            : Container(
-                child: Row(
+        child: Container(
+          child: isNotMobile
+              ? Row(
                   children: <Widget>[
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          "我的\n博客",
-                          style: TextStyle(
-                              fontSize: getScaleSizeByHeight(height, 90.0),
-                              fontFamily: "huawen_kt",),
-                        ),
-                        SizedBox(
-                          height: getScaleSizeByHeight(height, 40.0),
-                        ),
-                        FlatButton(
-                          onPressed: () {
-                            if (type == ArticleType.study) return;
-                            type = ArticleType.study;
-                            showDataList.clear();
-                            if (dataMap[ArticleType.study] != null) {
-                              showDataList.addAll(dataMap[ArticleType.study]);
-                              setState(() {});
-                            } else {
-                              setState(() {});
-                              logic
-                                  .getArticleData("config_study.json")
-                                  .then((List<ArticleItemBean> data) {
-                                dataMap[ArticleType.study] = data;
-                                showDataList.addAll(data);
-                                setState(() {});
-                              });
-                            }
-                          },
-                          child: Text(
-                            "学习",
-                            style: TextStyle(
-                              fontSize: fontSizeByHeight,
-                              color: type == ArticleType.study
-                                  ? null
-                                  : Color(0xff9E9E9E),
-                              fontFamily: "huawen_kt",
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: getScaleSizeByHeight(height, 40.0),
-                        ),
-                        FlatButton(
-                          onPressed: () {
-                            if (type == ArticleType.life) return;
-                            type = ArticleType.life;
-                            showDataList.clear();
-                            showDataList.addAll(dataMap[ArticleType.life]);
-                            setState(() {});
-                          },
-                          child: Text(
-                            "生活",
-                            style: TextStyle(
-                              fontSize: fontSizeByHeight,
-                              color: type == ArticleType.life
-                                  ? null
-                                  : Color(0xff9E9E9E),
-                              fontFamily: "huawen_kt",
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: getScaleSizeByHeight(height, 40.0),
-                        ),
-                        FlatButton(
-                          onPressed: () {
-                            if (type == ArticleType.topic) return;
-                            type = ArticleType.topic;
-                            showDataList.clear();
-                            if (dataMap[ArticleType.topic] != null) {
-                              showDataList.addAll(dataMap[ArticleType.topic]);
-                              setState(() {});
-                            } else {
-                              setState(() {});
-                              logic
-                                  .getArticleData("config_topic.json")
-                                  .then((List<ArticleItemBean> data) {
-                                dataMap[ArticleType.topic] = data;
-                                showDataList.addAll(data);
-                                setState(() {});
-                              });
-                            }
-                          },
-                          child: Text(
-                            "习题",
-                            style: TextStyle(
-                              fontSize: fontSizeByHeight,
-                              color: type == ArticleType.topic
-                                  ? null
-                                  : Color(0xff9E9E9E),
-                              fontFamily: "huawen_kt",
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    getTypeChangeWidegt(height, fontSizeByHeight),
                     Expanded(
                       child: Container(
                         margin: EdgeInsets.only(
@@ -172,8 +75,8 @@ class _HomePageState extends State<HomePage> {
                                       child: ArticleItem(
                                           bean: showDataList[index]),
                                       onTap: () {
-                                        Navigator.of(context).push(
-                                            new MaterialPageRoute(
+                                        Navigator.of(context).push<dynamic>(
+                                            MaterialPageRoute<dynamic>(
                                                 builder: (ctx) {
                                           return ArticlePage(
                                             bean: showDataList[index],
@@ -186,9 +89,127 @@ class _HomePageState extends State<HomePage> {
                       ),
                     )
                   ],
-                ),
-              ),
+                )
+              : getMobileList(),
+        ),
       ),
+    );
+  }
+
+  Column getTypeChangeWidegt(double height, double fontSizeByHeight) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Text(
+          "我的\n博客",
+          style: TextStyle(
+            fontSize: getScaleSizeByHeight(height, 90.0),
+            fontFamily: "huawen_kt",
+          ),
+        ),
+        SizedBox(
+          height: getScaleSizeByHeight(height, 40.0),
+        ),
+        FlatButton(
+          onPressed: () {
+            if (type == ArticleType.study) return;
+            type = ArticleType.study;
+            showDataList.clear();
+            if (dataMap[ArticleType.study] != null) {
+              showDataList.addAll(dataMap[ArticleType.study]);
+              setState(() {});
+            } else {
+              setState(() {});
+              logic
+                  .getArticleData("config_study.json")
+                  .then((List<ArticleItemBean> data) {
+                dataMap[ArticleType.study] = data;
+                showDataList.addAll(data);
+                setState(() {});
+              });
+            }
+          },
+          child: Text(
+            "学习",
+            style: TextStyle(
+              fontSize: fontSizeByHeight,
+              color: type == ArticleType.study ? null : Color(0xff9E9E9E),
+              fontFamily: "huawen_kt",
+            ),
+          ),
+        ),
+        SizedBox(
+          height: getScaleSizeByHeight(height, 40.0),
+        ),
+        FlatButton(
+          onPressed: () {
+            if (type == ArticleType.life) return;
+            type = ArticleType.life;
+            showDataList.clear();
+            showDataList.addAll(dataMap[ArticleType.life]);
+            setState(() {});
+          },
+          child: Text(
+            "生活",
+            style: TextStyle(
+              fontSize: fontSizeByHeight,
+              color: type == ArticleType.life ? null : Color(0xff9E9E9E),
+              fontFamily: "huawen_kt",
+            ),
+          ),
+        ),
+        SizedBox(
+          height: getScaleSizeByHeight(height, 40.0),
+        ),
+        FlatButton(
+          onPressed: () {
+            if (type == ArticleType.topic) return;
+            type = ArticleType.topic;
+            showDataList.clear();
+            if (dataMap[ArticleType.topic] != null) {
+              showDataList.addAll(dataMap[ArticleType.topic]);
+              setState(() {});
+            } else {
+              setState(() {});
+              logic
+                  .getArticleData("config_topic.json")
+                  .then((List<ArticleItemBean> data) {
+                dataMap[ArticleType.topic] = data;
+                showDataList.addAll(data);
+                setState(() {});
+              });
+            }
+          },
+          child: Text(
+            "习题",
+            style: TextStyle(
+              fontSize: fontSizeByHeight,
+              color: type == ArticleType.topic ? null : Color(0xff9E9E9E),
+              fontFamily: "huawen_kt",
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget getMobileList() {
+    return ListView.builder(
+      itemCount: showDataList.length,
+      itemBuilder: (ctx, index) {
+        return GestureDetector(
+          child: ArticleItem(bean: showDataList[index]),
+          onTap: () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (ctx) {
+              return ArticlePage(
+                bean: showDataList[index],
+              );
+            }));
+          },
+        );
+      },
     );
   }
 

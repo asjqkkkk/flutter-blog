@@ -5,6 +5,8 @@ import '../pages/tag_page.dart';
 import '../pages/archive_page.dart';
 import '../pages/about_page.dart';
 import '../pages/home_page.dart';
+export '../config/platform.dart';
+import '../config/platform.dart';
 
 import 'bar_button.dart';
 
@@ -35,45 +37,45 @@ class _WebBarState extends State<WebBar> {
     final width = size.width;
     final height = size.height;
     final fontSize = height * 30 / 1200;
+    final detector = PlatformDetector();
+    final isNotMobile = !detector.isMobile();
 
     return Container(
-      width: size.width - 200.0,
       height: 70,
       child: SingleChildScrollView(
         child: Row(
           children: <Widget>[
-            FlutterLogo(
+            isNotMobile ? FlutterLogo(
               size: getScaleSizeByHeight(height, 75.0),
               colors: Colors.blueGrey,
-            ),
-            SizedBox(
+            ) : Container(),
+            isNotMobile ? const SizedBox(
               width: 30.0,
-            ),
-            Container(
+            ) : Container(),
+            isNotMobile ? Container(
               height: getScaleSizeByHeight(height, 50.0),
               width: 3.0,
-              color: Color(0xff979797),
-            ),
-            SizedBox(
+              color: const Color(0xff979797),
+            ) : Container(),
+            isNotMobile ? const SizedBox(
               width: 30.0,
-            ),
-            Text(
-              "Flutter",
-              style: TextStyle(fontSize: fontSize, fontFamily: "huawen_kt",),
-            ),
-            Spacer(
+            ) : Container(),
+            isNotMobile ? Text(
+              'Flutter',
+              style: TextStyle(fontSize: fontSize, fontFamily: 'huawen_kt',),
+            ) : Container(),
+            isNotMobile ?  Spacer(
               flex: width ~/ 150,
-            ),
+            ) : Container(),
             Expanded(
               child: BarButton(
                 child: Text(
-                  "首页",
-                  style: TextStyle(fontSize: fontSize, fontFamily: "huawen_kt",),
+                  '首页',
+                  style: TextStyle(fontSize: fontSize, fontFamily: 'huawen_kt',),
                 ),
                 onPressed: () {
                   if (pageType == PageType.home && widget.isHome) return;
                   Navigator.of(context).popUntil((route) => route.isFirst);
-//                  Navigator.pushNamed(context, '/second');
                 },
                 isChecked: pageType == PageType.home,
               ),
@@ -81,12 +83,11 @@ class _WebBarState extends State<WebBar> {
             Expanded(
               child: BarButton(
                 child: Text(
-                  "标签",
-                  style: TextStyle(fontSize: fontSize, fontFamily: "huawen_kt",),
+                  '标签',
+                  style: TextStyle(fontSize: fontSize, fontFamily: 'huawen_kt',),
                 ),
                 onPressed: () {
                   if (pageType == PageType.tag) return;
-//                  if(!widget.isHome) Navigator.of(context).pop();
                   pushAndRemove(context, "tag");
                 },
                 isChecked: pageType == PageType.tag,
@@ -95,13 +96,12 @@ class _WebBarState extends State<WebBar> {
             Expanded(
               child: BarButton(
                 child: Text(
-                  "归档",
-                  style: TextStyle(fontSize: fontSize, fontFamily: "huawen_kt",),
+                  '归档',
+                  style: TextStyle(fontSize: fontSize, fontFamily: 'huawen_kt',),
                 ),
                 onPressed: () {
                   if (pageType == PageType.archive) return;
-//                  if(!widget.isHome) Navigator.of(context).pop();
-                  pushAndRemove(context, "archive");
+                  pushAndRemove(context, 'archive');
                 },
                 isChecked: pageType == PageType.archive,
               ),
@@ -109,13 +109,12 @@ class _WebBarState extends State<WebBar> {
             Expanded(
               child: BarButton(
                 child: Text(
-                  "友链",
-                  style: TextStyle(fontSize: fontSize, fontFamily: "huawen_kt",),
+                  '友链',
+                  style: TextStyle(fontSize: fontSize, fontFamily: 'huawen_kt',),
                 ),
                 onPressed: () {
                   if (pageType == PageType.link) return;
-//                  if(!widget.isHome) Navigator.of(context).pop();
-                  pushAndRemove(context, "link");
+                  pushAndRemove(context, 'link');
                 },
                 isChecked: pageType == PageType.link,
               ),
@@ -123,13 +122,12 @@ class _WebBarState extends State<WebBar> {
             Expanded(
               child: BarButton(
                 child: Text(
-                  "关于",
-                  style: TextStyle(fontSize: fontSize, fontFamily: "huawen_kt",),
+                  '关于',
+                  style: TextStyle(fontSize: fontSize, fontFamily: 'huawen_kt',),
                 ),
                 onPressed: () {
                   if (pageType == PageType.about) return;
-//                  if(!widget.isHome) Navigator.of(context).pop();
-                  pushAndRemove(context, "about");
+                  pushAndRemove(context, 'about');
                 },
                 isChecked: pageType == PageType.about,
               ),
@@ -139,6 +137,7 @@ class _WebBarState extends State<WebBar> {
       ),
     );
   }
+
 
   void pushAndRemove(BuildContext context, String routeName) {
     if(widget.isHome) {

@@ -1,24 +1,30 @@
 import 'package:flutter/material.dart';
+
 import '../widgets/web_bar.dart';
-import '../pages/home_page.dart';
+
 
 class CommonLayout extends StatelessWidget {
+
+  const CommonLayout(
+      {Key key,
+        @required this.child,
+        this.isHome = false,
+        this.pageType = PageType.home})
+      : super(key: key);
+
+
   final Widget child;
   final bool isHome;
   final PageType pageType;
 
-  const CommonLayout(
-      {Key key,
-      @required this.child,
-      this.isHome = false,
-      this.pageType = PageType.home})
-      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final width = size.width;
     final height = size.height;
+    final detector = PlatformDetector();
+
 
     return Container(
       margin: EdgeInsets.only(

@@ -29,12 +29,14 @@ class _TagPageState extends State<TagPage> {
     final size = MediaQuery.of(context).size;
     final width = size.width;
     final height = size.height;
+    final isNotMobile = !PlatformDetector().isMobile();
+
 
     return Scaffold(
       body: CommonLayout(
         pageType: PageType.tag,
         child: Container(
-          margin: EdgeInsets.only(top: 80, left: width / 10, right: width / 10),
+          margin: isNotMobile ? EdgeInsets.only(top: 80, left: width / 10, right: width / 10) : EdgeInsets.all(10),
           child: Card(
             child: beans.isEmpty
                 ? Center(
@@ -42,7 +44,7 @@ class _TagPageState extends State<TagPage> {
                   )
                 : Container(
                     alignment: Alignment.center,
-                    height: height / 2,
+                    height: isNotMobile ? height / 2 : height / 4 * 3,
                     child: SingleChildScrollView(
                       child: Wrap(
                         children: List.generate(beans.length, (index) {
@@ -50,7 +52,7 @@ class _TagPageState extends State<TagPage> {
                           return FlatButton(
                             onPressed: () {
                               Navigator.of(context)
-                                  .push(new MaterialPageRoute(builder: (ctx) {
+                                  .push<dynamic>(MaterialPageRoute<dynamic>(builder: (ctx) {
                                 return ArchivePage(
                                   beans: [bean],
                                 );

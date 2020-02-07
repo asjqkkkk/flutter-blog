@@ -12,6 +12,8 @@ class AboutPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final width = size.width;
+    final isNotMobile = !PlatformDetector().isMobile();
+
 
     return Scaffold(
       body: CommonLayout(
@@ -21,12 +23,12 @@ class AboutPage extends StatelessWidget {
           child: Stack(
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(
-                    top: 80, left: width / 10, right: width / 10),
+                margin: isNotMobile ? EdgeInsets.only(
+                    top: 80, left: width / 10, right: width / 10) : const EdgeInsets.only(top: 40,bottom: 20),
                 child: Card(
                   margin: EdgeInsets.only(bottom: 0),
                   child: Container(
-                    margin: EdgeInsets.only(top: 80),
+                    margin: EdgeInsets.only(top: isNotMobile ? 80 : 40),
                     child:
                         NotificationListener<OverscrollIndicatorNotification>(
                       onNotification: (overScroll) {
@@ -89,7 +91,7 @@ class AboutPage extends StatelessWidget {
                             alignment: Alignment.center,
                           ),
                           Container(
-                            margin: EdgeInsets.only(left: 40, right: 40, top: 40),
+                            margin: isNotMobile ? EdgeInsets.only(left: 40, right: 40, top: 40) : EdgeInsets.all(5),
                             child: Text(
                               "这个博客是在过年期间完成的,从广东回到湖北老家,奈何正值肺炎来袭,出门不便,"
                               "百般无聊下用flutter实现了这样一个早就构想好的博客效果\n\n"
@@ -112,11 +114,22 @@ class AboutPage extends StatelessWidget {
               ),
               Align(
                 alignment: Alignment.topCenter,
-                child: ClipRRect(
+                child: isNotMobile ? ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(80)),
                   child: Container(
                     width: 160,
                     height: 160,
+                    color: Colors.primaries[Random().nextInt(Colors.primaries.length)],
+                    child: Image.asset(
+                      "assets/img/avatar.jpg",
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ) : ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(40)),
+                  child: Container(
+                    width: 80,
+                    height: 80,
                     color: Colors.primaries[Random().nextInt(Colors.primaries.length)],
                     child: Image.asset(
                       "assets/img/avatar.jpg",
