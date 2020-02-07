@@ -40,7 +40,7 @@ class ArticleItem extends StatelessWidget {
                           'Leecode',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: isNotMobile ? 0.02 * width : 25,
+                              fontSize: isNotMobile ? 0.02 * width : 30,
                               color: Colors.white),
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -63,7 +63,7 @@ class ArticleItem extends StatelessWidget {
             child: Text(
               bean.articleName,
               style: TextStyle(
-                fontSize: isNotMobile ? 0.015 * width : 20,
+                fontSize: isNotMobile ? 0.015 * width : 25,
                 fontFamily: 'huawen_kt',
               ),
               maxLines: 1,
@@ -76,7 +76,7 @@ class ArticleItem extends StatelessWidget {
             child: Text(
               bean.summary.replaceAll("\n", ""),
               style: TextStyle(
-                fontSize: 0.01 * width,
+                fontSize: isNotMobile ? 0.015 * width : 20,
                 color: Color(0xff8D8D8D),
               ),
               maxLines: 2,
