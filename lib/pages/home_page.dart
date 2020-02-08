@@ -201,25 +201,33 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget getMobileList() {
-    return showDataList.isEmpty
-        ? const Center(
+    if (showDataList.isEmpty) {
+      return const Center(
             child: CircularProgressIndicator(),
-          )
-        : ListView.builder(
-            itemCount: showDataList.length,
-            itemBuilder: (ctx, index) {
-              return GestureDetector(
-                child: ArticleItem(bean: showDataList[index]),
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
-                    return ArticlePage(
-                      bean: showDataList[index],
-                    );
-                  }));
-                },
-              );
-            },
           );
+    } else {
+      return NotificationListener<OverscrollIndicatorNotification>(
+        onNotification: (overScroll) {
+          overScroll.disallowGlow();
+          return true;
+        },
+        child: ListView.builder(
+              itemCount: showDataList.length,
+              itemBuilder: (ctx, index) {
+                return GestureDetector(
+                  child: ArticleItem(bean: showDataList[index]),
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
+                      return ArticlePage(
+                        bean: showDataList[index],
+                      );
+                    }));
+                  },
+                );
+              },
+            ),
+      );
+    }
   }
 
   double getScaleSizeByWidth(double width, double size) {

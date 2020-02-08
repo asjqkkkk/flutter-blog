@@ -51,67 +51,73 @@ class _ArchivePageState extends State<ArchivePage> {
                     margin: isNotMobile
                         ? const EdgeInsets.only(top: 20, left: 50, right: 50)
                         : const EdgeInsets.only(left: 10, top: 10),
-                    child: ListView.builder(
-                      itemCount: beans.length,
-                      itemBuilder: (ctx, index) {
-                        final List<YearBean> yearBeans = beans[index].beans;
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              '${widget.beans == null ? beans[index].year : widget.beans[index].tag}',
-                              style: isNotMobile
-                                  ? Theme.of(context).textTheme.headline4
-                                  : Theme.of(context).textTheme.headline6,
-                            ),
-                            Container(
-                              margin: isNotMobile
-                                  ? const EdgeInsets.only(
-                                      top: 10, left: 50, right: 50)
-                                  : EdgeInsets.all(0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children:
-                                    List.generate(yearBeans.length, (index2) {
-                                  final yearBean = yearBeans[index2];
-                                  return Container(
-                                    margin: EdgeInsets.only(top: 8),
-                                    child: isNotMobile
-                                        ? ListTile(
-                                            onTap: () {
-                                              openArticlePage(context, yearBean);
-                                            },
-                                            leading: Text(
-                                              '${yearBean.articleName}',
-                                              style: const TextStyle(
-                                                  fontSize: 20,
-                                                  fontFamily: 'huawen_kt'),
-                                            ),
-                                            trailing: Text(
-                                              '${getDate(DateTime.parse(yearBean.createTime))}',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .subtitle1,
-                                            ),
-                                          )
-                                        : FlatButton(
-                                            onPressed: () =>
-                                                openArticlePage(context, yearBean),
-                                            child: Text(
-                                              '${yearBean.articleName}',
-                                              style: TextStyle(
-                                                  fontSize:
-                                                      isNotMobile ? 20 : 15,
-                                                  fontFamily: 'huawen_kt'),
-                                            ),
-                                          ),
-                                  );
-                                }),
-                              ),
-                            ),
-                          ],
-                        );
+                    child: NotificationListener<OverscrollIndicatorNotification>(
+                      onNotification: (overScroll) {
+                        overScroll.disallowGlow();
+                        return true;
                       },
+                      child: ListView.builder(
+                        itemCount: beans.length,
+                        itemBuilder: (ctx, index) {
+                          final List<YearBean> yearBeans = beans[index].beans;
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                '${widget.beans == null ? beans[index].year : widget.beans[index].tag}',
+                                style: isNotMobile
+                                    ? Theme.of(context).textTheme.headline4
+                                    : Theme.of(context).textTheme.headline6,
+                              ),
+                              Container(
+                                margin: isNotMobile
+                                    ? const EdgeInsets.only(
+                                        top: 10, left: 50, right: 50)
+                                    : EdgeInsets.all(0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children:
+                                      List.generate(yearBeans.length, (index2) {
+                                    final yearBean = yearBeans[index2];
+                                    return Container(
+                                      margin: EdgeInsets.only(top: 8),
+                                      child: isNotMobile
+                                          ? ListTile(
+                                              onTap: () {
+                                                openArticlePage(context, yearBean);
+                                              },
+                                              leading: Text(
+                                                '${yearBean.articleName}',
+                                                style: const TextStyle(
+                                                    fontSize: 20,
+                                                    fontFamily: 'huawen_kt'),
+                                              ),
+                                              trailing: Text(
+                                                '${getDate(DateTime.parse(yearBean.createTime))}',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .subtitle1,
+                                              ),
+                                            )
+                                          : FlatButton(
+                                              onPressed: () =>
+                                                  openArticlePage(context, yearBean),
+                                              child: Text(
+                                                '${yearBean.articleName}',
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        isNotMobile ? 20 : 15,
+                                                    fontFamily: 'huawen_kt'),
+                                              ),
+                                            ),
+                                    );
+                                  }),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),
@@ -125,17 +131,6 @@ class _ArchivePageState extends State<ArchivePage> {
         return ArticlePage(bean: ArticleItemBean.fromYearBean(yearBean));
     }));
   }
-
-  void showWaitingDialog(BuildContext context) {
-    showDialog<dynamic>(
-        context: context,
-        builder: (ctx) {
-          return const AlertDialog(
-            content: Text('功能尚在开发中...'),
-          );
-        });
-  }
-
   String getDate(DateTime time) {
     return '${time.year}.${time.month}.${time.day}';
   }

@@ -23,16 +23,16 @@ class _ArticlePageState extends State<ArticlePage> {
 
   @override
   void initState() {
-  ArticleJson.loadArticles().then((value){
-    final String content = value[widget.bean.articleName];
-    List<String> splits = content.split('---');
-    if (splits.length >= 3) {
-      data = splits[2];
-    } else {
-      data = content;
-    }
-    setState(() {});
-  });
+    ArticleJson.loadArticles().then((value) {
+      final String content = value[widget.bean.articleName];
+      List<String> splits = content.split('---');
+      if (splits.length >= 3) {
+        data = splits[2];
+      } else {
+        data = content;
+      }
+      setState(() {});
+    });
 
     super.initState();
   }
@@ -45,71 +45,80 @@ class _ArticlePageState extends State<ArticlePage> {
     final height = size.height;
     final isNotMobile = !PlatformDetector().isMobile();
 
-
     return Scaffold(
       body: CommonLayout(
         child: Container(
             alignment: Alignment.center,
-            margin: isNotMobile ? const EdgeInsets.all(0) : const EdgeInsets.all(20),
+            margin: isNotMobile
+                ? const EdgeInsets.all(0)
+                : const EdgeInsets.all(20),
             child: data.isEmpty
                 ? const Center(
                     child: CircularProgressIndicator(),
                   )
-                : ListView(
-                    children: <Widget>[
-                      Container(
-                        child: Text(widget.bean.articleName,
-                            style: const TextStyle(
+                : NotificationListener<OverscrollIndicatorNotification>(
+                    onNotification: (overScroll) {
+                      overScroll.disallowGlow();
+                      return true;
+                    },
+                    child: ListView(
+                      children: <Widget>[
+                        Container(
+                          child: Text(widget.bean.articleName,
+                              style: const TextStyle(
                                 fontFamily: 'huawen_kt',
-                                fontSize: 40,)),
-                        alignment: Alignment.center,
-                      ),
-                      MarkdownBody(
-                        fitContent: false,
-                        data: data,
-                        selectable: false,
-                        onTapLink: (link) {
-                          html.window.open(link, link);
-                        },
-                        styleSheetTheme: MarkdownStyleSheetBaseTheme.cupertino,
-                        imageBuilder: (Uri url) {
-                          return Container(
-                            margin: EdgeInsets.all(10),
-                            alignment: Alignment.center,
-                            child: ConstrainedBox(
-                              constraints: BoxConstraints(
-                                  maxHeight: height / 3 * 2,
-                                  maxWidth: width / 3 * 2),
-                              child: GestureDetector(
-                                onTap: () {
-                                  html.window.open('$url', "image");
-                                },
-                                child: Card(
-                                  child: Image.network(
-                                    "$url",
-                                    fit: BoxFit.contain,
+                                fontSize: 40,
+                              )),
+                          alignment: Alignment.center,
+                        ),
+                        MarkdownBody(
+                          fitContent: false,
+                          data: data,
+                          selectable: false,
+                          onTapLink: (link) {
+                            html.window.open(link, link);
+                          },
+                          styleSheetTheme:
+                              MarkdownStyleSheetBaseTheme.cupertino,
+                          imageBuilder: (Uri url) {
+                            return Container(
+                              margin: EdgeInsets.all(10),
+                              alignment: Alignment.center,
+                              child: ConstrainedBox(
+                                constraints: BoxConstraints(
+                                    maxHeight: height / 3 * 2,
+                                    maxWidth: width / 3 * 2),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    html.window.open('$url', "image");
+                                  },
+                                  child: Card(
+                                    child: Image.network(
+                                      "$url",
+                                      fit: BoxFit.contain,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          );
-                        },
-                        styleSheet: MarkdownStyleSheet(
-                            codeblockPadding:
-                                EdgeInsets.fromLTRB(10, 20, 10, 20),
-                            p: TextStyle(
-                              fontSize: 18,
-                              color:
-                                  Theme.of(context).textTheme.subtitle2.color,
-                              fontFamily: "",
-                            ),
-                            h1: Theme.of(context).textTheme.headline3,
-                            h2: Theme.of(context).textTheme.headline4,
-                            h3: Theme.of(context).textTheme.headline5,
-                            h4: Theme.of(context).textTheme.headline6,
-                            blockSpacing: 10),
-                      ),
-                    ],
+                            );
+                          },
+                          styleSheet: MarkdownStyleSheet(
+                              codeblockPadding:
+                                  EdgeInsets.fromLTRB(10, 20, 10, 20),
+                              p: TextStyle(
+                                fontSize: 18,
+                                color:
+                                    Theme.of(context).textTheme.subtitle2.color,
+                                fontFamily: "",
+                              ),
+                              h1: Theme.of(context).textTheme.headline3,
+                              h2: Theme.of(context).textTheme.headline4,
+                              h3: Theme.of(context).textTheme.headline5,
+                              h4: Theme.of(context).textTheme.headline6,
+                              blockSpacing: 10),
+                        ),
+                      ],
+                    ),
                   )),
       ),
     );
