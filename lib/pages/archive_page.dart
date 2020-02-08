@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blog/json/article_item_bean.dart';
+import 'package:flutter_blog/pages/article_page.dart';
 import '../json/archive_item_bean.dart';
 import '../widgets/web_bar.dart';
 import '../widgets/common_layout.dart';
@@ -77,7 +79,7 @@ class _ArchivePageState extends State<ArchivePage> {
                                     child: isNotMobile
                                         ? ListTile(
                                             onTap: () {
-                                              showWaitingDialog(context);
+                                              openArticlePage(context, yearBean);
                                             },
                                             leading: Text(
                                               '${yearBean.articleName}',
@@ -94,7 +96,7 @@ class _ArchivePageState extends State<ArchivePage> {
                                           )
                                         : FlatButton(
                                             onPressed: () =>
-                                                showWaitingDialog(context),
+                                                openArticlePage(context, yearBean),
                                             child: Text(
                                               '${yearBean.articleName}',
                                               style: TextStyle(
@@ -116,6 +118,12 @@ class _ArchivePageState extends State<ArchivePage> {
               ),
       ),
     );
+  }
+
+  void openArticlePage(BuildContext context, YearBean yearBean) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (ctx){
+        return ArticlePage(bean: ArticleItemBean.fromYearBean(yearBean));
+    }));
   }
 
   void showWaitingDialog(BuildContext context) {

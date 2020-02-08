@@ -31,12 +31,12 @@ void main() {
   }
 
   ///将文章列表按照标签排序
-  List<ArchiveItemBean> sortByTag(List<ArticleItemBean> beans){
+  List<ArchiveItemBean> sortByTag(List<ArticleItemBean> beans) {
     List<ArchiveItemBean> results = [];
     final map = HashMap<String, List<YearBean>>();
     for (var bean in beans) {
       final tag = bean.tag;
-      if(tag.isEmpty) continue;
+      if (tag.isEmpty) continue;
       if (map[tag] == null) {
         map[tag] = [YearBean.fromItemBean(bean)];
       } else {
@@ -44,8 +44,7 @@ void main() {
       }
     }
     for (var tag in map.keys) {
-      ArchiveItemBean tagItemBean =
-      ArchiveItemBean(tag: tag, beans: map[tag]);
+      ArchiveItemBean tagItemBean = ArchiveItemBean(tag: tag, beans: map[tag]);
       results.add(tagItemBean);
     }
     return results;
@@ -53,7 +52,7 @@ void main() {
 
   List<ArticleItemBean> printFiles(
     String markdownFilePath,
-    String dirPath, {
+    String dirPath, Map<String, String> result,{
     bool outputArchivesConfig = false,
   }) {
     final current = Directory.current;
@@ -103,9 +102,9 @@ void main() {
         summary: subContent.replaceAll("#", ""),
         imageAddress: imageAdress,
         articleAddress: '$dirPath/markdowns/$markdownFilePath/$fileName',
-        articleContent: content,
       );
       beans.add(bean);
+      result[name] = content;
     }
     beans.sort((left, right) => left.compareTo(right));
     File file = File(
@@ -138,11 +137,10 @@ void main() {
     return beans;
   }
 
-  void printTagFile(List<ArticleItemBean> beans){
+  void printTagFile(List<ArticleItemBean> beans) {
     final current = Directory.current;
 
-    File file =
-    File("${current.path + "/assets/config/config_tag.json"}");
+    File file = File("${current.path + "/assets/config/config_tag.json"}");
     if (file.existsSync()) {
       file.deleteSync();
     }
@@ -155,13 +153,13 @@ void main() {
     file.writeAsStringSync(jsonEncode(tagDatas));
   }
 
-  void printFontFile(List<ArticleItemBean> beans){
+  void printFontFile(List<ArticleItemBean> beans) {
     final current = Directory.current;
-    File file =
-    File("${current.path + "/config/config_font.json"}");
+    File file = File("${current.path + "/config/config_font.json"}");
     if (file.existsSync()) {
       file.deleteSync();
     }
+    file.createSync();
     String result = "我的博客 首页 标签 归档 友链 关于 学习 生活 习题 进入博客";
     for (var bean in beans) {
       result += bean.articleName;
@@ -178,15 +176,30 @@ void main() {
     file.writeAsStringSync(result);
   }
 
+  void printAllArticleFile(Map<String, String> map){
+    final current = Directory.current;
+    File file = File("${current.path + "/assets/config/config_all.json"}");
+    if (file.existsSync()) {
+      file.deleteSync();
+    }
+    file.createSync();
+    file.writeAsStringSync(jsonEncode(map));
+  }
+
   test('测试文件输出', () {
-    final topicBeans = printFiles("topic", "config");
-    final lifeBeans = printFiles("life", "config", outputArchivesConfig: true);
-    final studyBeans = printFiles("study", "config", outputArchivesConfig: true);
+    final Map<String, String> result = {};
+    final topicBeans = printFiles("topic", "config",result);
+    final lifeBeans = printFiles("life", "config",result, outputArchivesConfig: true);
+    final studyBeans = printFiles("study", "config",result, outputArchivesConfig: true);
     List<ArticleItemBean> tagBeans = [];
     tagBeans.addAll(lifeBeans);
     tagBeans.addAll(studyBeans);
+    ///tag分类
     printTagFile(tagBeans);
     tagBeans.addAll(topicBeans);
+    ///字体截取
     printFontFile(tagBeans);
+    ///文章提取
+    printAllArticleFile(result);
   });
 }

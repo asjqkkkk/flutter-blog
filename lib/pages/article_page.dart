@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_blog/json/article_item_bean.dart';
+import 'package:flutter_blog/json/article_json_bean.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import '../widgets/common_layout.dart';
 import '../logic/article_page_logic.dart';
@@ -22,21 +23,17 @@ class _ArticlePageState extends State<ArticlePage> {
 
   @override
   void initState() {
-//    logic.getText(widget.bean.articleAddress).then((v) {
-//      data = v;
-//      List<String> splits = data.split("---");
-//      if(splits.length == 3){
-//        data = splits[2];
-//      }
-//      setState(() {});
-//    });
-    List<String> splits = widget.bean.articleContent.split('---');
+  ArticleJson.loadArticles().then((value){
+    final String content = value[widget.bean.articleName];
+    List<String> splits = content.split('---');
     if (splits.length >= 3) {
       data = splits[2];
     } else {
-      data = widget.bean.articleContent;
+      data = content;
     }
     setState(() {});
+  });
+
     super.initState();
   }
 

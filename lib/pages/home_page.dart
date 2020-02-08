@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blog/json/article_json_bean.dart';
 import '../config/platform.dart';
 import 'article_page.dart';
 import '../json/article_item_bean.dart';
@@ -25,8 +26,8 @@ class _HomePageState extends State<HomePage> {
       dataMap[ArticleType.life] = data;
       showDataList.addAll(data);
       print(showDataList.length);
-
       setState(() {});
+      ArticleJson.loadArticles();
     });
     super.initState();
   }

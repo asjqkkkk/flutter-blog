@@ -90,6 +90,8 @@ class YearBean {
     );
   }
 
+
+
   Map<dynamic, dynamic> toMap() {
     return {
       'articleName': articleName ?? '',

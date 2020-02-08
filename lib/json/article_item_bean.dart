@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 
+import 'archive_item_bean.dart';
+
 class ArticleItemBean extends Comparable{
   ///文章标题
   String articleName;
@@ -26,7 +28,7 @@ class ArticleItemBean extends Comparable{
 
 
   ///文章内容(当flutter修复rootbundle.loadString对于中文的识别问题后再去掉这个)
-  String articleContent;
+//  String articleContent;
 
   ArticleItemBean({
     this.articleName,
@@ -36,7 +38,7 @@ class ArticleItemBean extends Comparable{
     this.summary,
     this.imageAddress,
     this.articleAddress,
-    this.articleContent,
+//    this.articleContent,
   });
 
   static ArticleItemBean fromMap(Map<String, dynamic> map) {
@@ -48,7 +50,7 @@ class ArticleItemBean extends Comparable{
     bean.summary = map['summary'];
     bean.imageAddress = map['imageAddress'];
     bean.articleAddress = map['articleAddress'];
-    bean.articleContent = map['articleContent'];
+//    bean.articleContent = map['articleContent'];
     return bean;
   }
 
@@ -61,6 +63,15 @@ class ArticleItemBean extends Comparable{
     return list;
   }
 
+  static ArticleItemBean fromYearBean(YearBean bean){
+    return ArticleItemBean(
+      articleAddress: bean.articleAddress,
+      articleName: bean.articleName,
+      createTime: bean.createTime,
+      lastModifiedTime: bean.lastModifiedTime,
+    );
+  }
+
   Map<dynamic, dynamic> toMap() {
     return {
       'articleName': articleName ?? "",
@@ -69,8 +80,8 @@ class ArticleItemBean extends Comparable{
       'tag': tag ?? "",
       'summary': summary ?? "",
       'imageAddress': imageAddress ?? "",
-      'articleAddress': articleAddress ?? "",
-      'articleContent': articleContent ?? ""
+      'articleAddress': articleAddress ?? ""
+//      'articleContent': articleContent ?? ""
     };
   }
 
