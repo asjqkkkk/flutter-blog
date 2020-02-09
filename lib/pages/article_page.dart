@@ -82,7 +82,7 @@ class _ArticlePageState extends State<ArticlePage> {
                               MarkdownStyleSheetBaseTheme.cupertino,
                           imageBuilder: (Uri url) {
                             return Container(
-                              margin: EdgeInsets.all(10),
+                              margin: const EdgeInsets.all(10),
                               alignment: Alignment.center,
                               child: ConstrainedBox(
                                 constraints: BoxConstraints(
@@ -104,7 +104,7 @@ class _ArticlePageState extends State<ArticlePage> {
                           },
                           styleSheet: MarkdownStyleSheet(
                               codeblockPadding:
-                                  EdgeInsets.fromLTRB(10, 20, 10, 20),
+                                  const EdgeInsets.fromLTRB(10, 20, 10, 20),
                               p: TextStyle(
                                 fontSize: 18,
                                 color:

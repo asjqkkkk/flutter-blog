@@ -16,7 +16,8 @@ class ArticleItem extends StatelessWidget {
     final width = size.width;
     final height = size.height;
     final isNotMobile = !PlatformDetector().isMobile();
-    final cardWidth = isNotMobile ? (0.18 * width < 260 ? 260 : 0.18 * width) : width - 50;
+    final cardWidth =
+        isNotMobile ? (0.18 * width < 260 ? 260 : 0.18 * width) : (width - 100 < 260 ? 260 : width - 100);
     final cardHeight = 0.6 * cardWidth;
 
     return Container(
@@ -26,15 +27,17 @@ class ArticleItem extends StatelessWidget {
         children: <Widget>[
           HoverZoomWidget(
             child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(20.0)),
+              borderRadius: const BorderRadius.all(Radius.circular(20.0)),
               child: Container(
                 width: cardWidth,
                 height: cardHeight,
-                color:
-                    Colors.primaries[Random().nextInt(Colors.primaries.length)],
+//                  color: Colors.primaries[Random().nextInt(Colors.primaries.length)],
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: [randomColor(),randomColor()]),
+                ),
                 child: bean.imageAddress.isEmpty
                     ? Container(
-                        margin: EdgeInsets.all(10),
+                        margin: const EdgeInsets.all(10),
                         alignment: Alignment.center,
                         child: Text(
                           'Leecode',
@@ -62,8 +65,8 @@ class ArticleItem extends StatelessWidget {
                 top: 0.015 * height),
             child: Text(
               bean.articleName,
-              style: TextStyle(
-                fontSize: isNotMobile ? 0.015 * width : 25,
+              style: const TextStyle(
+                fontSize: 25,
                 fontFamily: 'huawen_kt',
               ),
               maxLines: 1,
@@ -71,12 +74,13 @@ class ArticleItem extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(left: isNotMobile ? 0.07 * cardWidth : 0.02 * cardWidth),
+            margin: EdgeInsets.only(
+                left: isNotMobile ? 0.07 * cardWidth : 0.02 * cardWidth),
             width: isNotMobile ? 0.86 * cardWidth : 0.95 * cardWidth,
             child: Text(
-              bean.summary.replaceAll("\n", ""),
-              style: TextStyle(
-                fontSize: isNotMobile ? 0.015 * width : 20,
+              bean.summary.replaceAll('\n', ''),
+              style: const TextStyle(
+                fontSize: 20,
                 color: Color(0xff8D8D8D),
               ),
               maxLines: 2,
@@ -86,5 +90,10 @@ class ArticleItem extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  MaterialColor randomColor() {
+    return Colors
+                    .primaries[Random().nextInt(Colors.primaries.length)];
   }
 }
