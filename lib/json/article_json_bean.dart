@@ -27,7 +27,6 @@ class ArticleJson {
         'https://oldchen-blog-1256696029.cos.ap-guangzhou.myqcloud.com/blog_config/config_all.json',
         headers: {'Access-Control-Allow-Origin':''},
       );
-      print(response.body);
       _isLoading = false;
       return json.decode(utf8.decode(response.bodyBytes));
     }
