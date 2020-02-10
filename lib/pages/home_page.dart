@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                             right: 0.06 * width,
                             top: 0.02 * width),
                         child: showDataList.isEmpty
-                            ? Center(
+                            ? const Center(
                                 child: CircularProgressIndicator(),
                               )
                             : NotificationListener<

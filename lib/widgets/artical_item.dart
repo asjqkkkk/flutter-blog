@@ -17,7 +17,7 @@ class ArticleItem extends StatelessWidget {
     final height = size.height;
     final isNotMobile = !PlatformDetector().isMobile();
     final cardWidth =
-        isNotMobile ? (0.18 * width < 260 ? 260 : 0.18 * width) : (width - 100 < 260 ? 260 : width - 100);
+        isNotMobile ? (0.18 * width < 260 ? 260 : 0.18 * width) : (width - 100 < 260 ? 260 : width - 80);
     final cardHeight = 0.6 * cardWidth;
 
     return Container(
