@@ -26,7 +26,7 @@ class AboutPage extends StatelessWidget {
                 margin: isNotMobile ? EdgeInsets.only(
                     top: 80, left: width / 10, right: width / 10) : const EdgeInsets.fromLTRB(20, 40, 20, 20),
                 child: Card(
-                  margin: EdgeInsets.only(bottom: 0),
+                  margin: const EdgeInsets.only(bottom: 0),
                   child: Container(
                     margin: EdgeInsets.only(top: isNotMobile ? 80 : 40),
                     child:
@@ -36,9 +36,9 @@ class AboutPage extends StatelessWidget {
                         return true;
                       },
                       child: ListView(
-                        padding: EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(20),
                         children: <Widget>[
-                          SizedBox(
+                          const SizedBox(
                             height: 5,
                           ),
                           Center(
@@ -47,7 +47,7 @@ class AboutPage extends StatelessWidget {
                               style: Theme.of(context).textTheme.bodyText2,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Row(
@@ -58,10 +58,10 @@ class AboutPage extends StatelessWidget {
                                   html.window.open(
                                       "https://github.com/asjqkkkk", "github");
                                 },
-                                child: HoverTapAssetImage(
+                                child: const HoverTapAssetImage(
                                     image: "assets/img/github.png"),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 10,
                               ),
 //                              GestureDetector(
@@ -82,8 +82,8 @@ class AboutPage extends StatelessWidget {
                                       "https://steamcommunity.com/id/JiangHun/",
                                       "steam");
                                 },
-                                child: HoverTapAssetImage(
-                                    image: "assets/img/steam.png"),
+                                child: const HoverTapAssetImage(
+                                    image: 'assets/img/steam.png'),
                               ),
                             ],
                           ),
@@ -93,18 +93,18 @@ class AboutPage extends StatelessWidget {
                           Container(
                             margin: isNotMobile ? EdgeInsets.only(left: 40, right: 40, top: 40) : EdgeInsets.all(5),
                             child: Text(
-                              "这个博客是在过年期间完成的,从广东回到湖北老家,奈何正值肺炎来袭,出门不便,"
-                              "百般无聊下用flutter实现了这样一个早就构想好的博客效果\n\n"
-                              "目前看来，还只是一个半成品，但对于没有前端技术又想自定义一个博客的人来说,我得到了极大的满足。\n\n"
-                              "后续随着flutter web的更新,我也会继续进行博客的完善\n\n"
-                              "同时,希望这次疫情早点结束。加油吧！",
+                              '这个博客是在过年期间完成的,从广东回到湖北老家,奈何正值肺炎来袭,出门不便,'
+                              '百般无聊下用flutter实现了这样一个早就构想好的博客效果\n\n'
+                              '目前看来，还只是一个半成品，但对于没有前端技术又想自定义一个博客的人来说,我得到了极大的满足。\n\n'
+                              '后续随着flutter web的更新,我也会继续进行博客的完善\n\n'
+                              '同时,希望这次疫情早点结束。加油吧！',
                               style: TextStyle(fontSize: 18,fontWeight: FontWeight.w100),
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(left: 40, right: 60, top: 10),
+                            margin: const EdgeInsets.only(left: 40, right: 60, top: 10),
                             alignment: Alignment.bottomRight,
-                            child: Text("--- 2020.2.1 中午",style: TextStyle(fontSize: 10,fontWeight: FontWeight.w100),),
+                            child: Text('--- 2020.2.1 中午',style: TextStyle(fontSize: 10,fontWeight: FontWeight.w100),),
                           )
                         ],
                       ),
@@ -115,24 +115,24 @@ class AboutPage extends StatelessWidget {
               Align(
                 alignment: Alignment.topCenter,
                 child: isNotMobile ? ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(80)),
+                  borderRadius: const BorderRadius.all(Radius.circular(80)),
                   child: Container(
                     width: 160,
                     height: 160,
                     color: Colors.primaries[Random().nextInt(Colors.primaries.length)],
                     child: Image.asset(
-                      "assets/img/avatar.jpg",
+                      'assets/img/avatar.jpg',
                       fit: BoxFit.cover,
                     ),
                   ),
                 ) : ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(40)),
+                  borderRadius: const BorderRadius.all(Radius.circular(50)),
                   child: Container(
-                    width: 80,
-                    height: 80,
+                    width: 100,
+                    height: 100,
                     color: Colors.primaries[Random().nextInt(Colors.primaries.length)],
                     child: Image.asset(
-                      "assets/img/avatar.jpg",
+                      'assets/img/avatar.jpg',
                       fit: BoxFit.cover,
                     ),
                   ),

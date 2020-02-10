@@ -7,9 +7,11 @@ import 'dart:html' as html;
 import 'loading_image.dart';
 
 class FriendLinkItem extends StatelessWidget {
-  final LinkItemBean bean;
 
   const FriendLinkItem({Key key, @required this.bean}) : super(key: key);
+
+  final LinkItemBean bean;
+
 
   @override
   Widget build(BuildContext context) {
@@ -85,9 +87,10 @@ class FriendLinkItem extends StatelessWidget {
               child: Container(
                 width: 100,
                 height: 100,
-                child: ClipRRect(
-                  child: LoadingImage(url: bean.linkAvatar,),
-                  borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                decoration: BoxDecoration(
+                  color: Colors.primaries[Random().nextInt(Colors.primaries.length)],
+                  borderRadius: const BorderRadius.all(Radius.circular(50.0)),
+                  image: DecorationImage(image: NetworkImage(bean.linkAvatar),fit: BoxFit.cover,)
                 ),
               ),
             ),
@@ -95,7 +98,7 @@ class FriendLinkItem extends StatelessWidget {
           Align(
             alignment: Alignment.topCenter,
             child: Container(
-              margin: EdgeInsets.only(top: 300),
+              margin: const EdgeInsets.only(top: 300),
               child: FlatButton(
                 color:
                     Colors.primaries[Random().nextInt(Colors.primaries.length)],

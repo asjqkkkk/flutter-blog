@@ -3,7 +3,6 @@ import 'package:flutter_blog/json/friend_link_bean.dart';
 import 'package:flutter_blog/widgets/web_bar.dart';
 import '../widgets/friend_link_item.dart';
 import '../widgets/common_layout.dart';
-import '../json/link_item_bean.dart';
 
 class FriendLinkPage extends StatelessWidget {
   final beans = FriendLinkBean().beans;
