@@ -16,8 +16,9 @@ class ArticleItem extends StatelessWidget {
     final width = size.width;
     final height = size.height;
     final isNotMobile = !PlatformDetector().isMobile();
-    final cardWidth =
-        isNotMobile ? (0.18 * width < 260 ? 260 : 0.18 * width) : (width - 100 < 260 ? 260 : width - 80);
+    final cardWidth = isNotMobile
+        ? (0.18 * width < 260 ? 260 : 0.18 * width)
+        : (width - 100 < 260 ? 260 : width - 80);
     final cardHeight = 0.6 * cardWidth;
 
     return Container(
@@ -31,10 +32,8 @@ class ArticleItem extends StatelessWidget {
               child: Container(
                 width: cardWidth,
                 height: cardHeight,
-//                  color: Colors.primaries[Random().nextInt(Colors.primaries.length)],
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [randomColor(),randomColor()]),
-                ),
+                  color: Colors.primaries[Random().nextInt(Colors.primaries.length)],
+
                 child: bean.imageAddress.isEmpty
                     ? Container(
                         margin: const EdgeInsets.all(10),
@@ -92,8 +91,11 @@ class ArticleItem extends StatelessWidget {
     );
   }
 
-  MaterialColor randomColor() {
-    return Colors
-                    .primaries[Random().nextInt(Colors.primaries.length)];
+  MaterialColor priRandomColor() {
+    return Colors.primaries[Random().nextInt(Colors.primaries.length)];
+  }
+
+  MaterialAccentColor accentRandomColor() {
+    return Colors.accents[Random().nextInt(Colors.accents.length)];
   }
 }

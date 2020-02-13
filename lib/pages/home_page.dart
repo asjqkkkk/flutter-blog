@@ -72,7 +72,7 @@ class _HomePageState extends State<HomePage> {
                                   return true;
                                 },
                                 child: GridView.count(
-                                  crossAxisCount: 3,
+                                  crossAxisCount: ((width - 400) ~/ 300) < 1 ? 1 : ((width - 400) ~/ 300),
                                   padding: EdgeInsets.fromLTRB(0.02 * width,
                                       0.02 * height, 0.02 * width, 0),
                                   children: List.generate(showDataList.length,

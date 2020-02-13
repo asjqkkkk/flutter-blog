@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blog/json/article_json_bean.dart';
 import '../pages/friend_link_page.dart';
 import '../pages/tag_page.dart';
 import '../pages/archive_page.dart';
@@ -9,6 +10,7 @@ export '../config/platform.dart';
 import '../config/platform.dart';
 
 import 'bar_button.dart';
+import 'search_delegate_widget.dart';
 
 class WebBar extends StatefulWidget {
   final PageType pageType;
@@ -32,7 +34,9 @@ class _WebBarState extends State<WebBar> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    final size = MediaQuery
+        .of(context)
+        .size;
     final width = size.width;
     final height = size.height;
     final isNotMobile = !PlatformDetector().isMobile();
@@ -40,142 +44,146 @@ class _WebBarState extends State<WebBar> {
 
     return Container(
       height: 70,
-      child: SingleChildScrollView(
-        child: Row(
-          children: <Widget>[
-            isNotMobile
-                ? FlutterLogo(
-                    size: getScaleSizeByHeight(height, 75.0),
-                    colors: Colors.blueGrey,
-                  )
-                : Container(),
+      width: 0.86 * width,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          isNotMobile
+              ? FlutterLogo(
+            size: getScaleSizeByHeight(height, 75.0),
+            colors: Colors.blueGrey,
+          )
+              : Container(),
 
-            isNotMobile
-                ? const SizedBox(
-                    width: 30.0,
-                  )
-                : Container(),
+          isNotMobile
+              ? const SizedBox(
+            width: 30.0,
+          )
+              : Container(),
 
-            isNotMobile
-                ? Container(
-                    height: getScaleSizeByHeight(height, 50.0),
-                    width: 3.0,
-                    color: const Color(0xff979797),
-                  )
-                : Container(),
+          isNotMobile
+              ? Container(
+            height: getScaleSizeByHeight(height, 50.0),
+            width: 3.0,
+            color: const Color(0xff979797),
+          )
+              : Container(),
 
-            isNotMobile
-                ? const SizedBox(
-                    width: 30.0,
-                  )
-                : Container(),
+          isNotMobile
+              ? const SizedBox(
+            width: 30.0,
+          )
+              : Container(),
 
-            isNotMobile
-                ? Text(
-                    'Flutter',
+          isNotMobile
+              ? Text(
+            'Flutter',
+            style: TextStyle(
+              fontSize: fontSize,
+              fontFamily: 'huawen_kt',
+            ),
+          )
+              : Container(),
+
+          isNotMobile
+              ? Spacer(
+          )
+              : Container(),
+
+          Expanded(
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: <Widget>[
+                (!isNotMobile && widget.isHome)
+                    ? IconButton(
+                  icon: Icon(Icons.menu),
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                )
+                    : Container(),
+                BarButton(
+                  child: Text(
+                    '首页',
                     style: TextStyle(
                       fontSize: fontSize,
                       fontFamily: 'huawen_kt',
                     ),
-                  )
-                : Container(),
-
-            isNotMobile
-                ? Spacer(
-                    flex: width ~/ 150,
-                  )
-                : Container(),
-
-            (!isNotMobile && widget.isHome)
-                ? IconButton(
-                    icon: Icon(Icons.menu),
-                    onPressed: () {
-                      Scaffold.of(context).openDrawer();
-                    },
-                  )
-                : Container(),
-            Expanded(
-              child: BarButton(
-                child: Text(
-                  '首页',
-                  style: TextStyle(
-                    fontSize: fontSize,
-                    fontFamily: 'huawen_kt',
                   ),
+                  onPressed: () {
+                    if (pageType == PageType.home && widget.isHome) return;
+                    Navigator.of(context).popUntil((route) => route.isFirst);
+                  },
+                  isChecked: pageType == PageType.home,
                 ),
-                onPressed: () {
-                  if (pageType == PageType.home && widget.isHome) return;
-                  Navigator.of(context).popUntil((route) => route.isFirst);
-                },
-                isChecked: pageType == PageType.home,
-              ),
-            ),
-            Expanded(
-              child: BarButton(
-                child: Text(
-                  '标签',
-                  style: TextStyle(
-                    fontSize: fontSize,
-                    fontFamily: 'huawen_kt',
+                BarButton(
+                  child: Text(
+                    '标签',
+                    style: TextStyle(
+                      fontSize: fontSize,
+                      fontFamily: 'huawen_kt',
+                    ),
                   ),
+                  onPressed: () {
+                    if (pageType == PageType.tag) return;
+                    pushAndRemove(context, "tag");
+                  },
+                  isChecked: pageType == PageType.tag,
                 ),
-                onPressed: () {
-                  if (pageType == PageType.tag) return;
-                  pushAndRemove(context, "tag");
-                },
-                isChecked: pageType == PageType.tag,
-              ),
-            ),
-            Expanded(
-              child: BarButton(
-                child: Text(
-                  '归档',
-                  style: TextStyle(
-                    fontSize: fontSize,
-                    fontFamily: 'huawen_kt',
+                BarButton(
+                  child: Text(
+                    '归档',
+                    style: TextStyle(
+                      fontSize: fontSize,
+                      fontFamily: 'huawen_kt',
+                    ),
                   ),
+                  onPressed: () {
+                    if (pageType == PageType.archive) return;
+                    pushAndRemove(context, 'archive');
+                  },
+                  isChecked: pageType == PageType.archive,
                 ),
-                onPressed: () {
-                  if (pageType == PageType.archive) return;
-                  pushAndRemove(context, 'archive');
-                },
-                isChecked: pageType == PageType.archive,
-              ),
-            ),
-            Expanded(
-              child: BarButton(
-                child: Text(
-                  '友链',
-                  style: TextStyle(
-                    fontSize: fontSize,
-                    fontFamily: 'huawen_kt',
+                BarButton(
+                  child: Text(
+                    '友链',
+                    style: TextStyle(
+                      fontSize: fontSize,
+                      fontFamily: 'huawen_kt',
+                    ),
                   ),
+                  onPressed: () {
+                    if (pageType == PageType.link) return;
+                    pushAndRemove(context, 'link');
+                  },
+                  isChecked: pageType == PageType.link,
                 ),
-                onPressed: () {
-                  if (pageType == PageType.link) return;
-                  pushAndRemove(context, 'link');
-                },
-                isChecked: pageType == PageType.link,
-              ),
-            ),
-            Expanded(
-              child: BarButton(
-                child: Text(
-                  '关于',
-                  style: TextStyle(
-                    fontSize: fontSize,
-                    fontFamily: 'huawen_kt',
+                BarButton(
+                  child: Text(
+                    '关于',
+                    style: TextStyle(
+                      fontSize: fontSize,
+                      fontFamily: 'huawen_kt',
+                    ),
                   ),
+                  onPressed: () {
+                    if (pageType == PageType.about) return;
+                    pushAndRemove(context, 'about');
+                  },
+                  isChecked: pageType == PageType.about,
                 ),
-                onPressed: () {
-                  if (pageType == PageType.about) return;
-                  pushAndRemove(context, 'about');
-                },
-                isChecked: pageType == PageType.about,
-              ),
+                IconButton(
+                  icon: Icon(Icons.search, size: fontSize,),
+                  onPressed: () async{
+                    final dynamic data = await ArticleJson.loadArticles();
+                    final map = Map.from(data);
+                    showSearch(context: context, delegate: SearchDelegateWidget(map));
+                  },
+                ),
+              ],
             ),
-          ],
-        ),
+          )
+        ],
       ),
     );
   }

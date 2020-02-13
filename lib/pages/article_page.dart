@@ -1,12 +1,14 @@
 import 'dart:ui';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_blog/json/article_item_bean.dart';
-import 'package:flutter_blog/json/article_json_bean.dart';
+
+import 'dart:html' as html;
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter/material.dart';
+import '../json/article_item_bean.dart';
+import '../json/article_json_bean.dart';
 import '../widgets/common_layout.dart';
 import '../logic/article_page_logic.dart';
-import 'dart:html' as html;
+
 
 class ArticlePage extends StatefulWidget {
   final ArticleItemBean bean;
