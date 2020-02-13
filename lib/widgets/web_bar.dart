@@ -44,7 +44,7 @@ class _WebBarState extends State<WebBar> {
 
     return Container(
       height: 70,
-      width: 0.86 * width,
+      width: isNotMobile ? 0.86 * width : width,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
