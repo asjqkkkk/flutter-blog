@@ -14,9 +14,8 @@ import 'search_delegate_widget.dart';
 
 class WebBar extends StatefulWidget {
   final PageType pageType;
-  final bool isHome;
 
-  const WebBar({Key key, this.pageType = PageType.home, this.isHome = false})
+  const WebBar({Key key, this.pageType = PageType.home,})
       : super(key: key);
 
   @override
@@ -99,7 +98,7 @@ class _WebBarState extends State<WebBar> {
             ),
           ),
           onPressed: () {
-            if (pageType == PageType.home && widget.isHome) return;
+            if (pageType == PageType.home) return;
             Navigator.of(context).popUntil((route) => route.isFirst);
           },
           isChecked: pageType == PageType.home,
@@ -190,7 +189,7 @@ class _WebBarState extends State<WebBar> {
   }
 
   void pushAndRemove(BuildContext context, String routeName) {
-    if (widget.isHome) {
+    if (widget.pageType == PageType.home) {
       Navigator.pushNamed(context, '/$routeName');
     } else {
       Navigator.pushReplacementNamed(context, '/$routeName');
@@ -202,4 +201,4 @@ class _WebBarState extends State<WebBar> {
   }
 }
 
-enum PageType { home, tag, archive, about, link }
+enum PageType { home, tag, archive, about, link, article }

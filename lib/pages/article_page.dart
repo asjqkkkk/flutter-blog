@@ -48,6 +48,7 @@ class _ArticlePageState extends State<ArticlePage> {
     final isNotMobile = !PlatformDetector().isMobile();
 
     return CommonLayout(
+      pageType: PageType.article,
         child: Container(
             alignment: Alignment.center,
             margin: isNotMobile

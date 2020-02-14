@@ -11,13 +11,11 @@ export '../widgets/web_bar.dart';
 class CommonLayout extends StatelessWidget {
   const CommonLayout({Key key,
     @required this.child,
-    this.isHome = false,
     this.pageType = PageType.home, this.drawer, this.globalKey})
       : super(key: key);
 
   final Widget child;
   final Widget drawer;
-  final bool isHome;
   final PageType pageType;
   final GlobalKey<ScaffoldState> globalKey;
 
@@ -32,12 +30,10 @@ class CommonLayout extends StatelessWidget {
 
     return Scaffold(
       key: globalKey,
-      drawer: isNotMobile
-          ? null
-          : Drawer(
+      drawer: isNotMobile || pageType != PageType.home ? null : Drawer(
         child: drawer,
       ),
-      floatingActionButton: getFab(isNotMobile, isHome, context),
+      floatingActionButton: getFab(isNotMobile, pageType,context),
       body: Container(
         margin: isNotMobile
             ? EdgeInsets.only(
@@ -46,12 +42,11 @@ class CommonLayout extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             WebBar(
-              isHome: isHome,
               pageType: pageType,
             ),
             Container(
               child: child,
-              margin: EdgeInsets.only(top: 70),
+              margin: const EdgeInsets.only(top: 70),
             ),
           ],
         ),
@@ -59,19 +54,20 @@ class CommonLayout extends StatelessWidget {
     );
   }
 
-  Widget getFab(bool isNotMobile, bool isHome, BuildContext context) {
+  Widget getFab(bool isNotMobile, PageType pageType, BuildContext context) {
     if (isNotMobile) return null;
+    if(pageType == PageType.article) return null;
     return FloatingActionButton(
       elevation: 0.0,
       backgroundColor: Colors.white.withOpacity(0.8),
       onPressed: () async{
-        if(isHome) {
+        if(pageType == PageType.home) {
           globalKey?.currentState?.openDrawer();
         } else {
           final dynamic data = await ArticleJson.loadArticles();
           final map = Map.from(data);
           showSearch(context: context, delegate: SearchDelegateWidget(map));
         }
-      }, child: Icon(isHome ? Icons.menu : Icons.search, color: Colors.black.withOpacity(0.5),),);
+      }, child: Icon(pageType == PageType.home ? Icons.menu : Icons.search, color: Colors.black.withOpacity(0.5),),);
   }
 }

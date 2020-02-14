@@ -1,13 +1,14 @@
+import 'article_page.dart';
+import '../config/platform.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../json/article_json_bean.dart';
-import '../widgets/search_delegate_widget.dart';
-import '../config/platform.dart';
-import 'article_page.dart';
 import '../json/article_item_bean.dart';
 import '../logic/home_page_logic.dart';
 import '../widgets/artical_item.dart';
 import '../widgets/common_layout.dart';
+import '../widgets/search_delegate_widget.dart';
+
 
 class HomePage extends StatefulWidget {
   @override
@@ -45,7 +46,6 @@ class _HomePageState extends State<HomePage> {
     final isNotMobile = !detector.isMobile();
 
     return CommonLayout(
-      isHome: true,
       globalKey: key,
       drawer: getTypeChangeWidegt(height, fontSizeByHeight, isNotMobile),
       child: Container(
