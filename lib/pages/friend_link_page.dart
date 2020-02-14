@@ -11,8 +11,7 @@ class FriendLinkPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final isNotMobile = !PlatformDetector().isMobile();
 
-    return Scaffold(
-      body: CommonLayout(
+    return CommonLayout(
         pageType: PageType.link,
         child: Container(
           child: NotificationListener<OverscrollIndicatorNotification>(
@@ -40,7 +39,6 @@ class FriendLinkPage extends StatelessWidget {
                   ),
           ),
         ),
-      ),
-    );
+      );
   }
 }

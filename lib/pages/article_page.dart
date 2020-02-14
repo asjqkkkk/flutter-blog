@@ -47,8 +47,7 @@ class _ArticlePageState extends State<ArticlePage> {
     final height = size.height;
     final isNotMobile = !PlatformDetector().isMobile();
 
-    return Scaffold(
-      body: CommonLayout(
+    return CommonLayout(
         child: Container(
             alignment: Alignment.center,
             margin: isNotMobile
@@ -122,7 +121,6 @@ class _ArticlePageState extends State<ArticlePage> {
                       ],
                     ),
                   )),
-      ),
-    );
+      );
   }
 }

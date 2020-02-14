@@ -32,8 +32,7 @@ class _TagPageState extends State<TagPage> {
     final isNotMobile = !PlatformDetector().isMobile();
 
 
-    return Scaffold(
-      body: CommonLayout(
+    return CommonLayout(
         pageType: PageType.tag,
         child: Container(
           margin: isNotMobile ? EdgeInsets.only(top: 80, left: width / 10, right: width / 10) : const EdgeInsets.all(20),
@@ -73,7 +72,6 @@ class _TagPageState extends State<TagPage> {
                   ),
           ),
         ),
-      ),
-    );
+      );
   }
 }

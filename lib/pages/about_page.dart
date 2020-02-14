@@ -15,8 +15,7 @@ class AboutPage extends StatelessWidget {
     final isNotMobile = !PlatformDetector().isMobile();
 
 
-    return Scaffold(
-      body: CommonLayout(
+    return CommonLayout(
         pageType: PageType.about,
         child: Container(
           alignment: Alignment.center,
@@ -141,7 +140,6 @@ class AboutPage extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 }

@@ -34,8 +34,7 @@ class _ArchivePageState extends State<ArchivePage> {
   Widget build(BuildContext context) {
     final isNotMobile = !PlatformDetector().isMobile();
 
-    return Scaffold(
-      body: CommonLayout(
+    return CommonLayout(
         pageType: PageType.archive,
         child: beans.isEmpty
             ? const Center(
@@ -122,8 +121,7 @@ class _ArchivePageState extends State<ArchivePage> {
                   ),
                 ),
               ),
-      ),
-    );
+      );
   }
 
   void openArticlePage(BuildContext context, YearBean yearBean) {

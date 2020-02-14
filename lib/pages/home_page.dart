@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_blog/json/article_json_bean.dart';
+import '../json/article_json_bean.dart';
+import '../widgets/search_delegate_widget.dart';
 import '../config/platform.dart';
 import 'article_page.dart';
 import '../json/article_item_bean.dart';
@@ -15,6 +16,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final logic = HomePageLogic();
+  final GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
   ArticleType type = ArticleType.life;
 
   List<ArticleItemBean> showDataList = [];
@@ -42,67 +44,68 @@ class _HomePageState extends State<HomePage> {
     final detector = PlatformDetector();
     final isNotMobile = !detector.isMobile();
 
-    return Scaffold(
-      drawer: isNotMobile
-          ? null
-          : Drawer(
-              child: getTypeChangeWidegt(height, fontSizeByHeight),
-            ),
-      body: CommonLayout(
-        isHome: true,
-        child: Container(
-          child: isNotMobile
-              ? Row(
-                  children: <Widget>[
-                    getTypeChangeWidegt(height, fontSizeByHeight),
-                    Expanded(
-                      child: Container(
-                        margin: EdgeInsets.only(
-                            left: 0.06 * width,
-                            right: 0.06 * width,
-                            top: 0.02 * width),
-                        child: showDataList.isEmpty
-                            ? const Center(
-                                child: CircularProgressIndicator(),
-                              )
-                            : NotificationListener<
-                                    OverscrollIndicatorNotification>(
-                                onNotification: (overScroll) {
-                                  overScroll.disallowGlow();
-                                  return true;
-                                },
-                                child: GridView.count(
-                                  crossAxisCount: ((width - 400) ~/ 300) < 1 ? 1 : ((width - 400) ~/ 300),
-                                  padding: EdgeInsets.fromLTRB(0.02 * width,
-                                      0.02 * height, 0.02 * width, 0),
-                                  children: List.generate(showDataList.length,
-                                      (index) {
-                                    return GestureDetector(
-                                      child: ArticleItem(
-                                          bean: showDataList[index]),
-                                      onTap: () {
-                                        Navigator.of(context).push<dynamic>(
-                                            MaterialPageRoute<dynamic>(
-                                                builder: (ctx) {
-                                          return ArticlePage(
-                                            bean: showDataList[index],
-                                          );
-                                        }));
-                                      },
-                                    );
-                                  }),
-                                )),
-                      ),
-                    )
-                  ],
-                )
-              : getMobileList(),
-        ),
+    return CommonLayout(
+      isHome: true,
+      globalKey: key,
+      drawer: getTypeChangeWidegt(height, fontSizeByHeight, isNotMobile),
+      child: Container(
+        child: isNotMobile
+            ? Row(
+                children: <Widget>[
+                  getTypeChangeWidegt(height, fontSizeByHeight, isNotMobile),
+                  Expanded(
+                    child: Container(
+                      margin: EdgeInsets.only(
+                          left: 0.06 * width,
+                          right: 0.06 * width,
+                          top: 0.02 * width),
+                      child: showDataList.isEmpty
+                          ? const Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : NotificationListener<
+                                  OverscrollIndicatorNotification>(
+                              onNotification: (overScroll) {
+                                overScroll.disallowGlow();
+                                return true;
+                              },
+                              child: GridView.count(
+                                crossAxisCount: getCrossCount(width),
+                                padding: EdgeInsets.fromLTRB(0.02 * width,
+                                    0.02 * height, 0.02 * width, 0),
+                                children:
+                                    List.generate(showDataList.length, (index) {
+                                  return GestureDetector(
+                                    child:
+                                        ArticleItem(bean: showDataList[index]),
+                                    onTap: () {
+                                      Navigator.of(context).push<dynamic>(
+                                          MaterialPageRoute<dynamic>(
+                                              builder: (ctx) {
+                                        return ArticlePage(
+                                          bean: showDataList[index],
+                                        );
+                                      }));
+                                    },
+                                  );
+                                }),
+                              )),
+                    ),
+                  )
+                ],
+              )
+            : getMobileList(),
       ),
     );
   }
 
-  Column getTypeChangeWidegt(double height, double fontSizeByHeight) {
+  int getCrossCount(double width) {
+    final result = ((width - 400) ~/ 300) < 1 ? 1 : ((width - 400) ~/ 300);
+    return result > 3 ? 3 : result;
+  }
+
+  Column getTypeChangeWidegt(
+      double height, double fontSizeByHeight, bool isNotMobile) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -196,6 +199,26 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
+        if (isNotMobile)
+          Container()
+        else
+          SizedBox(
+            height: getScaleSizeByHeight(height, 40.0),
+          ),
+        if (isNotMobile)
+          Container()
+        else
+          IconButton(
+              icon: Icon(
+                Icons.search,
+                color: const Color(0xff9E9E9E),
+              ),
+              onPressed: () async {
+                final dynamic data = await ArticleJson.loadArticles();
+                final map = Map.from(data);
+                showSearch(
+                    context: context, delegate: SearchDelegateWidget(map));
+              }),
       ],
     );
   }
@@ -203,8 +226,8 @@ class _HomePageState extends State<HomePage> {
   Widget getMobileList() {
     if (showDataList.isEmpty) {
       return const Center(
-            child: CircularProgressIndicator(),
-          );
+        child: CircularProgressIndicator(),
+      );
     } else {
       return NotificationListener<OverscrollIndicatorNotification>(
         onNotification: (overScroll) {
@@ -212,20 +235,20 @@ class _HomePageState extends State<HomePage> {
           return true;
         },
         child: ListView.builder(
-              itemCount: showDataList.length,
-              itemBuilder: (ctx, index) {
-                return GestureDetector(
-                  child: ArticleItem(bean: showDataList[index]),
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
-                      return ArticlePage(
-                        bean: showDataList[index],
-                      );
-                    }));
-                  },
-                );
+          itemCount: showDataList.length,
+          itemBuilder: (ctx, index) {
+            return GestureDetector(
+              child: ArticleItem(bean: showDataList[index]),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
+                  return ArticlePage(
+                    bean: showDataList[index],
+                  );
+                }));
               },
-            ),
+            );
+          },
+        ),
       );
     }
   }

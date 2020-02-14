@@ -34,9 +34,7 @@ class _WebBarState extends State<WebBar> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery
-        .of(context)
-        .size;
+    final size = MediaQuery.of(context).size;
     final width = size.width;
     final height = size.height;
     final isNotMobile = !PlatformDetector().isMobile();
@@ -46,146 +44,149 @@ class _WebBarState extends State<WebBar> {
       height: 70,
       width: isNotMobile ? 0.86 * width : width,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          isNotMobile
-              ? FlutterLogo(
-            size: getScaleSizeByHeight(height, 75.0),
-            colors: Colors.blueGrey,
-          )
-              : Container(),
-
-          isNotMobile
-              ? const SizedBox(
-            width: 30.0,
-          )
-              : Container(),
-
-          isNotMobile
-              ? Container(
-            height: getScaleSizeByHeight(height, 50.0),
-            width: 3.0,
-            color: const Color(0xff979797),
-          )
-              : Container(),
-
-          isNotMobile
-              ? const SizedBox(
-            width: 30.0,
-          )
-              : Container(),
-
-          isNotMobile
-              ? Text(
-            'Flutter',
-            style: TextStyle(
-              fontSize: fontSize,
-              fontFamily: 'huawen_kt',
-            ),
-          )
-              : Container(),
-
-          isNotMobile
-              ? Spacer(
-          )
-              : Container(),
-
-          Expanded(
-            child: ListView(
-              scrollDirection: Axis.horizontal,
+          if (isNotMobile)
+            Row(
               children: <Widget>[
-                (!isNotMobile && widget.isHome)
-                    ? IconButton(
-                  icon: Icon(Icons.menu),
-                  onPressed: () {
-                    Scaffold.of(context).openDrawer();
-                  },
-                )
-                    : Container(),
-                BarButton(
-                  child: Text(
-                    '首页',
-                    style: TextStyle(
-                      fontSize: fontSize,
-                      fontFamily: 'huawen_kt',
-                    ),
-                  ),
-                  onPressed: () {
-                    if (pageType == PageType.home && widget.isHome) return;
-                    Navigator.of(context).popUntil((route) => route.isFirst);
-                  },
-                  isChecked: pageType == PageType.home,
+                FlutterLogo(
+                  size: getScaleSizeByHeight(height, 75.0),
+                  colors: Colors.blueGrey,
                 ),
-                BarButton(
-                  child: Text(
-                    '标签',
-                    style: TextStyle(
-                      fontSize: fontSize,
-                      fontFamily: 'huawen_kt',
-                    ),
-                  ),
-                  onPressed: () {
-                    if (pageType == PageType.tag) return;
-                    pushAndRemove(context, "tag");
-                  },
-                  isChecked: pageType == PageType.tag,
+                const SizedBox(
+                  width: 30.0,
                 ),
-                BarButton(
-                  child: Text(
-                    '归档',
-                    style: TextStyle(
-                      fontSize: fontSize,
-                      fontFamily: 'huawen_kt',
-                    ),
-                  ),
-                  onPressed: () {
-                    if (pageType == PageType.archive) return;
-                    pushAndRemove(context, 'archive');
-                  },
-                  isChecked: pageType == PageType.archive,
+                Container(
+                  height: getScaleSizeByHeight(height, 50.0),
+                  width: 3.0,
+                  color: const Color(0xff979797),
                 ),
-                BarButton(
-                  child: Text(
-                    '友链',
-                    style: TextStyle(
-                      fontSize: fontSize,
-                      fontFamily: 'huawen_kt',
-                    ),
-                  ),
-                  onPressed: () {
-                    if (pageType == PageType.link) return;
-                    pushAndRemove(context, 'link');
-                  },
-                  isChecked: pageType == PageType.link,
+                const SizedBox(
+                  width: 30.0,
                 ),
-                BarButton(
-                  child: Text(
-                    '关于',
-                    style: TextStyle(
-                      fontSize: fontSize,
-                      fontFamily: 'huawen_kt',
-                    ),
+                Text(
+                  'Flutter',
+                  style: TextStyle(
+                    fontSize: fontSize,
+                    fontFamily: 'huawen_kt',
                   ),
-                  onPressed: () {
-                    if (pageType == PageType.about) return;
-                    pushAndRemove(context, 'about');
-                  },
-                  isChecked: pageType == PageType.about,
-                ),
-                IconButton(
-                  icon: Icon(Icons.search, size: fontSize,),
-                  onPressed: () async{
-                    final dynamic data = await ArticleJson.loadArticles();
-                    final map = Map.from(data);
-                    showSearch(context: context, delegate: SearchDelegateWidget(map));
-                  },
                 ),
               ],
+            )
+          else
+            Container(),
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: getTapChildren(isNotMobile, context, fontSize),
             ),
           )
         ],
       ),
     );
+  }
+
+  List<Widget> getTapChildren(
+      bool isNotMobile, BuildContext context, num fontSize) {
+    return <Widget>[
+      Expanded(
+        flex: isNotMobile ? 0 : 1,
+        child: BarButton(
+          child: Text(
+            '首页',
+            style: TextStyle(
+              fontSize: fontSize,
+              fontFamily: 'huawen_kt',
+            ),
+          ),
+          onPressed: () {
+            if (pageType == PageType.home && widget.isHome) return;
+            Navigator.of(context).popUntil((route) => route.isFirst);
+          },
+          isChecked: pageType == PageType.home,
+        ),
+      ),
+      Expanded(
+        flex: isNotMobile ? 0 : 1,
+        child: BarButton(
+          child: Text(
+            '标签',
+            style: TextStyle(
+              fontSize: fontSize,
+              fontFamily: 'huawen_kt',
+            ),
+          ),
+          onPressed: () {
+            if (pageType == PageType.tag) return;
+            pushAndRemove(context, "tag");
+          },
+          isChecked: pageType == PageType.tag,
+        ),
+      ),
+      Expanded(
+        flex: isNotMobile ? 0 : 1,
+        child: BarButton(
+          child: Text(
+            '归档',
+            style: TextStyle(
+              fontSize: fontSize,
+              fontFamily: 'huawen_kt',
+            ),
+          ),
+          onPressed: () {
+            if (pageType == PageType.archive) return;
+            pushAndRemove(context, 'archive');
+          },
+          isChecked: pageType == PageType.archive,
+        ),
+      ),
+      Expanded(
+        flex: isNotMobile ? 0 : 1,
+        child: BarButton(
+          child: Text(
+            '友链',
+            style: TextStyle(
+              fontSize: fontSize,
+              fontFamily: 'huawen_kt',
+            ),
+          ),
+          onPressed: () {
+            if (pageType == PageType.link) return;
+            pushAndRemove(context, 'link');
+          },
+          isChecked: pageType == PageType.link,
+        ),
+      ),
+      Expanded(
+        flex: isNotMobile ? 0 : 1,
+        child: BarButton(
+          child: Text(
+            '关于',
+            style: TextStyle(
+              fontSize: fontSize,
+              fontFamily: 'huawen_kt',
+            ),
+          ),
+          onPressed: () {
+            if (pageType == PageType.about) return;
+            pushAndRemove(context, 'about');
+          },
+          isChecked: pageType == PageType.about,
+        ),
+      ),
+      if (isNotMobile)
+        IconButton(
+            icon: Icon(
+              Icons.search,
+              size: fontSize,
+            ),
+            onPressed: () async {
+              final dynamic data = await ArticleJson.loadArticles();
+              final map = Map.from(data);
+              showSearch(context: context, delegate: SearchDelegateWidget(map));
+            })
+      else
+        Container(),
+    ];
   }
 
   void pushAndRemove(BuildContext context, String routeName) {
