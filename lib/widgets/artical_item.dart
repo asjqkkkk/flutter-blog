@@ -32,8 +32,16 @@ class ArticleItem extends StatelessWidget {
               child: Container(
                 width: cardWidth,
                 height: cardHeight,
-                  color: Colors.primaries[Random().nextInt(Colors.primaries.length)],
-
+                decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(20.0)),
+                    color: Colors
+                        .primaries[Random().nextInt(Colors.primaries.length)],
+                    image: bean.imageAddress.isEmpty ? null : DecorationImage(
+                      image: AssetImage(
+                        'assets${bean.imageAddress}',
+                      ),
+                      fit: BoxFit.cover,
+                    )),
                 child: bean.imageAddress.isEmpty
                     ? Container(
                         margin: const EdgeInsets.all(10),
@@ -47,10 +55,7 @@ class ArticleItem extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                       )
-                    : Image.asset(
-                        'assets${bean.imageAddress}',
-                        fit: BoxFit.cover,
-                      ),
+                    : Container(),
               ),
             ),
             scale: isNotMobile ? 1.1 : 1.0,
