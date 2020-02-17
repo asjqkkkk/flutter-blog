@@ -37,15 +37,18 @@ class _TopAnimationShowWidgetState extends State<TopAnimationShowWidget>
   @override
   Widget build(BuildContext context) {
 
-    return AnimatedBuilder(
-      animation: _animation,
-      child: Container(child: widget.child),
-      builder: (ctx, child) {
-        return Transform.translate(
-          offset: Offset(0, (_animation.value - 1) * (widget.distanceY)),
-          child: child,
-        );
-      },
+    return Container(
+      color: Colors.black.withOpacity(0.1),
+      child: AnimatedBuilder(
+        animation: _animation,
+        child: Container(child: widget.child),
+        builder: (ctx, child) {
+          return Transform.translate(
+            offset: Offset(0, (_animation.value - 1) * (widget.distanceY)),
+            child: child,
+          );
+        },
+      ),
     );
   }
 }

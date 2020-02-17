@@ -58,10 +58,16 @@ class _SearchWidgetState extends State<SearchWidget> {
         child: Scaffold(
           backgroundColor: Colors.transparent,
           body: Container(
-            margin: const EdgeInsets.fromLTRB(100, 100, 100, 0),
-            child: Card(
-              child: Container(
-                height: showDataList.isEmpty ? 150 : size.height - 200,
+            alignment: Alignment.topCenter,
+            width: size.width,
+            height: size.height,
+            child: Container(
+              margin: const EdgeInsets.fromLTRB(0, 100, 0, 0),
+              width: size.width / 2 < 300 ? 300 : size.width / 2,
+              height: showDataList.isEmpty ? 150 : size.height - 200,
+              alignment: Alignment.topCenter,
+              child: Card(
+                color: Theme.of(context).cardColor.withOpacity(0.9),
                 child: Column(
                   children: <Widget>[
                     Container(
