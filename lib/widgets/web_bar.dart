@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blog/config/full_screen_dialog_util.dart';
 import 'package:flutter_blog/json/article_json_bean.dart';
+import 'package:flutter_blog/widgets/search_widget.dart';
+import 'package:flutter_blog/widgets/top_show_widget.dart';
 import '../pages/friend_link_page.dart';
 import '../pages/tag_page.dart';
 import '../pages/archive_page.dart';
@@ -181,11 +184,20 @@ class _WebBarState extends State<WebBar> {
             onPressed: () async {
               final dynamic data = await ArticleJson.loadArticles();
               final map = Map.from(data);
-              showSearch(context: context, delegate: SearchDelegateWidget(map));
+
+              showSearchWidget(context,map);
+//              showSearch(context: context, delegate: SearchDelegateWidget(map));
             })
       else
         Container(),
     ];
+  }
+
+  void showSearchWidget(BuildContext context,Map map){
+    FullScreenDialog.getInstance().showDialog(context,  TopAnimationShowWidget(
+      child: SearchWidget(dataMap: map,),
+      distanceY: 100,
+    ),);
   }
 
   void pushAndRemove(BuildContext context, String routeName) {

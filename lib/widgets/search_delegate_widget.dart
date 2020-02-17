@@ -45,7 +45,7 @@ class SearchDelegateWidget extends SearchDelegate<String> {
 
     return showDataList.isEmpty
         ? const Center(
-            child: Text("一片空空",style: TextStyle(fontSize: 30),),
+            child: Text('😅啥也没有...',style: TextStyle(fontSize: 30),),
           )
         : Container(
             child: ListView.builder(
@@ -53,7 +53,7 @@ class SearchDelegateWidget extends SearchDelegate<String> {
               itemBuilder: (ctx, index) {
                 final Data data = showDataList[index];
                 return Container(
-                  margin: EdgeInsets.only(top: 20),
+                  margin: const EdgeInsets.only(top: 20),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,6 +83,6 @@ class SearchDelegateWidget extends SearchDelegate<String> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return ListTile(leading: Container(width: 2,),title: Text('搜索你想要的标题或者内容吧!'),);
+    return ListTile(leading: Container(width: 2,),title: const Text('输入标题、内容进行搜索吧'),);
   }
 }
