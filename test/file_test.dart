@@ -9,7 +9,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart' as path;
 import 'package:intl/intl.dart';
 
+import 'package:path/path.dart' as p;
+
 void main() {
+
+
+
   ///将文章列表按年份排序
   List<ArchiveItemBean> sortByYear(List<ArticleItemBean> beans) {
     List<ArchiveItemBean> results = [];
@@ -57,7 +62,7 @@ void main() {
   }) {
     final current = Directory.current;
     final assetPath =
-        Directory(current.path + "/$dirPath/markdowns/$markdownFilePath/");
+        Directory(p.join(current.path,'$dirPath','markdowns','$markdownFilePath'));
     final dirs = assetPath.listSync();
     final List<ArticleItemBean> beans = [];
 
@@ -107,8 +112,7 @@ void main() {
       result[name] = content;
     }
     beans.sort((left, right) => left.compareTo(right));
-    File file = File(
-        "${current.path + "/assets/config/config_$markdownFilePath.json"}");
+    File file = File(p.join(current.path,'assets','config','config_$markdownFilePath.json'));
     if (file.existsSync()) {
       file.deleteSync();
     }
@@ -121,7 +125,7 @@ void main() {
 
     if (outputArchivesConfig) {
       File file =
-          File("${current.path + "/assets/config/config_archive.json"}");
+          File(p.join(current.path,'assets', 'config','config_archive.json'));
       if (file.existsSync()) {
         file.deleteSync();
       }
@@ -140,7 +144,7 @@ void main() {
   void printTagFile(List<ArticleItemBean> beans) {
     final current = Directory.current;
 
-    File file = File("${current.path + "/assets/config/config_tag.json"}");
+    File file = File(p.join(current.path,'assets', 'config','config_tag.json'));
     if (file.existsSync()) {
       file.deleteSync();
     }
@@ -155,15 +159,15 @@ void main() {
 
   void printFontFile(List<ArticleItemBean> beans) {
     final current = Directory.current;
-    File file = File("${current.path + "/config/config_font.json"}");
+    File file = File(p.join(current.path,'config','config_font.json'));
     if (file.existsSync()) {
       file.deleteSync();
     }
     file.createSync();
-    String result = "我的博客 首页 标签 归档 友链 关于 学习 生活 习题 进入博客";
+    String result = '我的博客 首页 标签 归档 友链 关于 学习 生活 习题 进入博客';
     for (var bean in beans) {
       result += bean.articleName;
-      result += bean.tag ?? "";
+      result += bean.tag ?? '';
     }
 
     for (var bean in FriendLinkBean().beans) {
@@ -178,7 +182,7 @@ void main() {
 
   void printAllArticleFile(Map<String, String> map){
     final current = Directory.current;
-    File file = File("${current.path + "/assets/config/config_all.json"}");
+    File file = File(p.join(current.path,'assets', 'config','config_all.json'));
     if (file.existsSync()) {
       file.deleteSync();
     }
