@@ -27,35 +27,56 @@ class ArticleItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           HoverZoomWidget(
-            child: ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(20.0)),
-              child: Container(
-                width: cardWidth,
-                height: cardHeight,
-                decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(20.0)),
-                    color: Colors
-                        .primaries[Random().nextInt(Colors.primaries.length)],
-                    image: bean.imageAddress.isEmpty ? null : DecorationImage(
-                      image: AssetImage(
-                        'assets${bean.imageAddress}',
-                      ),
-                      fit: BoxFit.cover,
-                    )),
-                child: bean.imageAddress.isEmpty
-                    ? Container(
-                        margin: const EdgeInsets.all(10),
-                        alignment: Alignment.center,
-                        child: Text(
-                          'Leecode',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: isNotMobile ? 0.02 * width : 30,
-                              color: Colors.white),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      )
-                    : Container(),
+            child: Container(
+              margin: const EdgeInsets.all(10),
+              width: cardWidth,
+              height: cardHeight,
+              child: Stack(
+                children: <Widget>[
+                  Container(
+                    width: cardWidth,
+                    height: cardHeight,
+                    alignment: Alignment.center,
+                    margin: const EdgeInsets.all(2),
+                    decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(30.0)),
+                        color: Colors
+                            .primaries[Random().nextInt(Colors.primaries.length)],),
+                    child: Container(),
+                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    width: cardWidth,
+                    height: cardHeight,
+                    decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(20.0)),
+                        image: bean.imageAddress.isEmpty
+                            ? null
+                            : DecorationImage(
+                                image: AssetImage(
+                                  'assets${bean.imageAddress}',
+                                ),
+                                fit: BoxFit.cover,
+                              )),
+                    child: bean.imageAddress.isEmpty
+                        ? Container(
+                            width: cardWidth,
+                            height: cardHeight,
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Leecode',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: isNotMobile ? 0.02 * width : 30,
+                                  color: Colors.white),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          )
+                        : Container(),
+                  ),
+                ],
               ),
             ),
             scale: isNotMobile ? 1.1 : 1.0,

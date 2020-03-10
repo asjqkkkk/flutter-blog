@@ -32,5 +32,11 @@ class FriendLinkBean {
         linkDescription: ["哲学大师", "有猫", "前端开发", "Github社区爱好者"],
         linkAvatar:
             "https://avatars2.githubusercontent.com/u/19513289?s=460&v=4"),
+    LinkItemBean(
+        linkName: "老涛子的博客",
+        linkAddress: "http://www.sporoka.com/",
+        linkDescription: ["有猫", "前端开发", "新晋渣男","狮子狗",],
+        linkAvatar:
+        "https://oldchen-blog-1256696029.cos.ap-guangzhou.myqcloud.com/old_tao.jpg"),
   ];
 }

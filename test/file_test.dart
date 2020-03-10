@@ -57,9 +57,7 @@ void main() {
 
   List<ArticleItemBean> printFiles(
     String markdownFilePath,
-    String dirPath, Map<String, String> result,{
-    bool outputArchivesConfig = false,
-  }) {
+    String dirPath, Map<String, String> result) {
     final current = Directory.current;
     final assetPath =
         Directory(p.join(current.path,'$dirPath','markdowns','$markdownFilePath'));
@@ -122,22 +120,6 @@ void main() {
       datas.add(bean.toMap());
     }
     file.writeAsStringSync(jsonEncode(datas));
-
-    if (outputArchivesConfig) {
-      File file =
-          File(p.join(current.path,'assets', 'config','config_archive.json'));
-      if (file.existsSync()) {
-        file.deleteSync();
-      }
-      file.createSync();
-      List<ArchiveItemBean> archiveBeans = sortByYear(beans);
-      final archiveDatas = [];
-      for (var bean in archiveBeans) {
-        archiveDatas.add(bean.toMap());
-      }
-      file.writeAsStringSync(jsonEncode(archiveDatas));
-    }
-
     return beans;
   }
 
@@ -180,6 +162,24 @@ void main() {
     file.writeAsStringSync(result);
   }
 
+
+  void printArchiveFile(List<ArticleItemBean> beans) {
+    final current = Directory.current;
+    File file =
+    File(p.join(current.path,'assets', 'config','config_archive.json'));
+    if (file.existsSync()) {
+      file.deleteSync();
+    }
+    file.createSync();
+    List<ArchiveItemBean> archiveBeans = sortByYear(beans);
+    final archiveDatas = [];
+    for (var bean in archiveBeans) {
+      archiveDatas.add(bean.toMap());
+    }
+    file.writeAsStringSync(jsonEncode(archiveDatas));
+  }
+
+
   void printAllArticleFile(Map<String, String> map){
     final current = Directory.current;
     File file = File(p.join(current.path,'assets', 'config','config_all.json'));
@@ -192,9 +192,9 @@ void main() {
 
   test('测试文件输出', () {
     final Map<String, String> result = {};
-    final topicBeans = printFiles("topic", "config",result);
-    final lifeBeans = printFiles("life", "config",result, outputArchivesConfig: true);
-    final studyBeans = printFiles("study", "config",result, outputArchivesConfig: true);
+    final List<ArticleItemBean> topicBeans = printFiles("topic", "config",result);
+    final List<ArticleItemBean> lifeBeans = printFiles("life", "config",result,);
+    final List<ArticleItemBean> studyBeans = printFiles("study", "config",result);
     List<ArticleItemBean> tagBeans = [];
     tagBeans.addAll(lifeBeans);
     tagBeans.addAll(studyBeans);
@@ -203,7 +203,16 @@ void main() {
     tagBeans.addAll(topicBeans);
     ///字体截取
     printFontFile(tagBeans);
+    ///文章归档
+    List<ArticleItemBean> archiveBeans = [];
+    archiveBeans.addAll(lifeBeans);
+    archiveBeans.addAll(studyBeans);
+    printArchiveFile(archiveBeans);
     ///文章提取
     printAllArticleFile(result);
   });
+
+  //运行命令，编译文件：flutter test test/file_test.dart
 }
+
+
