@@ -19,6 +19,7 @@ void main() {
   List<ArchiveItemBean> sortByYear(List<ArticleItemBean> beans) {
     List<ArchiveItemBean> results = [];
     final map = LinkedHashMap<int, List<YearBean>>();
+    beans.sort((left, right) => left.compareTo(right));
     for (var bean in beans) {
       final data = DateTime.parse(bean.createTime);
       if (map[data.year] == null) {

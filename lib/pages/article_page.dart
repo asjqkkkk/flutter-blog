@@ -63,63 +63,77 @@ class _ArticlePageState extends State<ArticlePage> {
                       overScroll.disallowGlow();
                       return true;
                     },
-                    child: ListView(
-                      children: <Widget>[
-                        Container(
-                          child: Text(widget.bean.articleName,
-                              style: const TextStyle(
-                                fontFamily: 'huawen_kt',
-                                fontSize: 40,
-                              )),
-                          alignment: Alignment.center,
-                        ),
-                        MarkdownBody(
-                          fitContent: false,
-                          data: data,
-                          selectable: false,
-                          onTapLink: (link) {
-                            html.window.open(link, link);
-                          },
-                          styleSheetTheme:
-                              MarkdownStyleSheetBaseTheme.cupertino,
-                          imageBuilder: (Uri url) {
-                            return Container(
-                              margin: const EdgeInsets.all(10),
-                              alignment: Alignment.center,
-                              child: ConstrainedBox(
-                                constraints: BoxConstraints(
-                                    maxHeight: height / 3 * 2,
-                                    maxWidth: width / 3 * 2),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    html.window.open('$url', "image");
-                                  },
-                                  child: Card(
-                                    child: Image.network(
-                                      "$url",
-                                      fit: BoxFit.contain,
-                                    ),
+                    child: Container(
+                      margin: EdgeInsets.only(top:isNotMobile ? 20 : 10),
+                      child: SingleChildScrollView(
+                        child: Container(
+                          width: isNotMobile ? width / 2 : width,
+                          margin: EdgeInsets.only(top:isNotMobile ? 20 : 10, bottom: isNotMobile ? 100 : 20),
+                          child: Card(
+                            child: Container(
+                              margin: EdgeInsets.all(20),
+                              child: Column(
+                                children: <Widget>[
+                                  Container(
+                                    child: Text(widget.bean.articleName,
+                                        style: const TextStyle(
+                                          fontFamily: 'huawen_kt',
+                                          fontSize: 40,
+                                        )),
+                                    alignment: Alignment.center,
                                   ),
-                                ),
+                                  MarkdownBody(
+                                    fitContent: false,
+                                    data: data,
+                                    selectable: false,
+                                    onTapLink: (link) {
+                                      html.window.open(link, link);
+                                    },
+                                    styleSheetTheme:
+                                        MarkdownStyleSheetBaseTheme.cupertino,
+                                    imageBuilder: (Uri url) {
+                                      return Container(
+                                        margin: const EdgeInsets.all(10),
+                                        alignment: Alignment.center,
+                                        child: ConstrainedBox(
+                                          constraints: BoxConstraints(
+                                              maxHeight: height / 3 * 2,
+                                              maxWidth: width / 3 * 2),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              html.window.open('$url', "image");
+                                            },
+                                            child: Card(
+                                              child: Image.network(
+                                                "$url",
+                                                fit: BoxFit.contain,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    styleSheet: MarkdownStyleSheet(
+                                        codeblockPadding:
+                                            const EdgeInsets.fromLTRB(10, 20, 10, 20),
+                                        p: TextStyle(
+                                          color:
+                                              Theme.of(context).textTheme.subtitle2.color,
+                                          fontFamily: "",
+                                        ),
+                                        h1: TextStyle(fontSize: 25, color: Theme.of(context).textTheme.bodyText1.color),
+                                        h2: TextStyle(fontSize: 21, color: Theme.of(context).textTheme.bodyText1.color),
+                                        h3: TextStyle(fontSize: 18, color: Theme.of(context).textTheme.bodyText1.color),
+                                        h4: TextStyle(fontSize: 16, color: Theme.of(context).textTheme.bodyText1.color),
+
+                                        blockSpacing: 10),
+                                  ),
+                                ],
                               ),
-                            );
-                          },
-                          styleSheet: MarkdownStyleSheet(
-                              codeblockPadding:
-                                  const EdgeInsets.fromLTRB(10, 20, 10, 20),
-                              p: TextStyle(
-                                fontSize: 18,
-                                color:
-                                    Theme.of(context).textTheme.subtitle2.color,
-                                fontFamily: "",
-                              ),
-                              h1: Theme.of(context).textTheme.headline3,
-                              h2: Theme.of(context).textTheme.headline4,
-                              h3: Theme.of(context).textTheme.headline5,
-                              h4: Theme.of(context).textTheme.headline6,
-                              blockSpacing: 10),
+                            ),
+                          ),
                         ),
-                      ],
+                      ),
                     ),
                   )),
       );
