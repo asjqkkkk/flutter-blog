@@ -1,19 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blog/config/base_config.dart';
 import 'package:flutter_blog/config/full_screen_dialog_util.dart';
 import 'package:flutter_blog/json/article_json_bean.dart';
 import 'package:flutter_blog/widgets/search_widget.dart';
 import 'package:flutter_blog/widgets/top_show_widget.dart';
-import '../pages/friend_link_page.dart';
-import '../pages/tag_page.dart';
-import '../pages/archive_page.dart';
-import '../pages/about_page.dart';
-import '../pages/home_page.dart';
 export '../config/platform.dart';
 import '../config/platform.dart';
 
 import 'bar_button.dart';
-import 'search_delegate_widget.dart';
 
 class WebBar extends StatefulWidget {
   final PageType pageType;
@@ -101,8 +96,13 @@ class _WebBarState extends State<WebBar> {
             ),
           ),
           onPressed: () {
+            print(ModalRoute.of(context).isFirst);
             if (pageType == PageType.home) return;
-            Navigator.of(context).popUntil((route) => route.isFirst);
+            if(ModalRoute.of(context).isFirst){
+              Navigator.of(context).pushNamedAndRemoveUntil(homePage, (route) => false);
+            } else {
+              Navigator.of(context).popUntil((route) => route.isFirst);
+            }
           },
           isChecked: pageType == PageType.home,
         ),
@@ -119,7 +119,7 @@ class _WebBarState extends State<WebBar> {
           ),
           onPressed: () {
             if (pageType == PageType.tag) return;
-            pushAndRemove(context, "tag");
+            pushAndRemove(context, tagPage);
           },
           isChecked: pageType == PageType.tag,
         ),
@@ -136,7 +136,7 @@ class _WebBarState extends State<WebBar> {
           ),
           onPressed: () {
             if (pageType == PageType.archive) return;
-            pushAndRemove(context, 'archive');
+            pushAndRemove(context, archivePage);
           },
           isChecked: pageType == PageType.archive,
         ),
@@ -153,7 +153,7 @@ class _WebBarState extends State<WebBar> {
           ),
           onPressed: () {
             if (pageType == PageType.link) return;
-            pushAndRemove(context, 'link');
+            pushAndRemove(context, linkPage);
           },
           isChecked: pageType == PageType.link,
         ),
@@ -170,7 +170,7 @@ class _WebBarState extends State<WebBar> {
           ),
           onPressed: () {
             if (pageType == PageType.about) return;
-            pushAndRemove(context, 'about');
+            pushAndRemove(context, aboutPage);
           },
           isChecked: pageType == PageType.about,
         ),
@@ -200,11 +200,11 @@ class _WebBarState extends State<WebBar> {
     ),);
   }
 
-  void pushAndRemove(BuildContext context, String routeName) {
+  void pushAndRemove(BuildContext context, String routeName, {Object argument}) {
     if (widget.pageType == PageType.home) {
-      Navigator.pushNamed(context, '/$routeName');
+      Navigator.pushNamed(context, routeName);
     } else {
-      Navigator.pushReplacementNamed(context, '/$routeName');
+      Navigator.pushReplacementNamed(context, routeName,arguments: argument);
     }
   }
 

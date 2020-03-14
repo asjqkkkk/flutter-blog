@@ -1,8 +1,5 @@
-import 'dart:io';
-import 'dart:convert';
 
 import 'package:flutter/services.dart';
-import '../json/article_item_bean.dart';
 
 class ArticlePageLogic{
 

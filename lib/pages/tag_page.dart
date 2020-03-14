@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../config/base_config.dart';
 import '../json/archive_item_bean.dart';
 import '../widgets/common_layout.dart';
 import '../widgets/web_bar.dart';
 import 'dart:math';
 
-import 'archive_page.dart';
 
 class TagPage extends StatefulWidget {
   @override
@@ -50,12 +50,7 @@ class _TagPageState extends State<TagPage> {
                           final bean = beans[index];
                           return FlatButton(
                             onPressed: () {
-                              Navigator.of(context)
-                                  .push<dynamic>(MaterialPageRoute<dynamic>(builder: (ctx) {
-                                return ArchivePage(
-                                  beans: [bean],
-                                );
-                              }));
+                              Navigator.pushReplacementNamed(context, archivePage,arguments: [bean]);
                             },
                             child: Text(
                               bean.tag,

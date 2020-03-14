@@ -37,7 +37,8 @@ class FriendLinkItem extends StatelessWidget {
                       overScroll.disallowGlow();
                       return true;
                     },
-                    child: ListView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Container(
                           margin: EdgeInsets.only(top: 10),
@@ -51,25 +52,27 @@ class FriendLinkItem extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Container(
-                            margin: const EdgeInsets.all(10),
-                            child: Wrap(
-                              // ignore: always_specify_types
-                              children: List.generate(
-                                  bean.linkDescription.length, (index) {
-                                return Container(
-                                  margin: const EdgeInsets.all(10),
-                                  child: Text(bean.linkDescription[index],
-                                      style: TextStyle(
-                                        fontFamily: 'huawen_kt',
-                                        fontSize: (Random().nextInt(10) + 15)
-                                            .toDouble(),
-                                        color: Colors.primaries[Random()
-                                            .nextInt(Colors.primaries.length)],
-                                      )),
-                                );
-                              }),
-                            )),
+                        Expanded(
+                          child: Container(
+                              margin: const EdgeInsets.all(10),
+                              child: Wrap(
+                                // ignore: always_specify_types
+                                children: List.generate(
+                                    bean.linkDescription.length, (index) {
+                                  return Container(
+                                    margin: const EdgeInsets.all(10),
+                                    child: Text(bean.linkDescription[index],
+                                        style: TextStyle(
+                                          fontFamily: 'huawen_kt',
+                                          fontSize: (Random().nextInt(10) + 15)
+                                              .toDouble(),
+                                          color: Colors.primaries[Random()
+                                              .nextInt(Colors.primaries.length)],
+                                        )),
+                                  );
+                                }),
+                              )),
+                        ),
                       ],
                     ),
                   ),

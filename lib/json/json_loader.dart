@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter_blog/config/base_config.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';

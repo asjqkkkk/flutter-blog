@@ -2,13 +2,9 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_blog/config/base_config.dart';
-import 'package:flutter_blog/config/platform.dart';
-import 'package:flutter_blog/pages/about_page.dart';
-import 'package:flutter_blog/pages/archive_page.dart';
-import 'package:flutter_blog/pages/friend_link_page.dart';
-import 'package:flutter_blog/pages/tag_page.dart';
+import 'config/base_config.dart';
 import 'package:http/http.dart' as http;
+import 'pages/all_pages.dart';
 import 'pages/home_page.dart';
 
 
@@ -54,15 +50,15 @@ class MyApp extends StatelessWidget {
           brightness: (curHour > 18 || curHour < 7)
               ? Brightness.dark
               : Brightness.light),
-      initialRoute: '/home',
+      initialRoute: homePage,
       routes: {
-        '/home': (BuildContext context) => HomePage(),
-        "/tag": (BuildContext context) => TagPage(),
-        '/archive': (BuildContext context) => ArchivePage(),
-        "/link": (BuildContext context) => FriendLinkPage(),
-        "/about": (BuildContext context) => AboutPage(),
+        homePage: (BuildContext context) => HomePage(),
+        tagPage: (BuildContext context) => TagPage(),
+        archivePage: (BuildContext context) => ArchivePage(),
+        linkPage: (BuildContext context) => FriendLinkPage(),
+        aboutPage: (BuildContext context) => AboutPage(),
+        articlePage: (BuildContext context) => ArticlePage(),
       },
-      home: HomePage(),
     );
   }
 }

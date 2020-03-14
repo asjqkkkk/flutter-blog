@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-import 'package:flutter/services.dart';
 import 'package:flutter_blog/json/article_item_bean.dart';
 import 'package:flutter_blog/json/json_loader.dart';
 

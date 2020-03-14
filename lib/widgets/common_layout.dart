@@ -1,10 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import '../json/article_json_bean.dart';
 
 import '../widgets/web_bar.dart';
-import 'fab_menu.dart';
 import 'search_delegate_widget.dart';
 export '../widgets/web_bar.dart';
 

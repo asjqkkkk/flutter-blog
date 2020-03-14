@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blog/config/base_config.dart';
 import '../json/article_item_bean.dart';
 import '../pages/article_page.dart';
 import '../logic/query_logic.dart';
@@ -123,9 +124,18 @@ class _SearchWidgetState extends State<SearchWidget> {
                 leading: Icon(Icons.sort),
                 title: logic.getTitle(data,query),
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (ctx){
-                    return ArticlePage(bean: ArticleItemBean(articleName: data.title,),);
-                  }));
+                  Navigator.of(context).pushNamed(
+                    articlePage,
+                    arguments: ArticleData(
+                      index,
+                      List.generate(
+                        showDataList.length,
+                            (index) => ArticleItemBean(
+                          articleName: showDataList[index].title,
+                        ),
+                      ),
+                    ),
+                  );
                 },
               ),
               ListTile(

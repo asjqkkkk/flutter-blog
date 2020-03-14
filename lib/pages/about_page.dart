@@ -2,6 +2,7 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import '../config/base_config.dart';
 import '../widgets/hover_tap_image.dart';
 import '../widgets/common_layout.dart';
 import '../widgets/web_bar.dart';
@@ -58,23 +59,11 @@ class AboutPage extends StatelessWidget {
                                     "https://github.com/asjqkkkk", "github");
                               },
                               child: const HoverTapImage(
-                                  image: "/img/github.png"),
+                                  image: "/blog_config/img/github.png"),
                             ),
                             const SizedBox(
                               width: 10,
                             ),
-//                              GestureDetector(
-//                                onTap: () {
-//                                  html.window.open(
-//                                      "https://juejin.im/user/5badbff26fb9a05cef173bf0",
-//                                      "juejin");
-//                                },
-//                                child: HoverTapAssetImage(
-//                                    image: "assets/img/juejin.png"),
-//                              ),
-//                              SizedBox(
-//                                width: 10,
-//                              ),
                             GestureDetector(
                               onTap: () {
                                 html.window.open(
@@ -82,7 +71,7 @@ class AboutPage extends StatelessWidget {
                                     "steam");
                               },
                               child: const HoverTapImage(
-                                  image: '/img/steam.png'),
+                                  image: '/blog_config//img/steam.png'),
                             ),
                           ],
                         ),
@@ -128,9 +117,9 @@ class AboutPage extends StatelessWidget {
                           borderRadius: BorderRadius.all(Radius.circular(isNotMobile ? 80 : 50)),
                           color: Colors.primaries[
                               Random().nextInt(Colors.primaries.length)],
-                          image: const DecorationImage(
-                            image: AssetImage(
-                              'assets/img/avatar.jpg',
+                          image: DecorationImage(
+                            image: NetworkImage(
+                              '$baseUrl/blog_config/img/avatar.jpg',
                             ),
                             fit: BoxFit.cover,
                           )),

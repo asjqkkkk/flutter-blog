@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/services.dart';
 import 'package:flutter_blog/config/base_config.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';

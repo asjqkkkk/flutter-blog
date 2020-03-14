@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_blog/json/article_item_bean.dart';
-import 'package:flutter_blog/pages/article_page.dart';
+import '../pages/article_page.dart';
+import '../config/base_config.dart';
+import '../json/article_item_bean.dart';
 import '../json/archive_item_bean.dart';
 import '../widgets/web_bar.dart';
 import '../widgets/common_layout.dart';
 
 class ArchivePage extends StatefulWidget {
-  final List<ArchiveItemBean> beans;
-
-  ArchivePage({this.beans});
 
   @override
   _ArchivePageState createState() => _ArchivePageState();
@@ -16,23 +14,30 @@ class ArchivePage extends StatefulWidget {
 
 class _ArchivePageState extends State<ArchivePage> {
   List<ArchiveItemBean> beans = [];
+  bool hasInitialed = false;
+  bool isFromTag = false;
 
-  @override
-  void initState() {
-    if (widget.beans == null) {
+  void initialData(List<ArchiveItemBean> transBeans) {
+    hasInitialed = true;
+    if (transBeans == null) {
       ArchiveItemBean.loadAsset('config_archive').then((data) {
         beans.addAll(data);
         setState(() {});
       });
     } else {
-      beans.addAll(widget.beans);
+      isFromTag = true;
+      beans.addAll(transBeans);
     }
-    super.initState();
+    setState(() { });
   }
 
   @override
   Widget build(BuildContext context) {
     final isNotMobile = !PlatformDetector().isMobile();
+    final List<ArchiveItemBean> transBeans = ModalRoute.of(context).settings.arguments;
+    if(!hasInitialed){
+      initialData(transBeans);
+    }
 
     return CommonLayout(
         pageType: PageType.archive,
@@ -49,7 +54,7 @@ class _ArchivePageState extends State<ArchivePage> {
                   child: Container(
                     margin: isNotMobile
                         ? const EdgeInsets.only(top: 20, left: 50, right: 50)
-                        : const EdgeInsets.only(left: 10, top: 10),
+                        : const EdgeInsets.only(left: 10, top: 10, right: 10),
                     child: NotificationListener<OverscrollIndicatorNotification>(
                       onNotification: (overScroll) {
                         overScroll.disallowGlow();
@@ -63,7 +68,7 @@ class _ArchivePageState extends State<ArchivePage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                '${widget.beans == null ? beans[index].year : widget.beans[index].tag}',
+                                '${!isFromTag ? beans[index].year : beans[index].tag}',
                                 style: isNotMobile
                                     ? Theme.of(context).textTheme.headline4
                                     : Theme.of(context).textTheme.headline6,
@@ -101,12 +106,15 @@ class _ArchivePageState extends State<ArchivePage> {
                                           : FlatButton(
                                               onPressed: () =>
                                                   openArticlePage(context, yearBean),
-                                              child: Text(
-                                                '${yearBean.articleName}',
-                                                style: TextStyle(
-                                                    fontSize:
-                                                        isNotMobile ? 20 : 15,
-                                                    fontFamily: 'huawen_kt'),
+                                              child: Container(
+                                                width: MediaQuery.of(context).size.width - 30,
+                                                child: Text(
+                                                  '${yearBean.articleName}',
+                                                  style: TextStyle(
+                                                      fontSize:
+                                                          isNotMobile ? 20 : 15,
+                                                      fontFamily: 'huawen_kt'),
+                                                ),
                                               ),
                                             ),
                                     );
@@ -125,9 +133,8 @@ class _ArchivePageState extends State<ArchivePage> {
   }
 
   void openArticlePage(BuildContext context, YearBean yearBean) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (ctx){
-        return ArticlePage(bean: ArticleItemBean.fromYearBean(yearBean));
-    }));
+    Navigator.of(context).pushNamed(articlePage,
+        arguments: ArticleData(0, [ArticleItemBean.fromYearBean(yearBean)]));
   }
   String getDate(DateTime time) {
     return '${time.year}.${time.month}.${time.day}';

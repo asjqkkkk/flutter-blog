@@ -40,23 +40,23 @@ class TencentCos {
     return _cos;
   }
 
-  String _getKeyTime() {
-    final now = DateTime.now();
-    final end =
-        DateTime(now.year, now.month, now.day, now.hour + 1, now.minute);
-    final startUnixTimestamp = now.millisecondsSinceEpoch ~/ 1000;
-    final endUnixTimestamp = end.millisecondsSinceEpoch ~/ 1000;
-    return '$startUnixTimestamp;$endUnixTimestamp';
-  }
+//  String _getKeyTime() {
+//    final now = DateTime.now();
+//    final end =
+//        DateTime(now.year, now.month, now.day, now.hour + 1, now.minute);
+//    final startUnixTimestamp = now.millisecondsSinceEpoch ~/ 1000;
+//    final endUnixTimestamp = end.millisecondsSinceEpoch ~/ 1000;
+//    return '$startUnixTimestamp;$endUnixTimestamp';
+//  }
 
-  String _getSignKey(String secretKey, String keyTime) {
-    final key = utf8.encode(secretKey);
-    final bytes = utf8.encode(keyTime);
-
-    final hMacSha1 = new Hmac(sha1, key);
-    final digest = hMacSha1.convert(bytes);
-    return digest.toString();
-  }
+//  String _getSignKey(String secretKey, String keyTime) {
+//    final key = utf8.encode(secretKey);
+//    final bytes = utf8.encode(keyTime);
+//
+//    final hMacSha1 = new Hmac(sha1, key);
+//    final digest = hMacSha1.convert(bytes);
+//    return digest.toString();
+//  }
 
   Future<Response> putObject(String bucketPath, File file) async {
     if(secretId.isEmpty || secretKey.isEmpty) return null;

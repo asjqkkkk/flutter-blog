@@ -19,7 +19,7 @@ class FriendLinkBean {
     LinkItemBean(
         linkName: "公瑾的博客",
         linkAddress: "https://www.yuque.com/levy/blog",
-        linkDescription: ["大佬", "一开始，我是拒绝的", "我不要你觉得", "东野圭吾爱好者"],
+        linkDescription: ["大佬", "我不要你觉得", "东野圭吾爱好者", "一开始，我是拒绝的"],
         linkAvatar:
             "https://avatars3.githubusercontent.com/u/9384365?s=460&v=4"),
     LinkItemBean(

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blog/pages/article_page.dart';
+import '../config/base_config.dart';
 import '../json/article_item_bean.dart';
 import '../logic/query_logic.dart';
-import '../pages/article_page.dart';
 
 class SearchDelegateWidget extends SearchDelegate<String> {
   final Map dataMap;
@@ -45,7 +46,10 @@ class SearchDelegateWidget extends SearchDelegate<String> {
 
     return showDataList.isEmpty
         ? const Center(
-            child: Text('😅啥也没有...',style: TextStyle(fontSize: 30),),
+            child: Text(
+              '😅啥也没有...',
+              style: TextStyle(fontSize: 30),
+            ),
           )
         : Container(
             child: ListView.builder(
@@ -60,18 +64,27 @@ class SearchDelegateWidget extends SearchDelegate<String> {
                     children: <Widget>[
                       ListTile(
                         leading: Icon(Icons.sort),
-                        title: logic.getTitle(data,query),
+                        title: logic.getTitle(data, query),
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (ctx){
-                            return ArticlePage(bean: ArticleItemBean(articleName: data.title,),);
-                          }));
+                          Navigator.of(context).pushNamed(
+                            articlePage,
+                            arguments: ArticleData(
+                              index,
+                              List.generate(
+                                showDataList.length,
+                                (index) => ArticleItemBean(
+                                  articleName: showDataList[index].title,
+                                ),
+                              ),
+                            ),
+                          );
                         },
                       ),
                       ListTile(
                         leading: Container(
                           width: 2,
                         ),
-                        title: logic.getContent(data,query),
+                        title: logic.getContent(data, query),
                       ),
                     ],
                   ),
@@ -83,6 +96,11 @@ class SearchDelegateWidget extends SearchDelegate<String> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return ListTile(leading: Container(width: 2,),title: const Text('输入标题、内容进行搜索吧'),);
+    return ListTile(
+      leading: Container(
+        width: 2,
+      ),
+      title: const Text('输入标题、内容进行搜索吧'),
+    );
   }
 }

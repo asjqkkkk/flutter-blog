@@ -1,4 +1,6 @@
-import 'article_page.dart';
+import '../pages/article_page.dart';
+
+import '../config/base_config.dart';
 import '../config/platform.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +42,6 @@ class _HomePageState extends State<HomePage> {
     final size = MediaQuery.of(context).size;
     final width = size.width;
     final height = size.height;
-    final fontSize = width * 30 / 1440;
     final fontSizeByHeight = height * 30 / 1200;
     final detector = PlatformDetector();
     final isNotMobile = !detector.isMobile();
@@ -79,13 +80,7 @@ class _HomePageState extends State<HomePage> {
                                     child:
                                         ArticleItem(bean: showDataList[index]),
                                     onTap: () {
-                                      Navigator.of(context).push<dynamic>(
-                                          MaterialPageRoute<dynamic>(
-                                              builder: (ctx) {
-                                        return ArticlePage(
-                                          bean: showDataList[index],
-                                        );
-                                      }));
+                                      Navigator.of(context).pushNamed(articlePage, arguments: ArticleData(index, showDataList));
                                     },
                                   );
                                 }),
@@ -240,11 +235,7 @@ class _HomePageState extends State<HomePage> {
             return GestureDetector(
               child: ArticleItem(bean: showDataList[index]),
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
-                  return ArticlePage(
-                    bean: showDataList[index],
-                  );
-                }));
+                Navigator.of(context).pushNamed(articlePage, arguments: ArticleData(index, showDataList));
               },
             );
           },
