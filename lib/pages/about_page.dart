@@ -57,8 +57,8 @@ class AboutPage extends StatelessWidget {
                                 html.window.open(
                                     "https://github.com/asjqkkkk", "github");
                               },
-                              child: const HoverTapAssetImage(
-                                  image: "assets/img/github.png"),
+                              child: const HoverTapImage(
+                                  image: "/img/github.png"),
                             ),
                             const SizedBox(
                               width: 10,
@@ -81,8 +81,8 @@ class AboutPage extends StatelessWidget {
                                     "https://steamcommunity.com/id/JiangHun/",
                                     "steam");
                               },
-                              child: const HoverTapAssetImage(
-                                  image: 'assets/img/steam.png'),
+                              child: const HoverTapImage(
+                                  image: '/img/steam.png'),
                             ),
                           ],
                         ),

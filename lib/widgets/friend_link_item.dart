@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import '../json/link_item_bean.dart';
 import 'dart:html' as html;
 
-import 'loading_image.dart';
 
 class FriendLinkItem extends StatelessWidget {
 

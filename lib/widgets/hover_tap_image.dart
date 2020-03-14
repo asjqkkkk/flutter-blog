@@ -1,12 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blog/config/base_config.dart';
 
-class HoverTapAssetImage extends StatefulWidget {
+class HoverTapImage extends StatefulWidget {
   final String image;
   final double size;
   final Color onHoverColor;
 
-  const HoverTapAssetImage(
+  const HoverTapImage(
       {Key key,
       @required this.image,
       this.size = 30.0,
@@ -14,10 +15,10 @@ class HoverTapAssetImage extends StatefulWidget {
       : super(key: key);
 
   @override
-  _HoverTapAssetImageState createState() => _HoverTapAssetImageState();
+  _HoverTapImageState createState() => _HoverTapImageState();
 }
 
-class _HoverTapAssetImageState extends State<HoverTapAssetImage> {
+class _HoverTapImageState extends State<HoverTapImage> {
   bool isHovering = false;
 
   @override
@@ -25,8 +26,8 @@ class _HoverTapAssetImageState extends State<HoverTapAssetImage> {
     return MouseRegion(
       child: Stack(
         children: <Widget>[
-          Image.asset(
-            widget.image,
+          Image.network(
+            baseUrl + widget.image,
             width: widget.size,
             height: widget.size,
           ),
