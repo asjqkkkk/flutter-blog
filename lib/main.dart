@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_blog/config/base_config.dart';
 import 'package:flutter_blog/config/platform.dart';
 import 'package:flutter_blog/pages/about_page.dart';
 import 'package:flutter_blog/pages/archive_page.dart';
@@ -24,7 +25,7 @@ Future<ByteData> fetchFont() async {
   Map map = HashMap<String, String>();
   map['Access-Control-Allow-Origin'] = '';
   final response = await http.get(
-    'https://oldchen-blog-1256696029.cos.ap-guangzhou.myqcloud.com/blog_config/huawen_kt.ttf',
+    '$baseUrl/blog_config/huawen_kt.ttf',
     headers: map,
   );
   if (response.statusCode == 200) {

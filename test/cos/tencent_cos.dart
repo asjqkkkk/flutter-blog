@@ -3,19 +3,18 @@ import 'dart:io';
 
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_blog/config/base_config.dart';
 import 'package:path/path.dart' as p;
 
 
 class TencentCos {
-  static bool debug = true;
 
   /// auth signature expired time in seconds
   static final int signExpireTimeInSeconds = 1000;
+  Dio dio = new Dio();
 
   String secretId = '';
   String secretKey = '';
-  static final String bucketHost =
-      'oldchen-blog-1256696029.cos.ap-guangzhou.myqcloud.com';
 
   static TencentCos _cos;
 
@@ -61,10 +60,9 @@ class TencentCos {
 
   Future<Response> putObject(String bucketPath, File file) async {
     if(secretId.isEmpty || secretKey.isEmpty) return null;
-    final url = 'https://$bucketHost';
+    final url = baseUrl;
     final filePath = '$bucketPath${p.basename(file.path)}';
 
-    Dio dio = new Dio();
     final data =
         FormData.fromMap({'file': await MultipartFile.fromFile(file.path)});
     final response = await dio.put(url + filePath,

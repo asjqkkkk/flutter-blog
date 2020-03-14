@@ -1,3 +1,5 @@
+import 'package:flutter_blog/config/base_config.dart';
+
 import 'link_item_bean.dart';
 
 class FriendLinkBean {
@@ -25,7 +27,7 @@ class FriendLinkBean {
         linkAddress: "https://senfangblog.cn/",
         linkDescription: ["和平主义者", "后端开发", "摸鱼宗师", "王者手速"],
         linkAvatar:
-            "https://oldchen-blog-1256696029.cos.ap-guangzhou.myqcloud.com/senfangblog.jpeg"),
+            "$baseUrl/senfangblog.jpeg"),
     LinkItemBean(
         linkName: "EVILLT的博客",
         linkAddress: "https://evila.me/#/",
@@ -37,6 +39,6 @@ class FriendLinkBean {
         linkAddress: "http://www.sporoka.com/",
         linkDescription: ["有猫", "前端开发", "新晋渣男","狮子狗",],
         linkAvatar:
-        "https://oldchen-blog-1256696029.cos.ap-guangzhou.myqcloud.com/old_tao.jpg"),
+        "$baseUrl/old_tao.jpg"),
   ];
 }

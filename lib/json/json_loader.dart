@@ -1,9 +1,10 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_blog/config/base_config.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 Future<dynamic> loadJsonFile(String jsonName) async {
-  final url = 'https://oldchen-blog-1256696029.cos.ap-guangzhou.myqcloud.com/blog_config/$jsonName.json';
+  final url = '$baseUrl/blog_config/$jsonName.json';
   final http.Response response = await http.get(
     url,
     headers: {'Access-Control-Allow-Origin': ''},

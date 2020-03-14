@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
+import 'package:flutter_blog/config/base_config.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
@@ -24,7 +25,7 @@ class ArticleJson {
     if(!_isLoading){
       _isLoading = true;
       final Response response = await http.get(
-        'https://oldchen-blog-1256696029.cos.ap-guangzhou.myqcloud.com/blog_config/config_all.json',
+        '$baseUrl/blog_config/config_all.json',
         headers: {'Access-Control-Allow-Origin':''},
       );
       _isLoading = false;
