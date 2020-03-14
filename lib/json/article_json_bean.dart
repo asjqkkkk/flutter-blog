@@ -30,9 +30,5 @@ class ArticleJson {
       _isLoading = false;
       return json.decode(utf8.decode(response.bodyBytes));
     }
-//    String json = await rootBundle.loadString('assets/config/config_all.json');
-//    articles = jsonDecode(json);
-//    return articles;
-
   }
 }

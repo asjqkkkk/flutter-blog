@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    logic.getArticleData('config_life.json').then((List<ArticleItemBean> data) {
+    logic.getArticleData('config_life').then((List<ArticleItemBean> data) {
       dataMap[ArticleType.life] = data;
       showDataList.addAll(data);
       print(showDataList.length);
@@ -131,7 +131,7 @@ class _HomePageState extends State<HomePage> {
             } else {
               setState(() {});
               logic
-                  .getArticleData("config_study.json")
+                  .getArticleData("config_study")
                   .then((List<ArticleItemBean> data) {
                 dataMap[ArticleType.study] = data;
                 showDataList.addAll(data);
@@ -182,7 +182,7 @@ class _HomePageState extends State<HomePage> {
             } else {
               setState(() {});
               logic
-                  .getArticleData('config_topic.json')
+                  .getArticleData('config_topic')
                   .then((List<ArticleItemBean> data) {
                 dataMap[ArticleType.topic] = data;
                 showDataList.addAll(data);

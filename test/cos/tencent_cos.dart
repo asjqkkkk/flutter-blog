@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:crypto/crypto.dart';
+import 'package:dio/dio.dart';
 import 'package:path/path.dart' as p;
 
-import '../lib/dio.dart';
 
 class TencentCos {
   static bool debug = true;
@@ -12,20 +12,32 @@ class TencentCos {
   /// auth signature expired time in seconds
   static final int signExpireTimeInSeconds = 1000;
 
-  static final String secretId = 'AKIDFJC7sNhbLp30pObkX5SnuxkHcgZCGebI';
-  static final String secretKey = 'auxoTs2C6k9JEtNcibGhtsc6NWR6VfZE';
+  String secretId = '';
+  String secretKey = '';
   static final String bucketHost =
       'oldchen-blog-1256696029.cos.ap-guangzhou.myqcloud.com';
 
   static TencentCos _cos;
 
-  TencentCos._();
+  TencentCos._(){
+    getSecretIdAndKey();
+  }
+
+  void getSecretIdAndKey(){
+    final current = Directory.current;
+    final path = p.join(current.path, 'config', 'tencent_config.json');
+    File file = File(path);
+    if(file.existsSync()){
+      final data = jsonDecode(file.readAsStringSync());
+      secretId = data['secretId'];
+      secretKey = data['secretKey'];
+    }
+  }
+
+
 
   static TencentCos get() {
-    if (_cos == null) {
-      _cos = TencentCos._();
-    }
-
+    _cos ??= TencentCos._();
     return _cos;
   }
 
@@ -47,17 +59,12 @@ class TencentCos {
     return digest.toString();
   }
 
-  Future<Response> putObject(String bucketPath) async {
-    final current = Directory.current;
-    File file =
-        File(p.join(current.path, 'assets', 'config', 'config_study.json'));
-
+  Future<Response> putObject(String bucketPath, File file) async {
+    if(secretId.isEmpty || secretKey.isEmpty) return null;
     final url = 'https://$bucketHost';
     final filePath = '$bucketPath${p.basename(file.path)}';
 
     Dio dio = new Dio();
-    dio.interceptors.add(LogInterceptor(
-        requestBody: true, responseBody: true, requestHeader: true));
     final data =
         FormData.fromMap({'file': await MultipartFile.fromFile(file.path)});
     final response = await dio.put(url + filePath,
@@ -71,11 +78,7 @@ class TencentCos {
 
   Map<String, String> _buildHeaders(String url) {
     Map<String, String> headers = Map();
-//    headers['HOST'] = bucketHost;
     headers['Authorization'] = _auth('put', url);
-//    if (debug) {
-//      print(headers);
-//    }
     return headers;
   }
 

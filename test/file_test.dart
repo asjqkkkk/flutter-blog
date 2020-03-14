@@ -111,7 +111,7 @@ void main() {
       result[name] = content;
     }
     beans.sort((left, right) => left.compareTo(right));
-    File file = File(p.join(current.path,'assets','config','config_$markdownFilePath.json'));
+    File file = File(p.join(current.path,'config','json','config_$markdownFilePath.json'));
     if (file.existsSync()) {
       file.deleteSync();
     }
@@ -127,7 +127,7 @@ void main() {
   void printTagFile(List<ArticleItemBean> beans) {
     final current = Directory.current;
 
-    File file = File(p.join(current.path,'assets', 'config','config_tag.json'));
+    File file = File(p.join(current.path,'config', 'json','config_tag.json'));
     if (file.existsSync()) {
       file.deleteSync();
     }
@@ -142,7 +142,7 @@ void main() {
 
   void printFontFile(List<ArticleItemBean> beans) {
     final current = Directory.current;
-    File file = File(p.join(current.path,'config','config_font.json'));
+    File file = File(p.join(current.path,'config', 'fontData', 'config_font.json'));
     if (file.existsSync()) {
       file.deleteSync();
     }
@@ -167,7 +167,7 @@ void main() {
   void printArchiveFile(List<ArticleItemBean> beans) {
     final current = Directory.current;
     File file =
-    File(p.join(current.path,'assets', 'config','config_archive.json'));
+    File(p.join(current.path,'config', 'json','config_archive.json'));
     if (file.existsSync()) {
       file.deleteSync();
     }
@@ -183,7 +183,7 @@ void main() {
 
   void printAllArticleFile(Map<String, String> map){
     final current = Directory.current;
-    File file = File(p.join(current.path,'assets', 'config','config_all.json'));
+    File file = File(p.join(current.path,'config', 'json','config_all.json'));
     if (file.existsSync()) {
       file.deleteSync();
     }

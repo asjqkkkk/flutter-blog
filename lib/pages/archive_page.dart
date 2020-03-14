@@ -20,7 +20,7 @@ class _ArchivePageState extends State<ArchivePage> {
   @override
   void initState() {
     if (widget.beans == null) {
-      ArchiveItemBean.loadAsset('archive').then((data) {
+      ArchiveItemBean.loadAsset('config_archive').then((data) {
         beans.addAll(data);
         setState(() {});
       });

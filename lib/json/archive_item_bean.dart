@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_blog/json/article_item_bean.dart';
+import 'package:flutter_blog/json/json_loader.dart';
 
 class ArchiveItemBean {
   int year;
@@ -37,8 +38,8 @@ class ArchiveItemBean {
   }
 
   static Future<List<ArchiveItemBean>> loadAsset(String type) async {
-    String json = await rootBundle.loadString('assets/config/config_$type.json');
-    return ArchiveItemBean.fromMapList(jsonDecode(json));
+    final configJson = await loadJsonFile(type);
+    return ArchiveItemBean.fromMapList(configJson);
   }
 
 

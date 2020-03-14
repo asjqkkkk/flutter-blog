@@ -26,7 +26,13 @@ dependencies:
   intl: ^0.16.1
   http: ^0.12.0+4
   path: ^1.6.4
-#  dio: ^3.0.8
+  dio:
+    git:
+      url: https://gitee.com/oldBen/dio.git
+      path: dio
+      ref: master
+
+
   crypto: ^2.1.3
 
 
@@ -53,7 +59,7 @@ flutter:
 #    - config/markdowns/life/
 #    - config/markdowns/study/
 #    - config/markdowns/topic/
-    - assets/config/
+#    - assets/config/
 
 
   # The following line ensures that the Material Icons font is

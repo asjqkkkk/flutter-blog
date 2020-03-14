@@ -17,7 +17,7 @@ class _TagPageState extends State<TagPage> {
 
   @override
   void initState() {
-    ArchiveItemBean.loadAsset('tag').then((data) {
+    ArchiveItemBean.loadAsset('config_tag').then((data) {
       beans.addAll(data);
       setState(() {});
     });
