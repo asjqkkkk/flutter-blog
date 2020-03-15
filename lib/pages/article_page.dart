@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'dart:html' as html;
@@ -19,6 +20,7 @@ class _ArticlePageState extends State<ArticlePage> {
   final logic = ArticlePageLogic();
   String data = '';
   bool hasInitialed = false;
+  final _scrollController = ScrollController();
 
   void loadArticle(ArticleItemBean bean) {
     hasInitialed = true;
@@ -32,6 +34,11 @@ class _ArticlePageState extends State<ArticlePage> {
       }
       setState(() {});
     });
+  }
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -77,31 +84,106 @@ class _ArticlePageState extends State<ArticlePage> {
         child: Row(
           children: <Widget>[
             Expanded(
-                child: Container(
-              height: height / 2,
-              child: ListView.builder(
-                itemBuilder: (ctx, index) {
-                  final data = articleData.dataList[index];
-                  return ListTile(
-                    title: Text(data.articleName, style: TextStyle(color: index == articleData.index ? Colors.green : Colors.grey),),
-                    onTap: (){
-                      articleData.index = index;
-                      loadArticle(articleData.dataList[index]);
-                    },
-                  );
-                },
-                itemCount: articleData.dataList.length,
-              ),
+                child: Column(
+              children: <Widget>[
+                Expanded(
+                  child: Container(),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: Center(
+                      child: ListView.builder(
+                        itemBuilder: (ctx, index) {
+                          final data = articleData.dataList[index];
+                          return Container(
+                            alignment: Alignment.centerLeft,
+                            child: FlatButton(
+                              child: Text(
+                                data.articleName,
+                                style: TextStyle(
+                                    color: index == articleData.index
+                                        ? Colors.green
+                                        : Colors.black,
+                                    fontFamily: 'huawen_kt'),
+                              ),
+                              onPressed: () {
+                                articleData.index = index;
+                                loadArticle(articleData.dataList[index]);
+                              },
+                            ),
+                          );
+                        },
+                        itemCount: articleData.dataList.length,
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(),
+                ),
+              ],
             )),
             Expanded(
               child: Container(
                 child: SingleChildScrollView(
+                  controller: _scrollController,
                   child: getMarkdownCard(bean, height, width, context),
                 ),
               ),
               flex: 2,
             ),
-            Expanded(child: Container()),
+            Expanded(
+                child: Container(
+              child: Column(
+                children: <Widget>[
+                  Expanded(
+                    child: Container(),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Column(
+                      children: <Widget>[
+                        Expanded(
+                            child: Container(
+                          alignment: Alignment.center,
+                          child: IconButton(
+                            icon: Transform.rotate(
+                              child: Icon(
+                                Icons.arrow_drop_down_circle,
+                                color: Colors.grey.withOpacity(0.5),
+                              ),
+                              angle: pi,
+                            ),
+                            onPressed: () {
+                              _scrollController.animateTo(0.0, duration: Duration(milliseconds: 300), curve: Curves.ease);
+                            },
+                          ),
+                        )),
+                        Expanded(
+                            child: Container(
+                          alignment: Alignment.center,
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.arrow_drop_down_circle,
+                              color: Colors.grey.withOpacity(0.5),
+                            ),
+                            onPressed: () {
+                              _scrollController.animateTo(_scrollController.position.maxScrollExtent, duration: Duration(milliseconds: 300), curve: Curves.ease);
+
+                            },
+                          ),
+                        )),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(),
+                  ),
+                ],
+              ),
+            )),
           ],
         ));
   }
