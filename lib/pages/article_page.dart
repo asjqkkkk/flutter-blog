@@ -3,13 +3,16 @@ import 'dart:ui';
 
 import 'dart:html' as html;
 import 'package:flutter/cupertino.dart';
-import '../config/base_config.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_blog/widgets/chewie_video_widget.dart';
 import 'package:flutter/material.dart';
 import '../json/article_item_bean.dart';
 import '../json/article_json_bean.dart';
 import '../widgets/common_layout.dart';
 import '../logic/article_page_logic.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:markdown/markdown.dart' as md;
+import 'package:html/dom.dart' as dom;
+
 
 class ArticlePage extends StatefulWidget {
   @override
@@ -32,9 +35,13 @@ class _ArticlePageState extends State<ArticlePage> {
       } else {
         data = content;
       }
-      setState(() {});
+      data = md.markdownToHtml(data);
+      Future.delayed(Duration(milliseconds: 300), (){
+        setState(() {});
+      });
     });
   }
+
   @override
   void dispose() {
     _scrollController.dispose();
@@ -157,7 +164,9 @@ class _ArticlePageState extends State<ArticlePage> {
                               angle: pi,
                             ),
                             onPressed: () {
-                              _scrollController.animateTo(0.0, duration: Duration(milliseconds: 300), curve: Curves.ease);
+                              _scrollController.animateTo(0.0,
+                                  duration: Duration(milliseconds: 300),
+                                  curve: Curves.ease);
                             },
                           ),
                         )),
@@ -170,8 +179,10 @@ class _ArticlePageState extends State<ArticlePage> {
                               color: Colors.grey.withOpacity(0.5),
                             ),
                             onPressed: () {
-                              _scrollController.animateTo(_scrollController.position.maxScrollExtent, duration: Duration(milliseconds: 300), curve: Curves.ease);
-
+                              _scrollController.animateTo(
+                                  _scrollController.position.maxScrollExtent,
+                                  duration: Duration(milliseconds: 300),
+                                  curve: Curves.ease);
                             },
                           ),
                         )),
@@ -204,6 +215,7 @@ class _ArticlePageState extends State<ArticlePage> {
   Card getMarkdownCard(
       ArticleItemBean bean, double height, double width, BuildContext context) {
     return Card(
+      margin: EdgeInsets.only(bottom: 20),
       child: Container(
         margin: EdgeInsets.all(20),
         child: Column(
@@ -216,59 +228,81 @@ class _ArticlePageState extends State<ArticlePage> {
                   )),
               alignment: Alignment.center,
             ),
-            MarkdownBody(
-              fitContent: false,
+            Html(
               data: data,
-              selectable: false,
-              onTapLink: (link) {
-                html.window.open(link, link);
+              useRichText: false,
+              onLinkTap: (url) {html.window.open('$url', "image");},
+              onImageTap: (url) {html.window.open('$url', "url");},
+              customRender: (node, children) {
+                // ignore: missing_return
+                if(node is dom.Element) {
+
+                  switch(node.localName) {
+                    case "video": return CheWieVideoWidget(url: node.attributes['src'],);
+                    case "img": return buildImageWidget(height, width, node.attributes['src']);
+                  }
+                }
+                // ignore: missing_return
               },
-              styleSheetTheme: MarkdownStyleSheetBaseTheme.cupertino,
-              imageBuilder: (Uri url) {
-                return Container(
-                  margin: const EdgeInsets.all(10),
-                  alignment: Alignment.center,
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                        maxHeight: height / 3 * 2, maxWidth: width / 3 * 2),
-                    child: GestureDetector(
-                      onTap: () {
-                        html.window.open('$url', "image");
-                      },
-                      child: Card(
-                        child: Image.network(
-                          "$url",
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
-              styleSheet: MarkdownStyleSheet(
-                  codeblockPadding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
-                  p: TextStyle(
-                    color: Theme.of(context).textTheme.subtitle2.color,
-                    fontFamily: "",
-                  ),
-                  h1: TextStyle(
-                      fontSize: 25,
-                      color: Theme.of(context).textTheme.bodyText1.color),
-                  h2: TextStyle(
-                      fontSize: 21,
-                      color: Theme.of(context).textTheme.bodyText1.color),
-                  h3: TextStyle(
-                      fontSize: 18,
-                      color: Theme.of(context).textTheme.bodyText1.color),
-                  h4: TextStyle(
-                      fontSize: 16,
-                      color: Theme.of(context).textTheme.bodyText1.color),
-                  blockSpacing: 10),
-            ),
+
+            )
+//            markdownBody(height, width, context),
           ],
         ),
       ),
     );
+  }
+
+//  MarkdownBody markdownBody(double height, double width, BuildContext context) {
+//    return MarkdownBody(
+//      fitContent: false,
+//      data: data,
+//      selectable: false,
+//      onTapLink: (link) {
+//        html.window.open(link, link);
+//      },
+//      styleSheetTheme: MarkdownStyleSheetBaseTheme.cupertino,
+//      imageBuilder: (Uri url) {
+//        return buildImageWidget(height, width, url.toString());
+//      },
+//      styleSheet: MarkdownStyleSheet(
+//          codeblockPadding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
+//          p: TextStyle(
+//            color: Theme.of(context).textTheme.subtitle2.color,
+//            fontFamily: "",
+//          ),
+//          h1: TextStyle(
+//              fontSize: 25, color: Theme.of(context).textTheme.bodyText1.color),
+//          h2: TextStyle(
+//              fontSize: 21, color: Theme.of(context).textTheme.bodyText1.color),
+//          h3: TextStyle(
+//              fontSize: 18, color: Theme.of(context).textTheme.bodyText1.color),
+//          h4: TextStyle(
+//              fontSize: 16, color: Theme.of(context).textTheme.bodyText1.color),
+//          blockSpacing: 10),
+//    );
+//  }
+
+  Container buildImageWidget(double height, double width, String url) {
+    return Container(
+        margin: const EdgeInsets.all(10),
+        alignment: Alignment.center,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+              maxHeight: height / 3 * 2, maxWidth: width / 3 * 2),
+          child: GestureDetector(
+            onTap: () {
+              html.window.open('$url', "image");
+            },
+            child: Card(
+              child: Image.network(
+                "$url",
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
+        ),
+      );
   }
 }
 

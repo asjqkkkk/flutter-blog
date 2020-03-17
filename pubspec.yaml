@@ -21,7 +21,7 @@ dependencies:
     sdk: flutter
 
   #markdown
-  flutter_markdown: ^0.3.3
+  markdown: ^2.1.3
   #intl
   intl: ^0.16.1
   http: ^0.12.0+4
@@ -34,6 +34,10 @@ dependencies:
 
 
   crypto: ^2.1.3
+  flutter_html: ^0.11.1
+  video_player_web: ^0.1.2+1
+  video_player: ^0.10.5
+  chewie: ^0.9.10
 
 
   # The following adds the Cupertino Icons font to your application.
