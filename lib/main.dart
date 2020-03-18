@@ -57,8 +57,16 @@ class MyApp extends StatelessWidget {
         archivePage: (BuildContext context) => ArchivePage(),
         linkPage: (BuildContext context) => FriendLinkPage(),
         aboutPage: (BuildContext context) => AboutPage(),
-        articlePage: (BuildContext context) => ArticlePage(),
+      },
+      onGenerateRoute: (settings){
+        if (settings.name == articlePage){
+          return _pageRoute(ArticlePage(articleData: settings.arguments,));
+        } else return _pageRoute(HomePage());
       },
     );
   }
+  MaterialPageRoute _pageRoute(Widget widget){
+    return MaterialPageRoute(builder: (ctx) => widget);
+  }
+
 }

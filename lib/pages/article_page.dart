@@ -16,6 +16,11 @@ import 'package:html/dom.dart' as dom;
 
 
 class ArticlePage extends StatefulWidget {
+
+  final ArticleData articleData;
+
+  const ArticlePage({Key key, this.articleData}) : super(key: key);
+
   @override
   _ArticlePageState createState() => _ArticlePageState();
 }
@@ -61,8 +66,7 @@ class _ArticlePageState extends State<ArticlePage> {
     final width = size.width;
     final height = size.height;
     final isNotMobile = !PlatformDetector().isMobile();
-    final ArticleData articleData = ModalRoute.of(context).settings.arguments;
-    final bean = articleData.dataList[articleData.index];
+    final bean = widget.articleData.dataList[widget.articleData.index];
     if (!hasInitialed) {
       loadArticle(bean);
     }
@@ -83,7 +87,7 @@ class _ArticlePageState extends State<ArticlePage> {
                     return true;
                   },
                   child: isNotMobile
-                      ? getWebLayout(width, articleData, height, context)
+                      ? getWebLayout(width, widget.articleData, height, context)
                       : getMobileLayout(width, height, bean),
                 )),
     );
@@ -111,21 +115,20 @@ class _ArticlePageState extends State<ArticlePage> {
                       child: ListView.builder(
                         itemBuilder: (ctx, index) {
                           final data = articleData.dataList[index];
-                          return Container(
-                            alignment: Alignment.centerLeft,
-                            child: FlatButton(
-                              child: Text(
+                          return Expanded(
+                            child: Container(
+                              alignment: Alignment.centerLeft,
+                              child: FlatButton(child: Text(
                                 data.articleName,
                                 style: TextStyle(
-                                    color: index == articleData.index
-                                        ? Colors.green
-                                        : Colors.black,
-                                    fontFamily: 'huawen_kt'),
+                                  color: index == articleData.index
+                                      ? Colors.green
+                                      : null,),
                               ),
-                              onPressed: () {
-                                articleData.index = index;
-                                loadArticle(articleData.dataList[index]);
-                              },
+                                onPressed: () {
+                                  articleData.index = index;
+                                  loadArticle(articleData.dataList[index]);
+                                },),
                             ),
                           );
                         },
