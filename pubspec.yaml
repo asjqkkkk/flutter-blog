@@ -21,7 +21,8 @@ dependencies:
     sdk: flutter
 
   #markdown
-  markdown: ^2.1.3
+#  markdown: ^2.1.3
+  flutter_markdown: ^0.3.4
   #intl
   intl: ^0.16.1
   http: ^0.12.0+4

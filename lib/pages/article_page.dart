@@ -5,6 +5,7 @@ import 'dart:html' as html;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_blog/widgets/chewie_video_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import '../json/article_item_bean.dart';
 import '../json/article_json_bean.dart';
 import '../widgets/common_layout.dart';
@@ -23,6 +24,7 @@ class _ArticlePageState extends State<ArticlePage> {
   final logic = ArticlePageLogic();
   String data = '';
   bool hasInitialed = false;
+  bool showHtml = false;
   final _scrollController = ScrollController();
 
   void loadArticle(ArticleItemBean bean) {
@@ -35,7 +37,12 @@ class _ArticlePageState extends State<ArticlePage> {
       } else {
         data = content;
       }
-      data = md.markdownToHtml(data);
+      if(data.contains('<video')){
+        data = md.markdownToHtml(data);
+        showHtml = true;
+      } else {
+        showHtml = false;
+      }
       Future.delayed(Duration(milliseconds: 300), (){
         setState(() {});
       });
@@ -136,7 +143,7 @@ class _ArticlePageState extends State<ArticlePage> {
               child: Container(
                 child: SingleChildScrollView(
                   controller: _scrollController,
-                  child: getMarkdownCard(bean, height, width, context),
+                  child: getBodyCard(bean, height, width, context),
                 ),
               ),
               flex: 2,
@@ -205,14 +212,14 @@ class _ArticlePageState extends State<ArticlePage> {
       child: SingleChildScrollView(
         child: Container(
           width: width,
-          margin: EdgeInsets.only(top: 10, bottom: 20),
-          child: getMarkdownCard(bean, height, width, context),
+          margin: EdgeInsets.only(top: 10,),
+          child: getBodyCard(bean, height, width, context),
         ),
       ),
     );
   }
 
-  Card getMarkdownCard(
+  Card getBodyCard(
       ArticleItemBean bean, double height, double width, BuildContext context) {
     return Card(
       margin: EdgeInsets.only(bottom: 20),
@@ -228,60 +235,59 @@ class _ArticlePageState extends State<ArticlePage> {
                   )),
               alignment: Alignment.center,
             ),
-            Html(
-              data: data,
-              useRichText: false,
-              onLinkTap: (url) {html.window.open('$url', "image");},
-              onImageTap: (url) {html.window.open('$url', "url");},
-              customRender: (node, children) {
-                // ignore: missing_return
-                if(node is dom.Element) {
-
-                  switch(node.localName) {
-                    case "video": return CheWieVideoWidget(url: node.attributes['src'],);
-                    case "img": return buildImageWidget(height, width, node.attributes['src']);
-                  }
-                }
-                // ignore: missing_return
-              },
-
-            )
-//            markdownBody(height, width, context),
+            showHtml ? getHtmlBody(height, width) : getMarkdownBody(height, width, context),
           ],
         ),
       ),
     );
   }
 
-//  MarkdownBody markdownBody(double height, double width, BuildContext context) {
-//    return MarkdownBody(
-//      fitContent: false,
-//      data: data,
-//      selectable: false,
-//      onTapLink: (link) {
-//        html.window.open(link, link);
-//      },
-//      styleSheetTheme: MarkdownStyleSheetBaseTheme.cupertino,
-//      imageBuilder: (Uri url) {
-//        return buildImageWidget(height, width, url.toString());
-//      },
-//      styleSheet: MarkdownStyleSheet(
-//          codeblockPadding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
-//          p: TextStyle(
-//            color: Theme.of(context).textTheme.subtitle2.color,
-//            fontFamily: "",
-//          ),
-//          h1: TextStyle(
-//              fontSize: 25, color: Theme.of(context).textTheme.bodyText1.color),
-//          h2: TextStyle(
-//              fontSize: 21, color: Theme.of(context).textTheme.bodyText1.color),
-//          h3: TextStyle(
-//              fontSize: 18, color: Theme.of(context).textTheme.bodyText1.color),
-//          h4: TextStyle(
-//              fontSize: 16, color: Theme.of(context).textTheme.bodyText1.color),
-//          blockSpacing: 10),
-//    );
-//  }
+  Html getHtmlBody(double height, double width) {
+    return Html(
+            data: data,
+            useRichText: false,
+            onLinkTap: (url) {html.window.open('$url', "image");},
+            onImageTap: (url) {html.window.open('$url', "url");},
+            customRender: (node, children) {
+              if(node is dom.Element) {
+                switch(node.localName) {
+                  case "video": return Card(child: CheWieVideoWidget(url: node.attributes['src'],));
+                  case "img": return buildImageWidget(height, width, node.attributes['src']);
+                }
+              }
+            },
+          );
+  }
+
+  MarkdownBody getMarkdownBody(double height, double width, BuildContext context) {
+    return MarkdownBody(
+      fitContent: false,
+      data: data,
+      selectable: false,
+      onTapLink: (link) {
+        html.window.open(link, link);
+      },
+      styleSheetTheme: MarkdownStyleSheetBaseTheme.cupertino,
+      imageBuilder: (Uri url) {
+        return buildImageWidget(height, width, url.toString());
+      },
+      styleSheet: MarkdownStyleSheet(
+          codeblockPadding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
+          p: TextStyle(
+            color: Theme.of(context).textTheme.subtitle2.color,
+            fontFamily: "",
+          ),
+          h1: TextStyle(
+              fontSize: 25, color: Theme.of(context).textTheme.bodyText1.color),
+          h2: TextStyle(
+              fontSize: 21, color: Theme.of(context).textTheme.bodyText1.color),
+          h3: TextStyle(
+              fontSize: 18, color: Theme.of(context).textTheme.bodyText1.color),
+          h4: TextStyle(
+              fontSize: 16, color: Theme.of(context).textTheme.bodyText1.color),
+          blockSpacing: 10),
+    );
+  }
 
   Container buildImageWidget(double height, double width, String url) {
     return Container(
