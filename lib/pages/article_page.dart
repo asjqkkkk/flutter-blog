@@ -109,32 +109,25 @@ class _ArticlePageState extends State<ArticlePage> {
                 ),
                 Expanded(
                   flex: 2,
-                  child: Container(
-                    alignment: Alignment.center,
-                    child: Center(
-                      child: ListView.builder(
-                        itemBuilder: (ctx, index) {
-                          final data = articleData.dataList[index];
-                          return Expanded(
-                            child: Container(
-                              alignment: Alignment.centerLeft,
-                              child: FlatButton(child: Text(
-                                data.articleName,
-                                style: TextStyle(
-                                  color: index == articleData.index
-                                      ? Colors.green
-                                      : null,),
-                              ),
-                                onPressed: () {
-                                  articleData.index = index;
-                                  loadArticle(articleData.dataList[index]);
-                                },),
-                            ),
-                          );
-                        },
-                        itemCount: articleData.dataList.length,
-                      ),
-                    ),
+                  child: ListView.builder(
+                    itemBuilder: (ctx, index) {
+                      final data = articleData.dataList[index];
+                      return Container(
+                        alignment: Alignment.centerLeft,
+                        child: FlatButton(child: Text(
+                          data.articleName,
+                          style: TextStyle(
+                            color: index == articleData.index
+                                ? Colors.green
+                                : null,),
+                        ),
+                          onPressed: () {
+                            articleData.index = index;
+                            loadArticle(articleData.dataList[index]);
+                          },),
+                      );
+                    },
+                    itemCount: articleData.dataList.length,
                   ),
                 ),
                 Expanded(
