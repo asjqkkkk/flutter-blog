@@ -96,6 +96,7 @@ class _ArticlePageState extends State<ArticlePage> {
   Widget getWebLayout(double width, ArticleData articleData, double height,
       BuildContext context) {
     final bean = articleData.dataList[articleData.index];
+    final isDark = Theme.of(context).brightness == Brightness.dark ? true : false;
 
     return Container(
         margin: EdgeInsets.only(top: 20),
@@ -134,7 +135,7 @@ class _ArticlePageState extends State<ArticlePage> {
                                     style: TextStyle(
                                         color: index == articleData.index
                                             ? Colors.green
-                                            : null,
+                                            :  (isDark ? Colors.grey : null),
                                         fontSize: 14,
                                         fontFamily: 'huawen_kt'),
                                   ),
@@ -291,6 +292,23 @@ class _ArticlePageState extends State<ArticlePage> {
   MarkdownBody getMarkdownBody(
       double height, double width, BuildContext context) {
     final titleColor = Theme.of(context).textSelectionColor;
+    final isDark =
+        Theme.of(context).brightness == Brightness.dark ? true : false;
+    final codeBgColor = isDark
+        ? Color.fromRGBO(85, 85, 85, 1)
+        : Color.fromRGBO(246, 248, 250, 1);
+    final codeColor = isDark
+        ? Colors.grey
+        : Color.fromRGBO(58, 60, 70, 1);
+    final blockColor = isDark
+        ? Color.fromRGBO(100, 100, 100, 1)
+        : Color.fromRGBO(113, 123, 138, 1);
+    final blockBgColor = isDark
+        ? Color.fromRGBO(100, 100, 100, 1)
+        : Color.fromRGBO(223, 226, 229, 1);
+    final textColor = isDark
+        ? Colors.grey
+        : Theme.of(context).textTheme.subtitle2.color;
 
     return MarkdownBody(
       fitContent: false,
@@ -306,7 +324,7 @@ class _ArticlePageState extends State<ArticlePage> {
       styleSheet: MarkdownStyleSheet(
         codeblockPadding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
         p: TextStyle(
-          color: Theme.of(context).textTheme.subtitle2.color,
+          color: textColor,
           fontFamily: "",
         ),
         h1: TextStyle(
@@ -320,6 +338,27 @@ class _ArticlePageState extends State<ArticlePage> {
         h5: TextStyle(
             fontSize: 14, fontWeight: FontWeight.bold, color: titleColor),
         blockSpacing: 10,
+        code: TextStyle(
+          fontWeight: FontWeight.w200,
+          color: codeColor,
+          backgroundColor: codeBgColor,
+          fontSize: 13,
+        ),
+        blockquote: TextStyle(color: blockColor),
+        blockquoteDecoration: BoxDecoration(
+          color: Colors.transparent,
+          border: Border(
+            left: BorderSide(
+              color: blockBgColor,
+              width: 4,
+            ),
+          ),
+        ),
+        codeblockDecoration: BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(10),
+            ),
+            color: codeBgColor),
       ),
     );
   }

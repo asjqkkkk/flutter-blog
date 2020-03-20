@@ -45,22 +45,25 @@ class _TocWidgetState extends State<TocWidget> {
 
   @override
   Widget build(BuildContext context) {
+
+
     return widget.useListView
         ? ListView.builder(
             itemBuilder: (ctx, index) =>
-                getNodeWidget(widget.nodes[index], index),
+                getNodeWidget(widget.nodes[index], index, context),
             itemCount: widget.nodes.length,
           )
         : SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(widget.nodes.length,
-                  (index) => getNodeWidget(widget.nodes[index], index)),
+                  (index) => getNodeWidget(widget.nodes[index], index, context)),
             ),
           );
   }
 
-  Widget getNodeWidget(TocData data, int index) {
+  Widget getNodeWidget(TocData data, int index, BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark ? true : false;
     final name = data.name;
     final level = data.level > 6 ? 6 : data.level;
     final percent = data.percent;
@@ -74,7 +77,7 @@ class _TocWidgetState extends State<TocWidget> {
             name,
             style: curIndex == index
                 ? TextStyle(color: Theme.of(context).textSelectionColor,fontSize: 12)
-                : TextStyle(fontSize: 12),
+                : TextStyle(fontSize: 12, color: isDark ? Colors.grey : null),
           ),
         ),
         onTap: () {

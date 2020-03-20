@@ -1,7 +1,3 @@
-import 'dart:collection';
-
-import 'dart:math';
-
 class TocData {
   double percent;
   String name;
