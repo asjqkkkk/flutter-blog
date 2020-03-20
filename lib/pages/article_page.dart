@@ -3,8 +3,10 @@ import 'dart:ui';
 
 import 'dart:html' as html;
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_blog/config/markdown_toc.dart';
 import 'package:flutter_blog/widgets/chewie_video_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blog/widgets/toc_widget.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import '../json/article_item_bean.dart';
 import '../json/article_json_bean.dart';
@@ -14,9 +16,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:html/dom.dart' as dom;
 
-
 class ArticlePage extends StatefulWidget {
-
   final ArticleData articleData;
 
   const ArticlePage({Key key, this.articleData}) : super(key: key);
@@ -27,7 +27,8 @@ class ArticlePage extends StatefulWidget {
 
 class _ArticlePageState extends State<ArticlePage> {
   final logic = ArticlePageLogic();
-  String data = '';
+  String markdownData = '';
+  String htmlData = '';
   bool hasInitialed = false;
   bool showHtml = false;
   final _scrollController = ScrollController();
@@ -38,17 +39,17 @@ class _ArticlePageState extends State<ArticlePage> {
       final String content = value[bean.articleName];
       List<String> splits = content.split('---');
       if (splits.length >= 3) {
-        data = splits[2];
+        markdownData = splits[2];
       } else {
-        data = content;
+        markdownData = content;
       }
-      if(data.contains('<video')){
-        data = md.markdownToHtml(data);
+      if (markdownData.contains('<video')) {
+        htmlData = md.markdownToHtml(markdownData);
         showHtml = true;
       } else {
         showHtml = false;
       }
-      Future.delayed(Duration(milliseconds: 300), (){
+      Future.delayed(Duration(milliseconds: 300), () {
         setState(() {});
       });
     });
@@ -70,14 +71,13 @@ class _ArticlePageState extends State<ArticlePage> {
     if (!hasInitialed) {
       loadArticle(bean);
     }
-
     return CommonLayout(
       pageType: PageType.article,
       child: Container(
           alignment: Alignment.center,
           margin:
               isNotMobile ? const EdgeInsets.all(0) : const EdgeInsets.all(20),
-          child: data.isEmpty
+          child: markdownData.isEmpty
               ? const Center(
                   child: CircularProgressIndicator(),
                 )
@@ -102,39 +102,56 @@ class _ArticlePageState extends State<ArticlePage> {
         child: Row(
           children: <Widget>[
             Expanded(
+              child: Container(
+                margin: EdgeInsets.fromLTRB(0, 50, 10, 50),
+                alignment: Alignment.center,
                 child: Column(
-              children: <Widget>[
-                Expanded(
-                  child: Container(),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: ListView.builder(
-                    itemBuilder: (ctx, index) {
-                      final data = articleData.dataList[index];
-                      return Container(
-                        alignment: Alignment.centerLeft,
-                        child: FlatButton(child: Text(
-                          data.articleName,
-                          style: TextStyle(
-                            color: index == articleData.index
-                                ? Colors.green
-                                : null,),
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      child: Text(
+                        '文章目录:',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
                         ),
-                          onPressed: () {
-                            articleData.index = index;
-                            loadArticle(articleData.dataList[index]);
-                          },),
-                      );
-                    },
-                    itemCount: articleData.dataList.length,
-                  ),
+                      ),
+                      alignment: Alignment.centerLeft,
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 10),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: List.generate(articleData.dataList.length, (index){
+                            final data = articleData.dataList[index];
+                            return Container(
+                              alignment: Alignment.centerLeft,
+                              child: InkWell(
+                                child: Container(
+                                  margin: EdgeInsets.fromLTRB(5, 10, 6, 10),
+                                  child: Text(
+                                    data.articleName,
+                                    style: TextStyle(
+                                        color: index == articleData.index
+                                            ? Colors.green
+                                            : null,
+                                        fontSize: 14, fontFamily: 'huawen_kt'),
+                                  ),
+                                ),
+                                onTap: () {
+                                  articleData.index = index;
+                                  loadArticle(articleData.dataList[index]);
+                                },
+                              ),
+                            );
+                          }),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                Expanded(
-                  child: Container(),
-                ),
-              ],
-            )),
+              ),
+            ),
             Expanded(
               child: Container(
                 child: SingleChildScrollView(
@@ -142,62 +159,71 @@ class _ArticlePageState extends State<ArticlePage> {
                   child: getBodyCard(bean, height, width, context),
                 ),
               ),
-              flex: 2,
+              flex: 3,
             ),
             Expanded(
-                child: Container(
-              child: Column(
-                children: <Widget>[
-                  Expanded(
-                    child: Container(),
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: Column(
-                      children: <Widget>[
-                        Expanded(
-                            child: Container(
-                          alignment: Alignment.center,
-                          child: IconButton(
-                            icon: Transform.rotate(
-                              child: Icon(
+                child: Row(
+                  children: <Widget>[
+                    Expanded(child: Container()),
+                    Expanded(
+                      flex: 3,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            margin: EdgeInsets.only(top: 50,left: 20),
+                            child: IconButton(
+                              icon: Transform.rotate(
+                                child: Icon(
+                                  Icons.arrow_drop_down_circle,
+                                  color: Colors.grey.withOpacity(0.5),
+                                ),
+                                angle: pi,
+                              ),
+                              onPressed: () {
+                                _scrollController.animateTo(0.0,
+                                    duration: Duration(milliseconds: 300),
+                                    curve: Curves.ease);
+                              },
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.center,
+                            child: TocWidget(
+                              nodes: parseToList(markdownData),
+                              onTap: (percent) {
+                                _scrollController.animateTo(
+                                    _scrollController.position.maxScrollExtent *
+                                        percent,
+                                    duration: Duration(milliseconds: 300),
+                                    curve: Curves.ease);
+                              },
+                              markdownController: _scrollController,
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            margin: EdgeInsets.only(bottom: 50,left: 20),
+                            child: IconButton(
+                              icon: Icon(
                                 Icons.arrow_drop_down_circle,
                                 color: Colors.grey.withOpacity(0.5),
                               ),
-                              angle: pi,
+                              onPressed: () {
+                                _scrollController.animateTo(
+                                    _scrollController.position.maxScrollExtent,
+                                    duration: Duration(milliseconds: 300),
+                                    curve: Curves.ease);
+                              },
                             ),
-                            onPressed: () {
-                              _scrollController.animateTo(0.0,
-                                  duration: Duration(milliseconds: 300),
-                                  curve: Curves.ease);
-                            },
                           ),
-                        )),
-                        Expanded(
-                            child: Container(
-                          alignment: Alignment.center,
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.arrow_drop_down_circle,
-                              color: Colors.grey.withOpacity(0.5),
-                            ),
-                            onPressed: () {
-                              _scrollController.animateTo(
-                                  _scrollController.position.maxScrollExtent,
-                                  duration: Duration(milliseconds: 300),
-                                  curve: Curves.ease);
-                            },
-                          ),
-                        )),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    child: Container(),
-                  ),
-                ],
-              ),
-            )),
+                    Expanded(child: Container()),
+                  ],
+                )),
           ],
         ));
   }
@@ -208,14 +234,16 @@ class _ArticlePageState extends State<ArticlePage> {
       child: SingleChildScrollView(
         child: Container(
           width: width,
-          margin: EdgeInsets.only(top: 10,),
+          margin: EdgeInsets.only(
+            top: 10,
+          ),
           child: getBodyCard(bean, height, width, context),
         ),
       ),
     );
   }
 
-  Card getBodyCard(
+  Widget getBodyCard(
       ArticleItemBean bean, double height, double width, BuildContext context) {
     return Card(
       margin: EdgeInsets.only(bottom: 20),
@@ -231,7 +259,9 @@ class _ArticlePageState extends State<ArticlePage> {
                   )),
               alignment: Alignment.center,
             ),
-            showHtml ? getHtmlBody(height, width) : getMarkdownBody(height, width, context),
+            showHtml
+                ? getHtmlBody(height, width)
+                : getMarkdownBody(height, width, context),
           ],
         ),
       ),
@@ -240,25 +270,35 @@ class _ArticlePageState extends State<ArticlePage> {
 
   Html getHtmlBody(double height, double width) {
     return Html(
-            data: data,
-            useRichText: false,
-            onLinkTap: (url) {html.window.open('$url', "image");},
-            onImageTap: (url) {html.window.open('$url', "url");},
-            customRender: (node, children) {
-              if(node is dom.Element) {
-                switch(node.localName) {
-                  case "video": return Card(child: CheWieVideoWidget(url: node.attributes['src'],));
-                  case "img": return buildImageWidget(height, width, node.attributes['src']);
-                }
-              }
-            },
-          );
+      data: htmlData,
+      useRichText: false,
+      onLinkTap: (url) {
+        html.window.open('$url', "image");
+      },
+      onImageTap: (url) {
+        html.window.open('$url', "url");
+      },
+      customRender: (node, children) {
+        if (node is dom.Element) {
+          switch (node.localName) {
+            case "video":
+              return Card(
+                  child: CheWieVideoWidget(
+                url: node.attributes['src'],
+              ));
+            case "img":
+              return buildImageWidget(height, width, node.attributes['src']);
+          }
+        }
+      },
+    );
   }
 
-  MarkdownBody getMarkdownBody(double height, double width, BuildContext context) {
+  MarkdownBody getMarkdownBody(
+      double height, double width, BuildContext context) {
     return MarkdownBody(
       fitContent: false,
-      data: data,
+      data: markdownData,
       selectable: false,
       onTapLink: (link) {
         html.window.open(link, link);
@@ -274,37 +314,45 @@ class _ArticlePageState extends State<ArticlePage> {
             fontFamily: "",
           ),
           h1: TextStyle(
-              fontSize: 25, color: Theme.of(context).textTheme.bodyText1.color),
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).textSelectionColor),
           h2: TextStyle(
-              fontSize: 21, color: Theme.of(context).textTheme.bodyText1.color),
+              fontSize: 21,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).textSelectionColor),
           h3: TextStyle(
-              fontSize: 18, color: Theme.of(context).textTheme.bodyText1.color),
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).textSelectionColor),
           h4: TextStyle(
-              fontSize: 16, color: Theme.of(context).textTheme.bodyText1.color),
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).textSelectionColor),
           blockSpacing: 10),
     );
   }
 
   Container buildImageWidget(double height, double width, String url) {
     return Container(
-        margin: const EdgeInsets.all(10),
-        alignment: Alignment.center,
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-              maxHeight: height / 3 * 2, maxWidth: width / 3 * 2),
-          child: GestureDetector(
-            onTap: () {
-              html.window.open('$url', "image");
-            },
-            child: Card(
-              child: Image.network(
-                "$url",
-                fit: BoxFit.contain,
-              ),
+      margin: const EdgeInsets.all(10),
+      alignment: Alignment.center,
+      child: ConstrainedBox(
+        constraints:
+            BoxConstraints(maxHeight: height / 3 * 2, maxWidth: width / 3 * 2),
+        child: GestureDetector(
+          onTap: () {
+            html.window.open('$url', "image");
+          },
+          child: Card(
+            child: Image.network(
+              "$url",
+              fit: BoxFit.contain,
             ),
           ),
         ),
-      );
+      ),
+    );
   }
 }
 
