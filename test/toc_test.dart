@@ -15,6 +15,7 @@ void main() {
     final data = file.readAsStringSync();
 //    print(data.split('\n'));
 //    print(getNodes(data).length);
-    parseToList(data).forEach((e) => print(e.toString()));
+//    parseToDataList(data).forEach((e) => print(e.toString()));
+    parseToNodeList(data);
   });
 }

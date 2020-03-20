@@ -117,12 +117,12 @@ class _ArticlePageState extends State<ArticlePage> {
                       ),
                       alignment: Alignment.centerLeft,
                     ),
-                    Container(
-                      margin: EdgeInsets.only(left: 10),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: List.generate(articleData.dataList.length, (index){
+                    Expanded(
+                      child: Container(
+                        margin: EdgeInsets.only(left: 10),
+                        child: ListView.builder(
+                          itemCount: articleData.dataList.length,
+                          itemBuilder: (ctx, index) {
                             final data = articleData.dataList[index];
                             return Container(
                               alignment: Alignment.centerLeft,
@@ -135,7 +135,8 @@ class _ArticlePageState extends State<ArticlePage> {
                                         color: index == articleData.index
                                             ? Colors.green
                                             : null,
-                                        fontSize: 14, fontFamily: 'huawen_kt'),
+                                        fontSize: 14,
+                                        fontFamily: 'huawen_kt'),
                                   ),
                                 ),
                                 onTap: () {
@@ -144,7 +145,7 @@ class _ArticlePageState extends State<ArticlePage> {
                                 },
                               ),
                             );
-                          }),
+                          },
                         ),
                       ),
                     ),
@@ -163,67 +164,60 @@ class _ArticlePageState extends State<ArticlePage> {
             ),
             Expanded(
                 child: Row(
-                  children: <Widget>[
-                    Expanded(child: Container()),
-                    Expanded(
-                      flex: 3,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            margin: EdgeInsets.only(top: 50,left: 20),
-                            child: IconButton(
-                              icon: Transform.rotate(
-                                child: Icon(
-                                  Icons.arrow_drop_down_circle,
-                                  color: Colors.grey.withOpacity(0.5),
-                                ),
-                                angle: pi,
-                              ),
-                              onPressed: () {
-                                _scrollController.animateTo(0.0,
-                                    duration: Duration(milliseconds: 300),
-                                    curve: Curves.ease);
-                              },
+              children: <Widget>[
+                Expanded(child: Container()),
+                Expanded(
+                  flex: 3,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        margin: EdgeInsets.only(top: 50, left: 20),
+                        child: IconButton(
+                          icon: Transform.rotate(
+                            child: Icon(
+                              Icons.arrow_drop_down_circle,
+                              color: Colors.grey.withOpacity(0.5),
                             ),
+                            angle: pi,
                           ),
-                          Container(
-                            alignment: Alignment.center,
-                            child: TocWidget(
-                              nodes: parseToList(markdownData),
-                              onTap: (percent) {
-                                _scrollController.animateTo(
-                                    _scrollController.position.maxScrollExtent *
-                                        percent,
-                                    duration: Duration(milliseconds: 300),
-                                    curve: Curves.ease);
-                              },
-                              markdownController: _scrollController,
-                            ),
-                          ),
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            margin: EdgeInsets.only(bottom: 50,left: 20),
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.arrow_drop_down_circle,
-                                color: Colors.grey.withOpacity(0.5),
-                              ),
-                              onPressed: () {
-                                _scrollController.animateTo(
-                                    _scrollController.position.maxScrollExtent,
-                                    duration: Duration(milliseconds: 300),
-                                    curve: Curves.ease);
-                              },
-                            ),
-                          ),
-                        ],
+                          onPressed: () {
+                            _scrollController.animateTo(0.0,
+                                duration: Duration(milliseconds: 300),
+                                curve: Curves.ease);
+                          },
+                        ),
                       ),
-                    ),
-                    Expanded(child: Container()),
-                  ],
-                )),
+                      Container(
+                        alignment: Alignment.center,
+                        child: TocWidget(
+                          nodes: parseToDataList(markdownData),
+                          markdownController: _scrollController,
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        margin: EdgeInsets.only(bottom: 50, left: 20),
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.arrow_drop_down_circle,
+                            color: Colors.grey.withOpacity(0.5),
+                          ),
+                          onPressed: () {
+                            _scrollController.animateTo(
+                                _scrollController.position.maxScrollExtent,
+                                duration: Duration(milliseconds: 300),
+                                curve: Curves.ease);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(child: Container()),
+              ],
+            )),
           ],
         ));
   }
@@ -296,6 +290,8 @@ class _ArticlePageState extends State<ArticlePage> {
 
   MarkdownBody getMarkdownBody(
       double height, double width, BuildContext context) {
+    final titleColor = Theme.of(context).textSelectionColor;
+
     return MarkdownBody(
       fitContent: false,
       data: markdownData,
@@ -308,28 +304,23 @@ class _ArticlePageState extends State<ArticlePage> {
         return buildImageWidget(height, width, url.toString());
       },
       styleSheet: MarkdownStyleSheet(
-          codeblockPadding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
-          p: TextStyle(
-            color: Theme.of(context).textTheme.subtitle2.color,
-            fontFamily: "",
-          ),
-          h1: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).textSelectionColor),
-          h2: TextStyle(
-              fontSize: 21,
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).textSelectionColor),
-          h3: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).textSelectionColor),
-          h4: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).textSelectionColor),
-          blockSpacing: 10),
+        codeblockPadding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
+        p: TextStyle(
+          color: Theme.of(context).textTheme.subtitle2.color,
+          fontFamily: "",
+        ),
+        h1: TextStyle(
+            fontSize: 25, fontWeight: FontWeight.bold, color: titleColor),
+        h2: TextStyle(
+            fontSize: 22, fontWeight: FontWeight.bold, color: titleColor),
+        h3: TextStyle(
+            fontSize: 19, fontWeight: FontWeight.bold, color: titleColor),
+        h4: TextStyle(
+            fontSize: 16, fontWeight: FontWeight.bold, color: titleColor),
+        h5: TextStyle(
+            fontSize: 14, fontWeight: FontWeight.bold, color: titleColor),
+        blockSpacing: 10,
+      ),
     );
   }
 

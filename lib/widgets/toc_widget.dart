@@ -5,12 +5,11 @@ import 'package:flutter_blog/config/markdown_toc.dart';
 
 class TocWidget extends StatefulWidget {
   final List<TocData> nodes;
-  final Function(double percent) onTap;
   final bool useListView;
   final ScrollController markdownController;
 
   const TocWidget(
-      {Key key, this.nodes = const [], this.onTap, this.useListView = false, this.markdownController})
+      {Key key, this.nodes = const [],this.useListView = false, this.markdownController})
       : super(key: key);
 
   @override
@@ -21,17 +20,18 @@ class _TocWidgetState extends State<TocWidget> {
   int curIndex = 0;
   double lastOffset = 0.0;
   bool isDown = true;
+  bool isTapingToc = false;
 
   @override
   void initState() {
     widget?.markdownController?.addListener(() {
       final controller = widget.markdownController;
-      if(controller.hasClients){
+      if(controller.hasClients && !isTapingToc){
         isDown = controller.offset >= lastOffset;
         lastOffset = controller.offset;
         final percent = controller.offset / controller.position.maxScrollExtent;
         int index = getCurrentIndex(widget.nodes, percent);
-        index = widget.nodes[index].percent > percent ? (isDown ? index - 1 : index) : (isDown ? index + 1 : index);
+        index = widget.nodes[index].percent > percent ? (isDown ? index - 1 : index) : (isDown ? index: index + 1);
         if(index < 0) index = 0;
         if(index > widget.nodes.length - 1) index = widget.nodes.length - 1;
         if(curIndex != index){
@@ -66,22 +66,29 @@ class _TocWidgetState extends State<TocWidget> {
     final percent = data.percent;
     return Container(
       alignment: Alignment.centerLeft,
+      decoration: BoxDecoration(border: Border(left: BorderSide(color: curIndex == index ? Theme.of(context).textSelectionColor : Colors.grey))),
       child: InkWell(
         child: Container(
-          margin: EdgeInsets.all(4),
+          margin: EdgeInsets.fromLTRB(4.0 + 10 * (level - 1),4,4,4),
           child: Text(
-            '  ' * (level - 1) + name,
+            name,
             style: curIndex == index
-                ? TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).textSelectionColor)
-                : TextStyle(),
+                ? TextStyle(color: Theme.of(context).textSelectionColor,fontSize: 12)
+                : TextStyle(fontSize: 12),
           ),
         ),
         onTap: () {
-          if (widget.onTap != null) widget.onTap(percent);
           if (index != curIndex) {
             curIndex = index;
+            isTapingToc = true;
             _refresh();
+            widget.markdownController.animateTo(
+                widget.markdownController.position.maxScrollExtent *
+                    percent,
+                duration: Duration(milliseconds: 300),
+                curve: Curves.ease).then((value) => isTapingToc = false);
           }
+
         },
       ),
     );

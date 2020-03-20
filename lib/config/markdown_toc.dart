@@ -1,3 +1,7 @@
+import 'dart:collection';
+
+import 'dart:math';
+
 class TocData {
   double percent;
   String name;
@@ -9,6 +13,7 @@ class TocData {
   String toString() {
     return 'TocNode{percent: $percent, name: $name, deep: $level}';
   }
+
 }
 
 class TocNode{
@@ -21,20 +26,21 @@ class TocNode{
 
   @override
   String toString() {
-    return 'TocNode{percent: $percent, name: $name, deep: $deep, children: $children}';
+    return 'TocNode{percent: $percent, name: $name, deep: $deep';
   }
 
-
+  static TocNode fromData(TocData other){
+    return TocNode(other.percent, other.name, other.level, null);
+  }
 }
 
 enum FilterType { before, start, mid, end }
 
-List<TocData> parseToList(String input) {
+List<TocData> parseToDataList(String input) {
   FilterType type = FilterType.before;
   int deep = 0;
-  double percent = 0.0;
   String name = '';
-  final List<TocData> nodes = [];
+  final List<TocData> dataList = [];
   for (var i = 0; i < input.length; ++i) {
     var c = input[i];
 
@@ -49,7 +55,6 @@ List<TocData> parseToList(String input) {
         if (c == '#' &&
             i > 0 &&
             (input[i - 1] == '\r' || input[i - 1] == '\n')) {
-          percent = i / input.length;
           deep++;
           type = FilterType.start;
         }
@@ -76,8 +81,9 @@ List<TocData> parseToList(String input) {
         }
         break;
       case FilterType.end:
-        if ((c == '\n' || c == '\r' || i == input.length) && name.isNotEmpty) {
-          nodes.add(TocData(percent, name, deep));
+        if ((c == '\n' || c == '\r' || i == input.length - 1) && name.isNotEmpty) {
+          final percent = i / input.length;
+          dataList.add(TocData(percent, name, deep));
           deep = 0;
           name = '';
           type = FilterType.before;
@@ -91,5 +97,38 @@ List<TocData> parseToList(String input) {
         break;
     }
   }
-  return nodes;
+  return dataList;
+}
+
+List<TocNode> parseToNodeList(String input){
+  List<TocData> dataList = parseToDataList(input);
+  final root = TocNode(0.0, 'root', 0, null,);
+  _parseToNodeList(root, dataList, 0);
+  return root.children;
+}
+
+void printChild(List<TocNode> children){
+  if(children == null) return;
+  for (var node in children) {
+    print('${node.toString()} \n');
+    printChild(node.children);
+  }
+}
+
+void _parseToNodeList(TocNode parent, List<TocData> dataList, int index){
+  if(index > dataList.length - 1) return;
+  for (var i = index; i < dataList.length; ++i) {
+    if(dataList[i] == null) continue;
+    final curNode= TocNode.fromData(dataList[i]);
+    if(curNode.deep > parent.deep){
+      if(parent.children == null) {
+        parent.children = [];
+      }
+      parent.children.add(curNode);
+      dataList[i] = null;
+      _parseToNodeList(curNode, dataList, i + 1);
+    } else {
+      return;
+    }
+  }
 }
