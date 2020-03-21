@@ -18,8 +18,9 @@ import 'package:html/dom.dart' as dom;
 
 class ArticlePage extends StatefulWidget {
   final ArticleData articleData;
+  final String name;
 
-  const ArticlePage({Key key, this.articleData}) : super(key: key);
+  const ArticlePage({Key key, this.articleData, @required this.name}) : super(key: key);
 
   @override
   _ArticlePageState createState() => _ArticlePageState();
@@ -29,12 +30,26 @@ class _ArticlePageState extends State<ArticlePage> {
   final logic = ArticlePageLogic();
   String markdownData = '';
   String htmlData = '';
-  bool hasInitialed = false;
   bool showHtml = false;
   final _scrollController = ScrollController();
+  ArticleItemBean bean;
+  ArticleData articleData;
 
-  void loadArticle(ArticleItemBean bean) {
-    hasInitialed = true;
+  @override
+  void initState() {
+    if(widget.articleData == null){
+      bean = ArticleItemBean(articleName: widget.name);
+      articleData = ArticleData(0, [bean]);
+    } else {
+      bean = widget.articleData.dataList[widget.articleData.index];
+      articleData = widget.articleData;
+    }
+    loadArticle(bean, isFirst: true);
+    super.initState();
+  }
+
+
+  void loadArticle(ArticleItemBean bean,{ bool isFirst = false}) {
     ArticleJson.loadArticles().then((value) {
       final String content = value[bean.articleName];
       List<String> splits = content.split('---');
@@ -67,10 +82,7 @@ class _ArticlePageState extends State<ArticlePage> {
     final width = size.width;
     final height = size.height;
     final isNotMobile = !PlatformDetector().isMobile();
-    final bean = widget.articleData.dataList[widget.articleData.index];
-    if (!hasInitialed) {
-      loadArticle(bean);
-    }
+
     return CommonLayout(
       pageType: PageType.article,
       child: Container(
@@ -87,7 +99,7 @@ class _ArticlePageState extends State<ArticlePage> {
                     return true;
                   },
                   child: isNotMobile
-                      ? getWebLayout(width, widget.articleData, height, context)
+                      ? getWebLayout(width, articleData, height, context)
                       : getMobileLayout(width, height, bean),
                 )),
     );

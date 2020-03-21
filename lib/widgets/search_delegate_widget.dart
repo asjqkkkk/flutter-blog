@@ -66,8 +66,9 @@ class SearchDelegateWidget extends SearchDelegate<String> {
                         leading: Icon(Icons.sort),
                         title: logic.getTitle(data, query),
                         onTap: () {
+                          final name = showDataList[index].title;
                           Navigator.of(context).pushNamed(
-                            articlePage,
+                            articlePage + '/${name}',
                             arguments: ArticleData(
                               index,
                               List.generate(

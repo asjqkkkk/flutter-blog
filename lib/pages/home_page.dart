@@ -80,7 +80,8 @@ class _HomePageState extends State<HomePage> {
                                     child:
                                         ArticleItem(bean: showDataList[index]),
                                     onTap: () {
-                                      Navigator.of(context).pushNamed(articlePage, arguments: ArticleData(index, showDataList));
+                                      final name = showDataList[index].articleName;
+                                      Navigator.of(context).pushNamed(articlePage + '/${name}', arguments: ArticleData(index, showDataList));
                                     },
                                   );
                                 }),
@@ -235,7 +236,8 @@ class _HomePageState extends State<HomePage> {
             return GestureDetector(
               child: ArticleItem(bean: showDataList[index]),
               onTap: () {
-                Navigator.of(context).pushNamed(articlePage, arguments: ArticleData(index, showDataList));
+                final name = showDataList[index].articleName;
+                Navigator.of(context).pushNamed(articlePage + '/${name}', arguments: ArticleData(index, showDataList));
               },
             );
           },

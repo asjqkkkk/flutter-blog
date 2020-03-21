@@ -2,10 +2,12 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'config/app_routers.dart';
 import 'config/base_config.dart';
 import 'package:http/http.dart' as http;
 import 'pages/all_pages.dart';
 import 'pages/home_page.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 void main() {
   ///异步加载字体文件
@@ -13,7 +15,7 @@ void main() {
   fontLoader.addFont(fetchFont());
   fontLoader.load();
 
-  runApp(MyApp());
+  runApp(ModularApp(module: AppModule(),));
 }
 
 Future<ByteData> fetchFont() async {
@@ -31,42 +33,4 @@ Future<ByteData> fetchFont() async {
   }
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    ///强制横屏
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
-    ]);
-    final int curHour = DateTime.now().hour;
-    return MaterialApp(
-      title: '老晨子的flutter blog',
-      theme: ThemeData(
-        brightness:
-            (curHour > 18 || curHour < 7) ? Brightness.dark : Brightness.light,
-      ),
-      initialRoute: homePage,
-      routes: {
-        homePage: (BuildContext context) => HomePage(),
-        tagPage: (BuildContext context) => TagPage(),
-        archivePage: (BuildContext context) => ArchivePage(),
-        linkPage: (BuildContext context) => FriendLinkPage(),
-        aboutPage: (BuildContext context) => AboutPage(),
-      },
-      onGenerateRoute: (settings) {
-        if (settings.name == articlePage) {
-          return _pageRoute(ArticlePage(
-            articleData: settings.arguments,
-          ));
-        } else
-          return _pageRoute(HomePage());
-      },
-    );
-  }
 
-  MaterialPageRoute _pageRoute(Widget widget) {
-    return MaterialPageRoute(builder: (ctx) => widget);
-  }
-}

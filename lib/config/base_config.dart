@@ -7,3 +7,4 @@ String archivePage = '/archivePage';
 String linkPage = '/linkPage';
 String aboutPage = '/aboutPage';
 String articlePage = '/articlePage';
+
