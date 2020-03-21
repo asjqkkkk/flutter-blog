@@ -20,6 +20,7 @@ class ArticleJson {
   static bool _isLoading = false;
 
   static Future<dynamic> loadArticles() async{
+    print('加载文章:$_isLoading        articles:${articles == null}');
     if(articles != null) return articles;
     if(!_isLoading){
       _isLoading = true;

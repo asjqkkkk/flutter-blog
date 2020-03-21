@@ -37,19 +37,21 @@ class _ArticlePageState extends State<ArticlePage> {
 
   @override
   void initState() {
+    final name = Uri.decodeFull(widget.name);
+    print('获取到的name:${widget.name}   转换后的name:$name');
     if(widget.articleData == null){
-      bean = ArticleItemBean(articleName: widget.name);
+      bean = ArticleItemBean(articleName: name);
       articleData = ArticleData(0, [bean]);
     } else {
       bean = widget.articleData.dataList[widget.articleData.index];
       articleData = widget.articleData;
     }
-    loadArticle(bean, isFirst: true);
+    loadArticle(bean);
     super.initState();
   }
 
 
-  void loadArticle(ArticleItemBean bean,{ bool isFirst = false}) {
+  void loadArticle(ArticleItemBean bean) {
     ArticleJson.loadArticles().then((value) {
       final String content = value[bean.articleName];
       List<String> splits = content.split('---');

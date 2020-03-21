@@ -6,7 +6,6 @@ import 'config/app_routers.dart';
 import 'config/base_config.dart';
 import 'package:http/http.dart' as http;
 import 'pages/all_pages.dart';
-import 'pages/home_page.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 void main() {

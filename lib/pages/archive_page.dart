@@ -149,8 +149,9 @@ class _ArchivePageState extends State<ArchivePage> {
   void openArticlePage(
       BuildContext context, List<ArticleItemBean> beans, int index) {
     final name = beans[index].articleName;
+    final result = Uri.encodeFull(name);
     Navigator.of(context)
-        .pushNamed(articlePage + '/${name}', arguments: ArticleData(index, beans));
+        .pushNamed(articlePage + '/$result', arguments: ArticleData(index, beans));
   }
 
   String getDate(DateTime time) {

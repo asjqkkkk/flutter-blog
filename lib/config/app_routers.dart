@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blog/pages/all_pages.dart';
-import '../main.dart';
 import 'base_config.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -62,7 +61,7 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  MaterialPageRoute _pageRoute(Widget widget) {
-    return MaterialPageRoute(builder: (ctx) => widget);
-  }
+//  MaterialPageRoute _pageRoute(Widget widget) {
+//    return MaterialPageRoute(builder: (ctx) => widget);
+//  }
 }

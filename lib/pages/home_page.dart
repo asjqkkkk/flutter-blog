@@ -81,7 +81,9 @@ class _HomePageState extends State<HomePage> {
                                         ArticleItem(bean: showDataList[index]),
                                     onTap: () {
                                       final name = showDataList[index].articleName;
-                                      Navigator.of(context).pushNamed(articlePage + '/${name}', arguments: ArticleData(index, showDataList));
+                                      final result = Uri.encodeFull(name);
+                                      print('转换前的:$name      转行后的:$result');
+                                      Navigator.of(context).pushNamed(articlePage + '/$result', arguments: ArticleData(index, showDataList));
                                     },
                                   );
                                 }),
@@ -237,7 +239,8 @@ class _HomePageState extends State<HomePage> {
               child: ArticleItem(bean: showDataList[index]),
               onTap: () {
                 final name = showDataList[index].articleName;
-                Navigator.of(context).pushNamed(articlePage + '/${name}', arguments: ArticleData(index, showDataList));
+                final result = Uri.encodeFull(name);
+                Navigator.of(context).pushNamed(articlePage + '/$result', arguments: ArticleData(index, showDataList));
               },
             );
           },

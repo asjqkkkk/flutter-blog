@@ -125,8 +125,9 @@ class _SearchWidgetState extends State<SearchWidget> {
                 title: logic.getTitle(data,query),
                 onTap: () {
                   final name = showDataList[index].title;
+                  final result = Uri.encodeFull(name);
                   Navigator.of(context).pushNamed(
-                    articlePage + '/${name}',
+                    articlePage + '/$result',
                     arguments: ArticleData(
                       index,
                       List.generate(
