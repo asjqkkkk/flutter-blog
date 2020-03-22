@@ -11,6 +11,8 @@ import 'package:intl/intl.dart';
 
 import 'package:path/path.dart' as p;
 
+import 'config/generate_head.dart';
+
 void main() {
 
 
@@ -79,6 +81,7 @@ void main() {
       String subContent;
       if (splits.length == 1) {
         subContent = content.trim();
+        editMarkdown(file, content,data: createTime);
       } else if (splits.length >= 3) {
         subContent = splits[2].trim();
         List<String> infos = splits[1].split("\n");
@@ -213,7 +216,7 @@ void main() {
     printAllArticleFile(result);
   });
 
-  //运行命令，编译文件：flutter test test/file_test.dart
+  //运行命令，编译文件：flutter test test/file_generator.dart
 }
 
 

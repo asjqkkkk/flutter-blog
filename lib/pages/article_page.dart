@@ -175,7 +175,7 @@ class _ArticlePageState extends State<ArticlePage> {
                   child: getBodyCard(bean, height, width, context),
                 ),
               ),
-              flex: 3,
+              flex: 2,
             ),
             Expanded(
                 child: Row(
@@ -204,11 +204,14 @@ class _ArticlePageState extends State<ArticlePage> {
                           },
                         ),
                       ),
-                      Container(
-                        alignment: Alignment.center,
-                        child: TocWidget(
-                          nodes: parseToDataList(markdownData),
-                          markdownController: _scrollController,
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.center,
+                          child: TocWidget(
+                            nodes: parseToDataList(markdownData),
+                            markdownController: _scrollController,
+                            useListView: true,
+                          ),
                         ),
                       ),
                       Container(
