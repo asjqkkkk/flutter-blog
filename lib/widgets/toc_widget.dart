@@ -1,5 +1,4 @@
 import 'dart:html';
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_blog/config/markdown_toc.dart';
 
@@ -33,6 +32,7 @@ class _TocWidgetState extends State<TocWidget> {
         bool isDown = controller.offset > lastOffset;
         lastOffset = controller.offset;
         final percent = controller.offset / controller.position.maxScrollExtent;
+        if(curIndex > widget.nodes.length - 1) curIndex = 0;
         int index = getCurrentIndex(widget.nodes, percent, curIndex, isDown);
         if(index < 0) index = 0;
         if(index > widget.nodes.length - 1) index = widget.nodes.length - 1;

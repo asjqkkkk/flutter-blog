@@ -169,7 +169,7 @@ class _ArticlePageState extends State<ArticlePage> {
               ),
             ),
             Expanded(
-              child: getBodyCard(bean, height, width, context),
+              child: getBodyCard(bean, height, width, context, false),
               flex: 2,
             ),
             Expanded(
@@ -237,23 +237,17 @@ class _ArticlePageState extends State<ArticlePage> {
 
   Widget getMobileLayout(double width, double height, ArticleItemBean bean) {
     return Container(
-      margin: EdgeInsets.only(top: 10),
-      child: Container(
-        width: width,
-        margin: EdgeInsets.only(
-          top: 10,
-        ),
-        child: getBodyCard(bean, height, width, context),
-      ),
+      width: width,
+      child: getBodyCard(bean, height, width, context, true),
     );
   }
 
   Widget getBodyCard(
-      ArticleItemBean bean, double height, double width, BuildContext context) {
+      ArticleItemBean bean, double height, double width, BuildContext context, bool isMobile) {
     return Card(
       margin: EdgeInsets.all(0),
       child: Container(
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.all(isMobile ? 4 : 20),
         child: showHtml ? getHtmlBody(height, width) : getMarkdownBody(height, width, context),
       ),
     );
