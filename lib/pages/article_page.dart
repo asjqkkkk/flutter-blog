@@ -238,14 +238,12 @@ class _ArticlePageState extends State<ArticlePage> {
   Widget getMobileLayout(double width, double height, ArticleItemBean bean) {
     return Container(
       margin: EdgeInsets.only(top: 10),
-      child: SingleChildScrollView(
-        child: Container(
-          width: width,
-          margin: EdgeInsets.only(
-            top: 10,
-          ),
-          child: getBodyCard(bean, height, width, context),
+      child: Container(
+        width: width,
+        margin: EdgeInsets.only(
+          top: 10,
         ),
+        child: getBodyCard(bean, height, width, context),
       ),
     );
   }
@@ -261,29 +259,31 @@ class _ArticlePageState extends State<ArticlePage> {
     );
   }
 
-  Html getHtmlBody(double height, double width) {
-    return Html(
-      data: htmlData,
-      useRichText: false,
-      onLinkTap: (url) {
-        html.window.open('$url', "image");
-      },
-      onImageTap: (url) {
-        html.window.open('$url', "url");
-      },
-      customRender: (node, children) {
-        if (node is dom.Element) {
-          switch (node.localName) {
-            case "video":
-              return Card(
-                  child: CheWieVideoWidget(
-                url: node.attributes['src'],
-              ));
-            case "img":
-              return buildImageWidget(height, width, node.attributes['src']);
+  Widget getHtmlBody(double height, double width) {
+    return SingleChildScrollView(
+      child: Html(
+        data: htmlData,
+        useRichText: false,
+        onLinkTap: (url) {
+          html.window.open('$url', "image");
+        },
+        onImageTap: (url) {
+          html.window.open('$url', "url");
+        },
+        customRender: (node, children) {
+          if (node is dom.Element) {
+            switch (node.localName) {
+              case "video":
+                return Card(
+                    child: CheWieVideoWidget(
+                  url: node.attributes['src'],
+                ));
+              case "img":
+                return buildImageWidget(height, width, node.attributes['src']);
+            }
           }
-        }
-      },
+        },
+      ),
     );
   }
 
