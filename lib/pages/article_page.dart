@@ -253,24 +253,10 @@ class _ArticlePageState extends State<ArticlePage> {
   Widget getBodyCard(
       ArticleItemBean bean, double height, double width, BuildContext context) {
     return Card(
-      margin: EdgeInsets.only(bottom: 20),
+      margin: EdgeInsets.all(0),
       child: Container(
-        margin: EdgeInsets.all(20),
-        child: Column(
-          children: <Widget>[
-            Container(
-              child: Text(bean.articleName,
-                  style: const TextStyle(
-                    fontFamily: 'huawen_kt',
-                    fontSize: 40,
-                  )),
-              alignment: Alignment.center,
-            ),
-            showHtml
-                ? getHtmlBody(height, width)
-                : getMarkdownBody(height, width, context),
-          ],
-        ),
+        padding: EdgeInsets.all(20),
+        child: showHtml ? getHtmlBody(height, width) : getMarkdownBody(height, width, context),
       ),
     );
   }
@@ -322,57 +308,56 @@ class _ArticlePageState extends State<ArticlePage> {
         ? Colors.grey
         : Theme.of(context).textTheme.subtitle2.color;
 
-    return Expanded(
-      child: Markdown(
-        data: markdownData,
-        selectable: false,
-        controller: _scrollController,
-        onTapLink: (link) {
-          html.window.open(link, link);
-        },
-        styleSheetTheme: MarkdownStyleSheetBaseTheme.cupertino,
-        imageBuilder: (Uri url) {
-          return buildImageWidget(height, width, url.toString());
-        },
-        styleSheet: MarkdownStyleSheet(
-          codeblockPadding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
-          p: TextStyle(
-            color: textColor,
-            fontFamily: "",
-          ),
-          h1: TextStyle(
-              fontSize: 25, fontWeight: FontWeight.bold, color: titleColor),
-          h2: TextStyle(
-              fontSize: 22, fontWeight: FontWeight.bold, color: titleColor),
-          h3: TextStyle(
-              fontSize: 19, fontWeight: FontWeight.bold, color: titleColor),
-          h4: TextStyle(
-              fontSize: 16, fontWeight: FontWeight.bold, color: titleColor),
-          h5: TextStyle(
-              fontSize: 14, fontWeight: FontWeight.bold, color: titleColor),
-          blockSpacing: 10,
-          code: TextStyle(
-            fontWeight: FontWeight.w200,
-            color: codeColor,
-            backgroundColor: codeBgColor,
-            fontSize: 13,
-          ),
-          blockquote: TextStyle(color: blockColor),
-          blockquoteDecoration: BoxDecoration(
-            color: Colors.transparent,
-            border: Border(
-              left: BorderSide(
-                color: blockBgColor,
-                width: 4,
-              ),
+    return Markdown(
+      data: markdownData,
+
+      selectable: false,
+      controller: _scrollController,
+      onTapLink: (link) {
+        html.window.open(link, link);
+      },
+      styleSheetTheme: MarkdownStyleSheetBaseTheme.cupertino,
+      imageBuilder: (Uri url) {
+        return buildImageWidget(height, width, url.toString());
+      },
+      styleSheet: MarkdownStyleSheet(
+        codeblockPadding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
+        p: TextStyle(
+          color: textColor,
+          fontFamily: "",
+        ),
+        h1: TextStyle(
+            fontSize: 25, fontWeight: FontWeight.bold, color: titleColor),
+        h2: TextStyle(
+            fontSize: 22, fontWeight: FontWeight.bold, color: titleColor),
+        h3: TextStyle(
+            fontSize: 19, fontWeight: FontWeight.bold, color: titleColor),
+        h4: TextStyle(
+            fontSize: 16, fontWeight: FontWeight.bold, color: titleColor),
+        h5: TextStyle(
+            fontSize: 14, fontWeight: FontWeight.bold, color: titleColor),
+        blockSpacing: 10,
+        code: TextStyle(
+          fontWeight: FontWeight.w200,
+          color: codeColor,
+          backgroundColor: codeBgColor,
+          fontSize: 13,
+        ),
+        blockquote: TextStyle(color: blockColor),
+        blockquoteDecoration: BoxDecoration(
+          color: Colors.transparent,
+          border: Border(
+            left: BorderSide(
+              color: blockBgColor,
+              width: 4,
             ),
           ),
-          codeblockDecoration: BoxDecoration(
-              borderRadius: BorderRadius.all(
-                Radius.circular(10),
-              ),
-              color: codeBgColor),
         ),
+        codeblockDecoration: BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(10),
+            ),
+            color: codeBgColor),
       ),
     );
   }
