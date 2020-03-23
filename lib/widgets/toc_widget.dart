@@ -1,5 +1,5 @@
 import 'dart:html';
-
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_blog/config/markdown_toc.dart';
 
@@ -19,24 +19,29 @@ class TocWidget extends StatefulWidget {
 class _TocWidgetState extends State<TocWidget> {
   int curIndex = 0;
   double lastOffset = 0.0;
-  bool isDown = true;
   bool isTapingToc = false;
+  bool isScrolling = false;
 
   @override
   void initState() {
     widget?.markdownController?.addListener(() {
       final controller = widget.markdownController;
-      if(controller.hasClients && !isTapingToc){
-        isDown = controller.offset >= lastOffset;
+      if(controller.hasClients && !isTapingToc && !isScrolling){
+        if(controller.offset == lastOffset) return;
+        isScrolling = true;
+        
+        bool isDown = controller.offset > lastOffset;
         lastOffset = controller.offset;
         final percent = controller.offset / controller.position.maxScrollExtent;
-        int index = getCurrentIndex(widget.nodes, percent);
-        index = widget.nodes[index].percent > percent ? (isDown ? index - 1 : index) : (isDown ? index: index + 1);
+        int index = getCurrentIndex(widget.nodes, percent, curIndex, isDown);
         if(index < 0) index = 0;
         if(index > widget.nodes.length - 1) index = widget.nodes.length - 1;
+        isScrolling = false;
         if(curIndex != index){
-          curIndex = index;
-          _refresh();
+          if((isDown && index >= curIndex) ||(!isDown && index <= curIndex)){
+            curIndex = index;
+            _refresh();
+          }
         }
       }
     });
@@ -70,6 +75,7 @@ class _TocWidgetState extends State<TocWidget> {
     return Container(
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(border: Border(left: BorderSide(color: curIndex == index ? Theme.of(context).textSelectionColor : Colors.grey))),
+      padding: EdgeInsets.only(left: 10),
       child: InkWell(
         child: Container(
           margin: EdgeInsets.fromLTRB(4.0 + 10 * (level - 1),4,4,4),
@@ -101,21 +107,42 @@ class _TocWidgetState extends State<TocWidget> {
     if (mounted) setState(() {});
   }
 
-  int getCurrentIndex(List<TocData> nodes, double curPercent){
-    var left = 0;
-    var right = nodes.length - 1;
-    while(left < right){
-      final mid = (left + right) ~/ 2;
-      final m = nodes[mid];
-      if(m.percent > curPercent){
-        right = mid;
-      } else if(m.percent < curPercent){
-        left = mid + 1;
-      } else{
-        return mid;
+  int getCurrentIndex(List<TocData> nodes, double curPercent, int lastIndex, bool isDown){
+    double min = double.maxFinite;
+    int result = 0;
+    if(isDown){
+      for (var i = lastIndex; i < nodes.length; ++i) {
+        var curNode = nodes[i];
+        final abs = (curNode.percent - curPercent).abs();
+        if(min > abs) {
+          min = abs;
+          result = i;
+        } else if(min < abs && min != double.maxFinite) break;
+      }
+    } else {
+      for (var i = lastIndex; i >= 0; i--) {
+        var curNode = nodes[i];
+        final abs = (curNode.percent - curPercent).abs();
+        if(min > abs) {
+          min = abs;
+          result = i;
+        } else if(min < abs && min != double.maxFinite) break;
       }
     }
-    return left;
+//    var left = 0;
+//    var right = nodes.length - 1;
+//    while(left < right){
+//      final mid = (left + right) ~/ 2;
+//      final m = nodes[mid];
+//      if(m.percent > curPercent){
+//        right = mid;
+//      } else if(m.percent < curPercent){
+//        left = mid + 1;
+//      } else{
+//        return mid;
+//      }
+//    }
+    return result;
   }
 
   @override

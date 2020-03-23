@@ -169,12 +169,7 @@ class _ArticlePageState extends State<ArticlePage> {
               ),
             ),
             Expanded(
-              child: Container(
-                child: SingleChildScrollView(
-                  controller: _scrollController,
-                  child: getBodyCard(bean, height, width, context),
-                ),
-              ),
+              child: getBodyCard(bean, height, width, context),
               flex: 2,
             ),
             Expanded(
@@ -306,7 +301,7 @@ class _ArticlePageState extends State<ArticlePage> {
     );
   }
 
-  MarkdownBody getMarkdownBody(
+  Widget getMarkdownBody(
       double height, double width, BuildContext context) {
     final titleColor = Theme.of(context).textSelectionColor;
     final isDark =
@@ -327,55 +322,57 @@ class _ArticlePageState extends State<ArticlePage> {
         ? Colors.grey
         : Theme.of(context).textTheme.subtitle2.color;
 
-    return MarkdownBody(
-      fitContent: false,
-      data: markdownData,
-      selectable: false,
-      onTapLink: (link) {
-        html.window.open(link, link);
-      },
-      styleSheetTheme: MarkdownStyleSheetBaseTheme.cupertino,
-      imageBuilder: (Uri url) {
-        return buildImageWidget(height, width, url.toString());
-      },
-      styleSheet: MarkdownStyleSheet(
-        codeblockPadding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
-        p: TextStyle(
-          color: textColor,
-          fontFamily: "",
-        ),
-        h1: TextStyle(
-            fontSize: 25, fontWeight: FontWeight.bold, color: titleColor),
-        h2: TextStyle(
-            fontSize: 22, fontWeight: FontWeight.bold, color: titleColor),
-        h3: TextStyle(
-            fontSize: 19, fontWeight: FontWeight.bold, color: titleColor),
-        h4: TextStyle(
-            fontSize: 16, fontWeight: FontWeight.bold, color: titleColor),
-        h5: TextStyle(
-            fontSize: 14, fontWeight: FontWeight.bold, color: titleColor),
-        blockSpacing: 10,
-        code: TextStyle(
-          fontWeight: FontWeight.w200,
-          color: codeColor,
-          backgroundColor: codeBgColor,
-          fontSize: 13,
-        ),
-        blockquote: TextStyle(color: blockColor),
-        blockquoteDecoration: BoxDecoration(
-          color: Colors.transparent,
-          border: Border(
-            left: BorderSide(
-              color: blockBgColor,
-              width: 4,
+    return Expanded(
+      child: Markdown(
+        data: markdownData,
+        selectable: false,
+        controller: _scrollController,
+        onTapLink: (link) {
+          html.window.open(link, link);
+        },
+        styleSheetTheme: MarkdownStyleSheetBaseTheme.cupertino,
+        imageBuilder: (Uri url) {
+          return buildImageWidget(height, width, url.toString());
+        },
+        styleSheet: MarkdownStyleSheet(
+          codeblockPadding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
+          p: TextStyle(
+            color: textColor,
+            fontFamily: "",
+          ),
+          h1: TextStyle(
+              fontSize: 25, fontWeight: FontWeight.bold, color: titleColor),
+          h2: TextStyle(
+              fontSize: 22, fontWeight: FontWeight.bold, color: titleColor),
+          h3: TextStyle(
+              fontSize: 19, fontWeight: FontWeight.bold, color: titleColor),
+          h4: TextStyle(
+              fontSize: 16, fontWeight: FontWeight.bold, color: titleColor),
+          h5: TextStyle(
+              fontSize: 14, fontWeight: FontWeight.bold, color: titleColor),
+          blockSpacing: 10,
+          code: TextStyle(
+            fontWeight: FontWeight.w200,
+            color: codeColor,
+            backgroundColor: codeBgColor,
+            fontSize: 13,
+          ),
+          blockquote: TextStyle(color: blockColor),
+          blockquoteDecoration: BoxDecoration(
+            color: Colors.transparent,
+            border: Border(
+              left: BorderSide(
+                color: blockBgColor,
+                width: 4,
+              ),
             ),
           ),
+          codeblockDecoration: BoxDecoration(
+              borderRadius: BorderRadius.all(
+                Radius.circular(10),
+              ),
+              color: codeBgColor),
         ),
-        codeblockDecoration: BoxDecoration(
-            borderRadius: BorderRadius.all(
-              Radius.circular(10),
-            ),
-            color: codeBgColor),
       ),
     );
   }
