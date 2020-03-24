@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_blog/config/base_config.dart';
 
 class HoverTapImage extends StatefulWidget {
   final String image;
@@ -26,8 +25,8 @@ class _HoverTapImageState extends State<HoverTapImage> {
     return MouseRegion(
       child: Stack(
         children: <Widget>[
-          Image.network(
-            baseUrl + widget.image,
+          Image.asset(
+            widget.image,
             width: widget.size,
             height: widget.size,
           ),

@@ -2,7 +2,6 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import '../config/base_config.dart';
 import '../widgets/hover_tap_image.dart';
 import '../widgets/common_layout.dart';
 import '../widgets/web_bar.dart';
@@ -59,7 +58,7 @@ class AboutPage extends StatelessWidget {
                                     "https://github.com/asjqkkkk", "github");
                               },
                               child: const HoverTapImage(
-                                  image: "/blog_config/img/github.png"),
+                                  image: "assets/img/github.png"),
                             ),
                             const SizedBox(
                               width: 10,
@@ -71,7 +70,7 @@ class AboutPage extends StatelessWidget {
                                     "steam");
                               },
                               child: const HoverTapImage(
-                                  image: '/blog_config//img/steam.png'),
+                                  image: 'assets/img/steam.png'),
                             ),
                           ],
                         ),
@@ -118,8 +117,8 @@ class AboutPage extends StatelessWidget {
                           color: Colors.primaries[
                               Random().nextInt(Colors.primaries.length)],
                           image: DecorationImage(
-                            image: NetworkImage(
-                              '$baseUrl/blog_config/img/avatar.jpg',
+                            image: AssetImage(
+                              'assets/img/avatar.jpg',
                             ),
                             fit: BoxFit.cover,
                           )),

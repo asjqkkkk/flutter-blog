@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_blog/config/base_config.dart';
 import '../json/article_item_bean.dart';
 import '../widgets/hover_zoom_widget.dart';
 import '../config/platform.dart';
@@ -56,7 +55,7 @@ class ArticleItem extends StatelessWidget {
                         image: bean.imageAddress.isEmpty
                             ? null
                             : DecorationImage(
-                                image: NetworkImage('$baseUrl/blog_config${bean.imageAddress}'),
+                                image: AssetImage('assets${bean.imageAddress}'),
                                 fit: BoxFit.cover,
                               )),
                     child: bean.imageAddress.isEmpty

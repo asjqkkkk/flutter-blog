@@ -27,14 +27,14 @@ dependencies:
   intl: ^0.16.1
   http: ^0.12.0+4
   path: ^1.6.4
-  dio:
-    git:
-      url: https://gitee.com/oldBen/dio.git
-      path: dio
-      ref: master
+#  dio:
+#    git:
+#      url: https://gitee.com/oldBen/dio.git
+#      path: dio
+#      ref: master
 
 
-  crypto: ^2.1.3
+#  crypto: ^2.1.3
   flutter_html: ^0.11.1
   video_player_web: ^0.1.2+1
   video_player: ^0.10.5
@@ -57,16 +57,17 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-#  fonts:
-#    - family: huawen_kt
-#      fonts:
-#        - asset: assets/fonts/huawen_kt.ttf
-#  assets:
-#    - assets/img/
+  fonts:
+    - family: huawen_kt
+      fonts:
+        - asset: assets/fonts/huawen_kt.ttf
+  assets:
+    - assets/img/
+    - assets/fonts/
+    - assets/json/
 #    - config/markdowns/life/
 #    - config/markdowns/study/
 #    - config/markdowns/topic/
-#    - assets/config/
 
 
   # The following line ensures that the Material Icons font is
