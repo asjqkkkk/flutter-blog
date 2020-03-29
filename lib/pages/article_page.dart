@@ -118,7 +118,7 @@ class _ArticlePageState extends State<ArticlePage> {
           children: <Widget>[
             Expanded(
               child: Container(
-                margin: EdgeInsets.fromLTRB(0, 50, 10, 50),
+                margin: EdgeInsets.fromLTRB(20, 50, 10, 50),
                 alignment: Alignment.center,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -170,14 +170,11 @@ class _ArticlePageState extends State<ArticlePage> {
             ),
             Expanded(
               child: getBodyCard(bean, height, width, context, false),
-              flex: 2,
+              flex: 3,
             ),
             Expanded(
-                child: Row(
-              children: <Widget>[
-                Expanded(child: Container()),
-                Expanded(
-                  flex: 3,
+                child: Container(
+                  margin: EdgeInsets.only(left: 20),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -227,10 +224,7 @@ class _ArticlePageState extends State<ArticlePage> {
                       ),
                     ],
                   ),
-                ),
-                Expanded(child: Container()),
-              ],
-            )),
+                )),
           ],
         ));
   }

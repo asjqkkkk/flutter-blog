@@ -39,7 +39,7 @@ class _WebBarState extends State<WebBar> {
 
     return Container(
       height: 70,
-      width: isNotMobile ? 0.86 * width : width,
+      width: isNotMobile ? (pageType == PageType.article ? width - 40 : 0.86 * width ): width,
       child: Row(
         children: <Widget>[
           if (isNotMobile)

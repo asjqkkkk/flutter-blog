@@ -32,10 +32,7 @@ class CommonLayout extends StatelessWidget {
       ),
       floatingActionButton: getFab(isNotMobile, pageType,context),
       body: Container(
-        margin: isNotMobile
-            ? EdgeInsets.only(
-            left: 0.07 * width, right: 0.07 * width, top: 0.05 * height)
-            : const EdgeInsets.all(0),
+        margin: pageType == PageType.article ? getArticlePageMargin(isNotMobile, width, height) : getCommonMargin(isNotMobile, width, height),
         child: Stack(
           children: <Widget>[
             WebBar(
@@ -49,6 +46,20 @@ class CommonLayout extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  EdgeInsets getCommonMargin(bool isNotMobile, double width, double height) {
+    return isNotMobile
+          ? EdgeInsets.only(
+          left: 0.07 * width, right: 0.07 * width, top: 0.05 * height)
+          : const EdgeInsets.all(0);
+  }
+
+  EdgeInsets getArticlePageMargin(bool isNotMobile, double width, double height) {
+    return isNotMobile
+        ? EdgeInsets.only(
+        left: 20, right: 20, top: 0.05 * height)
+        : const EdgeInsets.all(0);
   }
 
   Widget getFab(bool isNotMobile, PageType pageType, BuildContext context) {
