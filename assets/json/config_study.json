@@ -2,10 +2,10 @@
   {
     "articleName": "View绘制流程",
     "createTime": "2020-03-29T02:59:57.000",
-    "lastModifiedTime": "2020-03-29T15:17:48.000",
+    "lastModifiedTime": "2020-03-29T16:27:49.000",
     "tag": "源码系列",
     "summary": " 序\r\n\r\n上一篇分析完了Activity的启动流程。这一篇就要来分析View的绘制流程啦。\r\n\r",
-    "imageAddress": "/img/view_step.jpeg",
+    "imageAddress": "/img/view_step.png",
     "articleAddress": "config/markdowns/study/View绘制流程.md"
   },
   {
