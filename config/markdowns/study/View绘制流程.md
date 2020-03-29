@@ -1,7 +1,7 @@
 ---
 title: View绘制流程
 date: 2020-03-29 02:59:57
-index_img: /img/view_step.jepg
+index_img: /img/view_step.jpeg
 tags: 源码系列
 ---
 # 序
