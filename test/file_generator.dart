@@ -44,7 +44,7 @@ void main() {
     final map = HashMap<String, List<YearBean>>();
     for (var bean in beans) {
       final tag = bean.tag;
-      if (tag.isEmpty) continue;
+      if (tag?.isEmpty??true) continue;
       if (map[tag] == null) {
         map[tag] = [YearBean.fromItemBean(bean)];
       } else {
