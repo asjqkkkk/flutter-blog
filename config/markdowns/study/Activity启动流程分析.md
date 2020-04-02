@@ -1,7 +1,7 @@
 ---
 title: Activity启动流程分析
 date: 2020-03-22 11:38:15
-index_img: /img/activity_start.jpg
+index_img: /img/activity_start.png
 tags: 源码系列
 ---
 

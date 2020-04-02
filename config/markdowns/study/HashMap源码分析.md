@@ -1,7 +1,7 @@
 ---
 title: HashMap源码分析
 date: 2020-03-10 23:49:47
-index_img: /img/hashmap.jpg
+index_img: /img/hashmap.png
 tags: 源码系列
 ---
 

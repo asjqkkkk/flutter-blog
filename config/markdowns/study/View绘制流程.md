@@ -1353,4 +1353,5 @@ public class FrameLayout extends ViewGroup {
     2. 通过 `View` 的 `layout(...)`会调用它的 `onLayout(...)` 方法,而 `onLayout(...)` 没有任何逻辑操作, 因此会进入到子类 `FrameLayout` 的  `onLayout(...)` 
     3. 在 `FrameLayout` 的  `onLayout(...)` 中,会通过 `layoutChildren(...)` 来调用到 `View` 的 `layout(...)` 方法,从而形成了递归
 7. `performDraw()` : 
-    1. 通过对 `DecorView` 调用 `draw(...)` 进入到 `View` 的 `draw(...)` 方法, 然后会调用 `View` 的 `onDraw(...)` 进入到 `DectorView` 的 `onDraw(...)` 方法,不过这里只做了背景绘制,然后
+    1. 通过对 `DecorView` 调用 `draw(...)` 进入到 `View` 的 `draw(...)` 方法, 然后会调用 `View` 的 `onDraw(...)` 进入到 `DectorView` 的 `onDraw(...)` 方法,不过这里只做了背景绘制
+    2. 然后继续执行之前的 `dispatchDraw(...)` 方法, 遍历 children 对每一个子View 调用它的  `draw(...)` 方法,就这样形成了递归
