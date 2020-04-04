@@ -1,5 +1,7 @@
-import 'package:flutter_blog/json/article_item_bean.dart';
-import 'package:flutter_blog/json/json_loader.dart';
+
+import '../json/article_item_bean.dart';
+import '../json/json_loader.dart';
+
 
 class HomePageLogic{
 
@@ -10,5 +12,6 @@ class HomePageLogic{
     List<ArticleItemBean> data = ArticleItemBean.fromMapList(configJson);
     return data;
   }
+
 
 }

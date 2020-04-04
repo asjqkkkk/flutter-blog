@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import '../json/article_item_bean.dart';
 import '../widgets/hover_zoom_widget.dart';
 import '../config/platform.dart';
@@ -57,7 +58,7 @@ class ArticleItem extends StatelessWidget {
                             : DecorationImage(
                                 image: AssetImage('assets${bean.imageAddress}'),
                                 fit: BoxFit.cover,
-                              )),
+                              ),),
                     child: bean.imageAddress.isEmpty
                         ? Container(
                             width: cardWidth,

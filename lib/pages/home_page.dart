@@ -19,7 +19,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final logic = HomePageLogic();
-  final GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
   ArticleType type = ArticleType.life;
 
   List<ArticleItemBean> showDataList = [];
@@ -37,6 +36,8 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -47,7 +48,6 @@ class _HomePageState extends State<HomePage> {
     final isNotMobile = !detector.isMobile();
 
     return CommonLayout(
-      globalKey: key,
       drawer: getTypeChangeWidegt(height, fontSizeByHeight, isNotMobile),
       child: Container(
         child: isNotMobile
