@@ -78,14 +78,14 @@ void main() {
       final lastEditTime = file.lastModifiedSync().toIso8601String();
 
       final content = file.readAsStringSync();
-      List<String> splits = content.split("---");
       String subContent;
       if (!content.startsWith('---')) {
         subContent = content.trim();
         editMarkdown(file, content,data: createTime);
       } else{
-        subContent = splits[2].trim();
-        List<String> infos = splits[1].split("\n");
+        final index = content.indexOf('---', 2);
+        subContent = content.substring(index, content.length);
+        List<String> infos = content.substring(0, index).split('---')[1].split("\n");
         for (var info in infos) {
           if (info.contains("date:")) {
             String date = info.substring(info.indexOf("date: ") + 6);

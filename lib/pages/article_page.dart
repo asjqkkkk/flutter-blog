@@ -38,7 +38,6 @@ class _ArticlePageState extends State<ArticlePage> {
   @override
   void initState() {
     final name = Uri.decodeFull(widget.name);
-    print('获取到的name:${widget.name}   转换后的name:$name');
     if(widget.articleData == null){
       bean = ArticleItemBean(articleName: name);
       articleData = ArticleData(0, [bean]);
@@ -54,9 +53,9 @@ class _ArticlePageState extends State<ArticlePage> {
   void loadArticle(ArticleItemBean bean) {
     ArticleJson.loadArticles().then((value) {
       final String content = value[bean.articleName];
-      List<String> splits = content.split('---');
-      if (splits.length >= 3) {
-        markdownData = splits[2];
+      if (content.startsWith('---')) {
+        final index = content.indexOf('---', 2);
+        markdownData = content.substring(index, content.length);
       } else {
         markdownData = content;
       }
