@@ -8,6 +8,7 @@ import 'package:flutter_blog/json/friend_link_bean.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart' as path;
 import 'package:intl/intl.dart';
+import 'package:markdown/markdown.dart' as m;
 
 import 'package:path/path.dart' as p;
 
@@ -79,10 +80,10 @@ void main() {
       final content = file.readAsStringSync();
       List<String> splits = content.split("---");
       String subContent;
-      if (splits.length == 1) {
+      if (!content.startsWith('---')) {
         subContent = content.trim();
         editMarkdown(file, content,data: createTime);
-      } else if (splits.length >= 3) {
+      } else{
         subContent = splits[2].trim();
         List<String> infos = splits[1].split("\n");
         for (var info in infos) {
@@ -101,12 +102,19 @@ void main() {
       }
       subContent = subContent.substring(
           0, subContent.length > 50 ? 50 : subContent.length);
+      final m.Document document = m.Document(
+        extensionSet: m.ExtensionSet.gitHubFlavored,
+        encodeHtml: false,
+      );
+      final nodes =  document.parseLines(subContent.split(RegExp(r'\r?\n')));
+      String sub = "";
+      nodes.forEach((m.Node element) => sub += element.textContent);
       final bean = ArticleItemBean(
         articleName: name,
         createTime: createTime,
         lastModifiedTime: lastEditTime,
         tag: tag,
-        summary: subContent.replaceAll("#", ""),
+        summary: sub,
         imageAddress: imageAdress,
         articleAddress: '$dirPath/markdowns/$markdownFilePath/$fileName',
       );

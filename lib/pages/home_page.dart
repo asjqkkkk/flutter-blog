@@ -29,7 +29,6 @@ class _HomePageState extends State<HomePage> {
     logic.getArticleData('config_life').then((List<ArticleItemBean> data) {
       dataMap[ArticleType.life] = data;
       showDataList.addAll(data);
-      print(showDataList.length);
       setState(() {});
       ArticleJson.loadArticles();
     });
@@ -82,7 +81,6 @@ class _HomePageState extends State<HomePage> {
                                     onTap: () {
                                       final name = showDataList[index].articleName;
                                       final result = Uri.encodeFull(name);
-                                      print('转换前的:$name      转行后的:$result');
                                       Navigator.of(context).pushNamed(articlePage + '/$result', arguments: ArticleData(index, showDataList));
                                     },
                                   );
