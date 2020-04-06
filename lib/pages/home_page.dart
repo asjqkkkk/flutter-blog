@@ -50,55 +50,58 @@ class _HomePageState extends State<HomePage> {
       drawer: getTypeChangeWidegt(height, fontSizeByHeight, isNotMobile),
       child: Container(
         child: isNotMobile
-            ? Row(
-                children: <Widget>[
-                  getTypeChangeWidegt(height, fontSizeByHeight, isNotMobile),
-                  Expanded(
-                    child: Container(
-                      margin: EdgeInsets.only(
-                          left: 0.06 * width,
-                          right: 0.06 * width,
-                          top: 0.02 * width),
-                      child: showDataList.isEmpty
-                          ? const Center(
-                              child: CircularProgressIndicator(),
-                            )
-                          : NotificationListener<
-                                  OverscrollIndicatorNotification>(
-                              onNotification: (overScroll) {
-                                overScroll.disallowGlow();
-                                return true;
-                              },
-                              child: GridView.count(
-                                crossAxisCount: getCrossCount(width),
-                                padding: EdgeInsets.fromLTRB(0.02 * width,
-                                    0.02 * height, 0.02 * width, 0),
-                                children:
-                                    List.generate(showDataList.length, (index) {
-                                  return GestureDetector(
-                                    child:
-                                        ArticleItem(bean: showDataList[index]),
-                                    onTap: () {
-                                      final name = showDataList[index].articleName;
-                                      final result = Uri.encodeFull(name);
-                                      Navigator.of(context).pushNamed(articlePage + '/$result', arguments: ArticleData(index, showDataList));
-                                    },
-                                  );
-                                }),
-                              )),
-                    ),
-                  )
-                ],
-              )
+            ? getPcGrid(height, fontSizeByHeight, width, context)
             : getMobileList(),
       ),
     );
   }
 
-  int getCrossCount(double width) {
-    final result = ((width - 400) ~/ 300) < 1 ? 1 : ((width - 400) ~/ 300);
-    return result > 3 ? 3 : result;
+  Row getPcGrid(double height, double fontSizeByHeight, double width, BuildContext context) {
+    return Row(
+              children: <Widget>[
+                getTypeChangeWidegt(height, fontSizeByHeight, false),
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.only(
+                        left: 0.06 * width,
+                        right: 0.06 * width,
+                        top: 0.02 * width),
+                    child: showDataList.isEmpty
+                        ? const Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : NotificationListener<
+                                OverscrollIndicatorNotification>(
+                            onNotification: (overScroll) {
+                              overScroll.disallowGlow();
+                              return true;
+                            },
+                            child: GridView.count(
+                              crossAxisCount: 3,
+                              padding: EdgeInsets.fromLTRB(0.02 * width,
+                                  0.02 * height, 0.02 * width, 0),
+                              children:
+                                  List.generate(showDataList.length, (index) {
+                                return GestureDetector(
+                                  child: ArticleItem(bean: showDataList[index]),
+                                  onTap: () {
+                                    final name = showDataList[index].articleName;
+                                    final result = Uri.encodeFull(name);
+                                    Navigator.of(context).pushNamed(articlePage + '/$result', arguments: ArticleData(index, showDataList));
+                                  },
+                                );
+                              }),
+                            )),
+                  ),
+                )
+              ],
+            );
   }
+//
+//  int getCrossCount(double width) {
+//    final result = ((width - 400) ~/ 300) < 1 ? 1 : ((width - 400) ~/ 300);
+//    return result > 3 ? 3 : result;
+//  }
 
   Column getTypeChangeWidegt(
       double height, double fontSizeByHeight, bool isNotMobile) {
