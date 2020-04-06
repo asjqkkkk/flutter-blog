@@ -88,26 +88,24 @@ class ArticleItem extends StatelessWidget {
           ),
         ),
         dateWidget(isNotMobile, cardWidth),
-        summaryWidget(isNotMobile, cardWidth),
+        if (isNotMobile) Expanded(child: summaryWidget(isNotMobile, cardWidth)) else summaryWidget(isNotMobile, cardWidth),
       ],
     );
   }
 
   Widget summaryWidget(bool isNotMobile, num cardWidth) {
-    return Expanded(
-      child: Container(
-        margin: EdgeInsets.only(top: 4),
-          width: isNotMobile ? 0.86 * cardWidth : 0.95 * cardWidth,
-          child: Text(
-            bean.summary + '...',
-            style: const TextStyle(
-              fontSize: 12,
-              color: Color(0xff8D8D8D),
-            ),
-            overflow: TextOverflow.clip,
+    return Container(
+      margin: EdgeInsets.only(top: 4),
+        width: isNotMobile ? 0.86 * cardWidth : 0.95 * cardWidth,
+        child: Text(
+          bean.summary + '...',
+          style: const TextStyle(
+            fontSize: 12,
+            color: Color(0xff8D8D8D),
           ),
+          overflow: TextOverflow.clip,
         ),
-    );
+      );
   }
 
   Container dateWidget(bool isNotMobile, num cardWidth) {
