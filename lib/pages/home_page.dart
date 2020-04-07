@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
     logic.getArticleData('config_study').then((List<ArticleItemBean> data) {
       dataMap[ArticleType.study] = data;
       showDataList.addAll(data);
-      setState(() {});
+      refresh();
       ArticleJson.loadArticles();
     });
     super.initState();
@@ -129,15 +129,15 @@ class _HomePageState extends State<HomePage> {
             showDataList.clear();
             if (dataMap[ArticleType.study] != null) {
               showDataList.addAll(dataMap[ArticleType.study]);
-              setState(() {});
+              refresh();
             } else {
-              setState(() {});
+              refresh();
               logic
                   .getArticleData("config_study")
                   .then((List<ArticleItemBean> data) {
                 dataMap[ArticleType.study] = data;
                 showDataList.addAll(data);
-                setState(() {});
+                refresh();
               });
             }
           },
@@ -159,16 +159,16 @@ class _HomePageState extends State<HomePage> {
             type = ArticleType.life;
             showDataList.clear();
             if (dataMap[ArticleType.life] != null) {
-              showDataList.addAll(dataMap[ArticleType.study]);
-              setState(() {});
+              showDataList.addAll(dataMap[ArticleType.life]);
+              refresh();
             } else {
-              setState(() {});
+              refresh();
               logic
                   .getArticleData("config_life")
                   .then((List<ArticleItemBean> data) {
                 dataMap[ArticleType.life] = data;
                 showDataList.addAll(data);
-                setState(() {});
+                refresh();
               });
             }
           },
@@ -191,15 +191,15 @@ class _HomePageState extends State<HomePage> {
             showDataList.clear();
             if (dataMap[ArticleType.topic] != null) {
               showDataList.addAll(dataMap[ArticleType.topic]);
-              setState(() {});
+              refresh();
             } else {
-              setState(() {});
+              refresh();
               logic
                   .getArticleData('config_topic')
                   .then((List<ArticleItemBean> data) {
                 dataMap[ArticleType.topic] = data;
                 showDataList.addAll(data);
-                setState(() {});
+                refresh();
               });
             }
           },
@@ -234,6 +234,10 @@ class _HomePageState extends State<HomePage> {
               }),
       ],
     );
+  }
+
+  void refresh() {
+    setState(() {});
   }
 
   Widget getMobileList() {
