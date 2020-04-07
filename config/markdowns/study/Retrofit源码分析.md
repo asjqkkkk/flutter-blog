@@ -1,5 +1,5 @@
 ---
-title: Retrofit源码解析与动态代理
+title: Retrofit源码分析
 date: 2020-04-05 04:03:43
 index_img: /img/retrofit.png
 tags: 源码系列

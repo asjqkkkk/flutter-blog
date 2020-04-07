@@ -17,6 +17,20 @@ import 'config/generate_head.dart';
 void main() {
 
 
+  ///将node中的text添加到一起
+  String addNodeText(m.Node node, String text){
+    if(node == null) return '';
+    if(node is m.Text){
+      return node.text + ' ';
+    } else if(node is m.Element){
+      if(node.children == null) return '';
+      if(node.tag == 'img' || node.tag == 'a') return '';
+      node.children.forEach((n){
+        text += addNodeText(n, '');
+      });
+    }
+    return text;
+  }
 
   ///将文章列表按年份排序
   List<ArchiveItemBean> sortByYear(List<ArticleItemBean> beans) {
@@ -101,14 +115,18 @@ void main() {
         }
       }
       subContent = subContent.substring(
-          0, subContent.length > 50 ? 50 : subContent.length);
+          0, subContent.length > 100 ? 100 : subContent.length);
       final m.Document document = m.Document(
         extensionSet: m.ExtensionSet.gitHubFlavored,
         encodeHtml: false,
       );
       final nodes =  document.parseLines(subContent.split(RegExp(r'\r?\n')));
       String sub = "";
-      nodes.forEach((m.Node element) => sub += element.textContent);
+      nodes.forEach((m.Node element){
+        sub += addNodeText(element, '');
+      });
+      sub = sub.substring(
+          0, sub.length > 50 ? 50 : sub.length);
       final bean = ArticleItemBean(
         articleName: name,
         createTime: createTime,
@@ -204,6 +222,8 @@ void main() {
     file.createSync();
     file.writeAsStringSync(jsonEncode(map));
   }
+
+
 
   test('测试文件输出', () {
     final Map<String, String> result = {};

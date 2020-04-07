@@ -19,7 +19,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final logic = HomePageLogic();
-  ArticleType type = ArticleType.life;
+  ArticleType type = ArticleType.study;
 
   List<ArticleItemBean> showDataList = [];
   Map<ArticleType, List<ArticleItemBean>> dataMap = Map();
@@ -28,8 +28,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    logic.getArticleData('config_life').then((List<ArticleItemBean> data) {
-      dataMap[ArticleType.life] = data;
+    logic.getArticleData('config_study').then((List<ArticleItemBean> data) {
+      dataMap[ArticleType.study] = data;
       showDataList.addAll(data);
       setState(() {});
       ArticleJson.loadArticles();
