@@ -158,8 +158,19 @@ class _HomePageState extends State<HomePage> {
             if (type == ArticleType.life) return;
             type = ArticleType.life;
             showDataList.clear();
-            showDataList.addAll(dataMap[ArticleType.life]);
-            setState(() {});
+            if (dataMap[ArticleType.life] != null) {
+              showDataList.addAll(dataMap[ArticleType.study]);
+              setState(() {});
+            } else {
+              setState(() {});
+              logic
+                  .getArticleData("config_life")
+                  .then((List<ArticleItemBean> data) {
+                dataMap[ArticleType.life] = data;
+                showDataList.addAll(data);
+                setState(() {});
+              });
+            }
           },
           child: Text(
             '生活',
