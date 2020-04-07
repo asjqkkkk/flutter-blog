@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
   Row getPcGrid(double height, double fontSizeByHeight, double width, BuildContext context) {
     return Row(
               children: <Widget>[
-                getTypeChangeWidegt(height, fontSizeByHeight, false),
+                getTypeChangeWidegt(height, fontSizeByHeight, true),
                 Expanded(
                   child: Container(
                     margin: EdgeInsets.only(
