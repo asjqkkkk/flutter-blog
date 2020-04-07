@@ -23,6 +23,8 @@ class _HomePageState extends State<HomePage> {
 
   List<ArticleItemBean> showDataList = [];
   Map<ArticleType, List<ArticleItemBean>> dataMap = Map();
+  final GlobalKey<ScaffoldState> globalKey = GlobalKey();
+
 
   @override
   void initState() {
@@ -47,6 +49,7 @@ class _HomePageState extends State<HomePage> {
     final isNotMobile = !detector.isMobile();
 
     return CommonLayout(
+      globalKey: globalKey,
       drawer: getTypeChangeWidegt(height, fontSizeByHeight, isNotMobile),
       child: Container(
         child: isNotMobile
