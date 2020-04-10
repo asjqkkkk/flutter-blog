@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import '../json/article_item_bean.dart';
 import '../widgets/hover_zoom_widget.dart';
-import '../config/platform.dart';
+import '../config/platform_type.dart';
 
 class ArticleItem extends StatelessWidget {
   final ArticleItemBean bean;
@@ -15,7 +15,7 @@ class ArticleItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final width = size.width;
-    final isNotMobile = !PlatformDetector().isMobile();
+    final isNotMobile = !PlatformType().isMobile();
     final cardWidth = isNotMobile
         ? (0.18 * width < 260 ? 260 : 0.18 * width)
         : (width - 100 < 260 ? 260 : width - 80);

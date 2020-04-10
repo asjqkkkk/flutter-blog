@@ -1,7 +1,7 @@
 import '../pages/article_page.dart';
 
 import '../config/base_config.dart';
-import '../config/platform.dart';
+import '../config/platform_type.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../json/article_json_bean.dart';
@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
     final width = size.width;
     final height = size.height;
     final fontSizeByHeight = height * 30 / 1200;
-    final detector = PlatformDetector();
+    final detector = PlatformType();
     final isNotMobile = !detector.isMobile();
 
     return CommonLayout(

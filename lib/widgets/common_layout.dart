@@ -23,7 +23,7 @@ class CommonLayout extends StatelessWidget {
         .size;
     final width = size.width;
     final height = size.height;
-    final isNotMobile = !PlatformDetector().isMobile();
+    final isNotMobile = !PlatformType().isMobile();
 
     return Scaffold(
       key: globalKey,

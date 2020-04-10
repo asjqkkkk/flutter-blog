@@ -5,8 +5,8 @@ import 'package:flutter_blog/config/full_screen_dialog_util.dart';
 import 'package:flutter_blog/json/article_json_bean.dart';
 import 'package:flutter_blog/widgets/search_widget.dart';
 import 'package:flutter_blog/widgets/top_show_widget.dart';
-export '../config/platform.dart';
-import '../config/platform.dart';
+export '../config/platform_type.dart';
+import '../config/platform_type.dart';
 
 import 'bar_button.dart';
 
@@ -34,7 +34,7 @@ class _WebBarState extends State<WebBar> {
     final size = MediaQuery.of(context).size;
     final width = size.width;
     final height = size.height;
-    final isNotMobile = !PlatformDetector().isMobile();
+    final isNotMobile = !PlatformType().isMobile();
     final fontSize = isNotMobile ? height * 30 / 1200 : 15;
 
     return Container(

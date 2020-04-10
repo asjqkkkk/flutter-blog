@@ -32,7 +32,7 @@ class _ArchivePageState extends State<ArchivePage> {
 
   @override
   Widget build(BuildContext context) {
-    final isNotMobile = !PlatformDetector().isMobile();
+    final isNotMobile = !PlatformType().isMobile();
     final List<ArchiveItemBean> transBeans =
         ModalRoute.of(context).settings.arguments;
     if (!hasInitialed) {

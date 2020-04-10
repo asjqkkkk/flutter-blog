@@ -9,7 +9,7 @@ class FriendLinkPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isNotMobile = !PlatformDetector().isMobile();
+    final isNotMobile = !PlatformType().isMobile();
 
     return CommonLayout(
         pageType: PageType.link,

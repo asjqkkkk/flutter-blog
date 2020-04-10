@@ -29,7 +29,7 @@ class _TagPageState extends State<TagPage> {
     final size = MediaQuery.of(context).size;
     final width = size.width;
     final height = size.height;
-    final isNotMobile = !PlatformDetector().isMobile();
+    final isNotMobile = !PlatformType().isMobile();
 
 
     return CommonLayout(

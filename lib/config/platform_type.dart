@@ -1,6 +1,6 @@
 import 'dart:html' as html;
 
-class PlatformDetector {
+class PlatformType {
   var _iOS = ['iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod'];
 
   bool isIOS() {
