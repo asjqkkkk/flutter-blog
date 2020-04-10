@@ -51,7 +51,7 @@ class _ArticlePageState extends State<ArticlePage> {
       final String content = value[bean.articleName];
       if (content.startsWith('---')) {
         final index = content.indexOf('---', 2);
-        markdownData = content.substring(index, content.length);
+        markdownData = content.substring(index + 3, content.length);
       } else {
         markdownData = content;
       }
