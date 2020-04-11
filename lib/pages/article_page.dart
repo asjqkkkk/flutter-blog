@@ -4,10 +4,11 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:markdown_widget/markdown_widget.dart';
-import '../widgets/toc_widget.dart';
+import '../widgets/toc_item.dart';
 import '../json/article_item_bean.dart';
 import '../json/article_json_bean.dart';
 import '../widgets/common_layout.dart';
+import '../widgets/toc_item.dart';
 import '../logic/article_page_logic.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:markdown_widget/config/highlight_themes.dart' as theme;
@@ -30,7 +31,6 @@ class _ArticlePageState extends State<ArticlePage> {
   ArticleItemBean bean;
   ArticleData articleData;
   final TocController controller = TocController();
-  LinkedHashMap<int, Toc> tocList;
 
   @override
   void initState() {
@@ -180,10 +180,11 @@ class _ArticlePageState extends State<ArticlePage> {
                     ),
                   ),
                   Expanded(
-                    child: TocWidget(
-                      tocList: tocList,
-                      controller: controller,
-                    ),
+                    child: TocListWidget(controller: controller, tocItem: (toc, isCurrent){
+                      return TocItemWidget(isCurrent: isCurrent, toc: toc, onTap: (){
+                        controller.jumpTo(index: toc.index);
+                      },);
+                    },),
                   ),
                   Container(
                     alignment: Alignment.centerLeft,
@@ -194,12 +195,8 @@ class _ArticlePageState extends State<ArticlePage> {
                         color: Colors.grey.withOpacity(0.5),
                       ),
                       onPressed: () {
-                        final keys = tocList.keys.toList();
-                        final lastKey = keys.last;
-                        final index = tocList[lastKey].index;
-                        print(index);
-                        if (controller.scrollController.isAttached)
-                          controller.scrollController.jumpTo(index: index);
+                        if (controller.isAttached)
+                          controller.jumpTo(index: controller.endIndex);
                       },
                     ),
                   ),
@@ -237,7 +234,7 @@ class _ArticlePageState extends State<ArticlePage> {
         : Color.fromRGBO(246, 248, 250, 1);
     final blockColor = isDark
         ? Color.fromRGBO(100, 100, 100, 1)
-        : Color.fromRGBO(113, 123, 138, 1);
+        : defaultBlockColor;
     final blockBgColor = isDark
         ? Color.fromRGBO(100, 100, 100, 1)
         : Color.fromRGBO(223, 226, 229, 1);
@@ -247,11 +244,6 @@ class _ArticlePageState extends State<ArticlePage> {
     return MarkdownWidget(
       data: markdownData,
       controller: controller,
-      lazyLoad: false,
-      tocListBuilder: (list) {
-        tocList = list;
-        refresh();
-      },
       styleConfig: StyleConfig(
         pConfig: PConfig(
           onLinkTap: (url) => _launchURL(url),
@@ -259,20 +251,21 @@ class _ArticlePageState extends State<ArticlePage> {
           codeWidget: (text){
             return Container(
               padding: EdgeInsets.only(left: 4, right: 4),
+              margin: EdgeInsets.only(top: 2),
               child: SelectableText(
                 text,
                 style: isDark ? TextStyle(color: textColor) : defaultCodeStyle,
               ),
               color: codeBgColor,
             );
-          }
+          },
+          wrapCrossAlignment: WrapCrossAlignment.start,
         ),
         titleConfig: TitleConfig(
           showDivider: false,
         ),
         ulConfig: UlConfig(textStyle: TextStyle(color: textColor)),
         blockQuoteConfig: BlockQuoteConfig(
-          backgroundColor: blockBgColor,
           blockColor: blockColor,
         ),
         preConfig: PreConfig(
@@ -296,8 +289,8 @@ class _ArticlePageState extends State<ArticlePage> {
                 placeholder: 'assets/img/loading.gif',
                 image: url,
                 height: h,
-                width: w ?? (height > width ? height / 3 : width / 3),
-                fit: BoxFit.contain,
+                width: w,
+                fit: BoxFit.cover,
               ),
             ),
           );
