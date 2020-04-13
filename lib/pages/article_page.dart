@@ -13,7 +13,6 @@ import '../logic/article_page_logic.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:markdown_widget/config/highlight_themes.dart' as theme;
 
-
 class ArticlePage extends StatefulWidget {
   final ArticleData articleData;
   final String name;
@@ -180,11 +179,18 @@ class _ArticlePageState extends State<ArticlePage> {
                     ),
                   ),
                   Expanded(
-                    child: TocListWidget(controller: controller, tocItem: (toc, isCurrent){
-                      return TocItemWidget(isCurrent: isCurrent, toc: toc, onTap: (){
-                        controller.jumpTo(index: toc.index);
-                      },);
-                    },),
+                    child: TocListWidget(
+                      controller: controller,
+                      tocItem: (toc, isCurrent) {
+                        return TocItemWidget(
+                          isCurrent: isCurrent,
+                          toc: toc,
+                          onTap: () {
+                            controller.jumpTo(index: toc.index);
+                          },
+                        );
+                      },
+                    ),
                   ),
                   Container(
                     alignment: Alignment.centerLeft,
@@ -232,9 +238,8 @@ class _ArticlePageState extends State<ArticlePage> {
     final codeBgColor = isDark
         ? Color.fromRGBO(85, 85, 85, 1)
         : Color.fromRGBO(246, 248, 250, 1);
-    final blockColor = isDark
-        ? Color.fromRGBO(100, 100, 100, 1)
-        : defaultBlockColor;
+    final blockColor =
+        isDark ? Color.fromRGBO(100, 100, 100, 1) : defaultBlockColor;
     final blockBgColor = isDark
         ? Color.fromRGBO(100, 100, 100, 1)
         : Color.fromRGBO(223, 226, 229, 1);
@@ -248,18 +253,21 @@ class _ArticlePageState extends State<ArticlePage> {
         pConfig: PConfig(
           onLinkTap: (url) => _launchURL(url),
           textStyle: TextStyle(color: textColor),
-          codeWidget: (text){
+          codeWidget: (text) {
             return Container(
-              padding: EdgeInsets.only(left: 4, right: 4),
-              margin: EdgeInsets.only(top: 2),
+              padding: EdgeInsets.only(left: 5, right: 4),
               child: SelectableText(
                 text,
                 style: isDark ? TextStyle(color: textColor) : defaultCodeStyle,
               ),
-              color: codeBgColor,
+              decoration: BoxDecoration(
+                color: codeBgColor,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(3),
+                ),
+              ),
             );
           },
-          wrapCrossAlignment: WrapCrossAlignment.start,
         ),
         titleConfig: TitleConfig(
           showDivider: false,
@@ -271,9 +279,9 @@ class _ArticlePageState extends State<ArticlePage> {
         preConfig: PreConfig(
           decoration: BoxDecoration(
             color: codeBgColor,
-              borderRadius: BorderRadius.all(
-                Radius.circular(10),
-              ),
+            borderRadius: BorderRadius.all(
+              Radius.circular(10),
+            ),
           ),
           theme: isDark ? theme.darkTheme : theme.arduinoLightTheme,
         ),
