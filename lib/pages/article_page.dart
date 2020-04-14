@@ -253,21 +253,15 @@ class _ArticlePageState extends State<ArticlePage> {
         pConfig: PConfig(
           onLinkTap: (url) => _launchURL(url),
           textStyle: TextStyle(color: textColor),
-          codeWidget: (text) {
-            return Container(
-              padding: EdgeInsets.only(left: 5, right: 4),
-              child: SelectableText(
-                text,
-                style: isDark ? TextStyle(color: textColor) : defaultCodeStyle,
+        ),
+        codeConfig: CodeConfig(
+            decoration: BoxDecoration(
+              color: codeBgColor,
+              borderRadius: BorderRadius.all(
+                Radius.circular(3),
               ),
-              decoration: BoxDecoration(
-                color: codeBgColor,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(3),
-                ),
-              ),
-            );
-          },
+            ),
+          codeStyle: isDark ? TextStyle(color: textColor) : defaultCodeStyle,
         ),
         titleConfig: TitleConfig(
           showDivider: false,
