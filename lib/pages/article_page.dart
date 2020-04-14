@@ -266,7 +266,18 @@ class _ArticlePageState extends State<ArticlePage> {
         titleConfig: TitleConfig(
           showDivider: false,
         ),
-        ulConfig: UlConfig(textStyle: TextStyle(color: textColor)),
+        ulConfig: UlConfig(textStyle: TextStyle(color: textColor), dotWidget: (deep, index){
+          return Container(
+            width: 6,
+            height: 6,
+            margin: EdgeInsets.only(left: 5, right: 5, top: 7),
+            decoration: BoxDecoration(
+              border: deep % 2 == 0  ? null : Border.all(color: isDark ? Colors.grey : Colors.black),
+              shape: BoxShape.circle,
+              color: deep % 2 == 0 ? (isDark ? Colors.grey : Colors.black) : null,
+            ),
+          );
+        }),
         blockQuoteConfig: BlockQuoteConfig(
           blockColor: blockColor,
         ),

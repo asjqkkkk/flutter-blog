@@ -1,7 +1,13 @@
 
 
 
-void main(List<String> argument){
-  print('参数:$argument');
+import 'package:flutter_test/flutter_test.dart';
+
+void main(){
+
+  test('测试', (){
+    assert(false);
+    print('aaaa');
+  });
 
 }
