@@ -10,6 +10,7 @@ class AppModule extends MainModule {
 
   @override
   List<Router> get routers => [
+    Router(defaultPage, child: (_, args) => HomePage()),
     Router(homePage, child: (_, args) => HomePage()),
     Router(tagPage, child: (_, args) => TagPage()),
     Router(archivePage, child: (_, args) => ArchivePage()),
