@@ -8,7 +8,6 @@ import '../widgets/toc_item.dart';
 import '../json/article_item_bean.dart';
 import '../json/article_json_bean.dart';
 import '../widgets/common_layout.dart';
-import '../widgets/toc_item.dart';
 import '../logic/article_page_logic.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:markdown_widget/config/highlight_themes.dart' as theme;
@@ -300,7 +299,7 @@ class _ArticlePageState extends State<ArticlePage> {
             child: Card(
               child: FadeInImage.assetNetwork(
                 placeholder: 'assets/img/loading.gif',
-                image: url,
+                image: url ?? '',
                 height: h,
                 width: w,
                 fit: BoxFit.cover,
