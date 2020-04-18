@@ -2,10 +2,10 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import '../config/url_launcher.dart';
 import '../widgets/hover_tap_image.dart';
 import '../widgets/common_layout.dart';
 import '../widgets/web_bar.dart';
-import 'dart:html' as html;
 
 class AboutPage extends StatelessWidget {
   @override
@@ -53,10 +53,7 @@ class AboutPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             GestureDetector(
-                              onTap: () {
-                                html.window.open(
-                                    "https://github.com/asjqkkkk", "github");
-                              },
+                              onTap: () => launchURL('https://github.com/asjqkkkk'),
                               child: const HoverTapImage(
                                   image: "assets/img/github.png"),
                             ),
@@ -64,11 +61,7 @@ class AboutPage extends StatelessWidget {
                               width: 10,
                             ),
                             GestureDetector(
-                              onTap: () {
-                                html.window.open(
-                                    "https://steamcommunity.com/id/JiangHun/",
-                                    "steam");
-                              },
+                              onTap: () => launchURL('https://steamcommunity.com/id/JiangHun/'),
                               child: const HoverTapImage(
                                   image: 'assets/img/steam.png'),
                             ),

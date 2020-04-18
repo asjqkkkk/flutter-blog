@@ -35,7 +35,7 @@ class _WebBarState extends State<WebBar> {
     final width = size.width;
     final height = size.height;
     final isNotMobile = !PlatformType().isMobile();
-    final fontSize = isNotMobile ? height * 30 / 1200 : 15;
+    final fontSize = isNotMobile ? height * 30 / 1200 : 15.0;
 
     return Container(
       height: 70,

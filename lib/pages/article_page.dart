@@ -3,13 +3,13 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:markdown_widget/markdown_widget.dart';
+import '../config/url_launcher.dart';
 import '../widgets/toc_item.dart';
 import '../json/article_item_bean.dart';
 import '../json/article_json_bean.dart';
 import '../widgets/common_layout.dart';
 import '../logic/article_page_logic.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:markdown_widget/markdown_widget.dart';
 import 'package:markdown_widget/config/highlight_themes.dart' as theme;
 
 class ArticlePage extends StatefulWidget {
@@ -151,7 +151,7 @@ class _ArticlePageState extends State<ArticlePage> {
               ),
             ),
             Expanded(
-              child: getBodyCard(bean, height, width, context, false),
+              child: getBodyCard(bean, height, width, context),
               flex: 3,
             ),
             Expanded(
@@ -215,16 +215,19 @@ class _ArticlePageState extends State<ArticlePage> {
   Widget getMobileLayout(double width, double height, ArticleItemBean bean) {
     return Container(
       width: width,
-      child: getBodyCard(bean, height, width, context, true),
+      child: Container(
+        padding: EdgeInsets.all(4),
+        child: getMarkdownBody(height, width, context),
+      ),
     );
   }
 
   Widget getBodyCard(ArticleItemBean bean, double height, double width,
-      BuildContext context, bool isMobile) {
+      BuildContext context) {
     return Card(
       margin: EdgeInsets.all(0),
       child: Container(
-        padding: EdgeInsets.all(isMobile ? 4 : 20),
+        padding: EdgeInsets.all(20),
         child: getMarkdownBody(height, width, context),
       ),
     );
@@ -250,7 +253,7 @@ class _ArticlePageState extends State<ArticlePage> {
       controller: controller,
       styleConfig: StyleConfig(
         pConfig: PConfig(
-          onLinkTap: (url) => _launchURL(url),
+          onLinkTap: (url) => launchURL(url),
           textStyle: TextStyle(color: textColor),
         ),
         codeConfig: CodeConfig(
@@ -295,7 +298,7 @@ class _ArticlePageState extends State<ArticlePage> {
           if (attr['width'] != null) w = double.parse(attr['width']);
           if (attr['height'] != null) h = double.parse(attr['height']);
           return GestureDetector(
-            onTap: () => _launchURL(url),
+            onTap: () => launchURL(url),
             child: Card(
               child: FadeInImage.assetNetwork(
                 placeholder: 'assets/img/loading.gif',
@@ -315,13 +318,7 @@ class _ArticlePageState extends State<ArticlePage> {
     if (mounted) setState(() {});
   }
 
-  _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
+
 }
 
 class ArticleData {

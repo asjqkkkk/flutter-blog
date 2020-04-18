@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import '../config/url_launcher.dart';
 import '../json/link_item_bean.dart';
-import 'dart:html' as html;
 
 
 class FriendLinkItem extends StatelessWidget {
@@ -83,9 +83,7 @@ class FriendLinkItem extends StatelessWidget {
           Align(
             alignment: Alignment.topCenter,
             child: GestureDetector(
-              onTap: (){
-                html.window.open(bean.linkAvatar, bean.linkName);
-              },
+              onTap: () => launchURL(bean.linkAvatar),
               child: Container(
                 width: 100,
                 height: 100,
@@ -110,9 +108,7 @@ class FriendLinkItem extends StatelessWidget {
                 ),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0)),
-                onPressed: () {
-                  html.window.open(bean.linkAddress, bean.linkName);
-                },
+                onPressed: () => launchURL(bean.linkAddress),
               ),
             ),
           )
