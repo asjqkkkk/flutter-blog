@@ -234,7 +234,6 @@ class _ArticlePageState extends State<ArticlePage> {
   }
 
   Widget getMarkdownBody(double height, double width, BuildContext context) {
-    final titleColor = Theme.of(context).textSelectionColor;
     final isDark =
         Theme.of(context).brightness == Brightness.dark ? true : false;
     final codeBgColor = isDark
@@ -267,6 +266,7 @@ class _ArticlePageState extends State<ArticlePage> {
         ),
         titleConfig: TitleConfig(
           showDivider: false,
+          commonStyle: TextStyle(color: Theme.of(context).textSelectionColor),
         ),
         ulConfig: UlConfig(textStyle: TextStyle(color: textColor), dotWidget: (deep, index){
           return Container(
@@ -280,6 +280,7 @@ class _ArticlePageState extends State<ArticlePage> {
             ),
           );
         }),
+        olConfig: OlConfig(textStyle: TextStyle(color: textColor)),
         blockQuoteConfig: BlockQuoteConfig(
           blockColor: blockColor,
         ),
@@ -317,7 +318,6 @@ class _ArticlePageState extends State<ArticlePage> {
   void refresh() {
     if (mounted) setState(() {});
   }
-
 
 }
 
