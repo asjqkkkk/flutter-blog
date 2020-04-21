@@ -1,7 +1,7 @@
 ---
 title: 从源码看flutter（二）：Element篇
 date: 2020-04-17 03:39:25
-index_img: /img/flutter_two.png
+index_img: /img/flutter_02.png
 tags: Flutter系列
 ---
 # 开篇

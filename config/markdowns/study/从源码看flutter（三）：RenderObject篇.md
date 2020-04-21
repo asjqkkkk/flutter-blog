@@ -1,10 +1,9 @@
 ---
 title: 从源码看flutter（三）：RenderObject篇
 date: 2020-04-20 10:03:39
-index_img: /img/flutter_three.png
+index_img: /img/flutter_03.png
 tags: Flutter系列
 ---
-[从源码看flutter系列集合](https://juejin.im/collection/5e9d9b536fb9a04d65a162ff)
 
 # 开篇
 
