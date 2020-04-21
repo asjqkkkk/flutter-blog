@@ -4,6 +4,7 @@ date: 2020-04-21 03:46:55
 index_img: /img/flutter_04.png
 tags: Flutter系列
 ---
+
 # 开篇
 
 这一篇，我们将简单的了解一下 `Layer` 相关内容，因为其中大部分是与C++交互，所以
@@ -21,7 +22,7 @@ tags: Flutter系列
 
 ```
 abstract class Layer extends AbstractNode with DiagnosticableTreeMixin {
-  
+
   @override
   ContainerLayer get parent => super.parent as ContainerLayer;
   ...
@@ -42,9 +43,11 @@ abstract class Layer extends AbstractNode with DiagnosticableTreeMixin {
 
 ![](https://blog-pic-1256696029.cos.ap-guangzhou.myqcloud.com/flutter/4.layer/001.png)
 
-其中 `PictureLayout` 是主要的图像绘制层；  
-`TextureLayer` 则用于外界纹理的实现，通过它可以实现诸如相机、视频播放、OpenGL等相关操作；  
+其中 `PictureLayout` 是主要的图像绘制层；
+`TextureLayer` 则用于外界纹理的实现，通过它可以实现诸如相机、视频播放、OpenGL等相关操作；
 `ContainerLayout` 则是各个 `Layer` 组成的复合层
+
+# Layer的刷新
 
 上一篇中，我们自定义了 `RenderObject` 并且重写了它的 `paint(...)` 方法，通过对 `Canvans` 对象进行操作，我们绘制了自己想要的图像，而  `Canvans` 是从 `PaintingContext` 中获取的，在获取 `Canvans` 时，其实做了和 `Layer` 有关的一系列操作
 
@@ -71,7 +74,7 @@ class PaintingContext extends ClipContext {
 ```
 可以看到，在这里创建了一个新的 `PictureLayer` 被添加到了 `_containerLayer` 中，我们的 `Layer` 最终是如何被渲染的呢？
 
-在上一篇中，我们知道 `RendererBinding` 的 `drawFrame()` 中进行了布局与绘制操作
+信息还是可以从上一篇获得，我们知道 `RendererBinding` 的 `drawFrame()` 中进行了布局与绘制操作
 
 
 ```
@@ -88,7 +91,7 @@ class PaintingContext extends ClipContext {
     }
   }
 ```
-最终的选人其实是通过 `compositeFrame()` 来进行的，而这里的 `renderView` 就是我们的根`RenderObject` 我们可以看一下 `compositeFrame()` 做了些什么
+最终的渲染其实是通过 `compositeFrame()` 来进行的，而这里的 `renderView` 就是我们的根`RenderObject` 我们可以看一下 `compositeFrame()` 做了些什么
 
 
 ```
@@ -114,8 +117,158 @@ class RenderView extends RenderObject with RenderObjectWithChildMixin<RenderBox>
 ```
   void render(Scene scene) native 'Window_render';
 ```
-它直接调用的是 **engine** 的方法，下面我们将参考这个方法，来进行一个实验
+它直接调用的是 **engine** 的方法，通过这个方法，就可以对图像进行渲染，后面我们会进行一个测试来展示它的作用
 
+这里的 `layer` 就是根 `Layer` ，它其实是一个 `TransformLayer`，我们可以简单看一下它的创建流程
+
+## 根Layer创建流程
+
+在 `RendererBinding` 的 `initInstances()` 中通过 `initRenderView()` 进行了 `RenderView` 的创建
+
+
+```
+mixin RendererBinding on BindingBase, ServicesBinding, SchedulerBinding, GestureBinding, SemanticsBinding, HitTestable {
+  ...
+  @override
+  void initInstances() {
+    super.initInstances();
+    ...
+    initRenderView();
+    ...
+  }
+  ...
+}
+
+```
+
+### RendererBinding -> initRenderView()
+
+
+```
+  void initRenderView() {
+    assert(renderView == null);
+    renderView = RenderView(configuration: createViewConfiguration(), window: window);
+    renderView.prepareInitialFrame();
+  }
+```
+根 `Layer` 就是在 `prepareInitialFrame()` 中创建的
+
+### RenderView -> prepareInitialFrame()
+
+
+```
+  void prepareInitialFrame() {
+    ...
+    scheduleInitialLayout();
+    scheduleInitialPaint(_updateMatricesAndCreateNewRootLayer());
+    ...
+  }
+```
+创建的方法就是 `_updateMatricesAndCreateNewRootLayer()`
+
+
+```
+  TransformLayer _updateMatricesAndCreateNewRootLayer() {
+    _rootTransform = configuration.toMatrix();
+    final TransformLayer rootLayer = TransformLayer(transform: _rootTransform);
+    rootLayer.attach(this);
+    ...
+    return rootLayer;
+  }
+```
+这里我们只是简单的了解一下根 `Layer` 的创建流程，它就是一个 `TransformLayer` 对象。
+
+创建流程我们知道了，而想要了解刷新流程，我们需要回到 `compositeFrame()` 方法中，执行刷新的方法就在 `buildScene(...)` 里
+
+## buildScene(...)
+
+从前面的关系图我们知道，`TransformLayer` 的父类是 `OffsetLayer`，而 `OffsetLayer` 的父类是 `ContainerLayer`，它们都没有重写 `buildScene(...)` 方法，所以最后会调用 `ContainerLayer` 的 `buildScene(...)`
+
+
+```
+  ui.Scene buildScene(ui.SceneBuilder builder) {
+    ...
+    updateSubtreeNeedsAddToScene();
+    addToScene(builder);
+    ...
+    _needsAddToScene = false;
+    ...
+    return scene;
+  }
+```
+可以先看一下 `updateSubtreeNeedsAddToScene()` 方法
+
+## updateSubtreeNeedsAddToScene()
+
+
+```
+  ///ConstraintLayer
+  @override
+  void updateSubtreeNeedsAddToScene() {
+    super.updateSubtreeNeedsAddToScene();
+    Layer child = firstChild;
+    while (child != null) {
+      child.updateSubtreeNeedsAddToScene();
+      _needsAddToScene = _needsAddToScene || child._needsAddToScene;
+      child = child.nextSibling;
+    }
+  }
+
+  ///Layer
+  @protected
+  @visibleForTesting
+  void updateSubtreeNeedsAddToScene() {
+    _needsAddToScene = _needsAddToScene || alwaysNeedsAddToScene;
+  }
+```
+其实所有 `Layer` 类中，只有 `ConstraintLayer` 和 `Layer` 具备这两个方法，这里其实就是遍历所有子 `Layer` 对象，调用他们的 `updateSubtreeNeedsAddToScene()` 来设置 `_needsAddToScene` 的值
+
+这个值顾名思义，就是表示是否需要将改 `Layer` 添加到 `Scene` 中，如果需要添加，则就是进行刷新了。它根据 `_needsAddToScene` 和 `alwaysNeedsAddToScene` 来设置，当调用 `markNeedsAddToScene()` 方法的时候， `_needsAddToScene` 就会被设置为 **true**
+
+`updateSubtreeNeedsAddToScene()` 执行结束后，接下来会调用 `addToScene(builder)` 方法
+
+## addToScene(...)
+
+正好 `TransformLayer` 重写了这个方法，并且没有调用父类的方法
+
+
+```
+  @override
+  void addToScene(ui.SceneBuilder builder, [ Offset layerOffset = Offset.zero ]) {
+    ...
+    engineLayer = builder.pushTransform(
+      _lastEffectiveTransform.storage,
+      oldLayer: _engineLayer as ui.TransformEngineLayer,
+    );
+    addChildrenToScene(builder);
+    builder.pop();
+  }
+```
+这里的 `engineLayer` 对象是用于进行复用的
+
+可以看到这里调用了 `addChildrenToScene(builder)` 方法，这个方法只在 `ContainerLayer` 中，且没有被重写
+
+## addChildrenToScene(...)
+
+
+```
+  void addChildrenToScene(ui.SceneBuilder builder, [ Offset childOffset = Offset.zero ]) {
+    Layer child = firstChild;
+    while (child != null) {
+      if (childOffset == Offset.zero) {
+        child._addToSceneWithRetainedRendering(builder);
+      } else {
+        child.addToScene(builder, childOffset);
+      }
+      child = child.nextSibling;
+    }
+  }
+```
+在这里就是遍历 **child** ，然后调用它们各自实现的 `addToScene(...)` 方法，而是否要将 `Layer` 添加到 `Scene` 的判断依据，已经在之前的 `updateSubtreeNeedsAddToScene()` 中完成了。
+
+这里需要注意一下， `_addToSceneWithRetainedRendering(builder)` 就是用于对之前的 `_engineLayer` 进行复用，当 `childOffset` 为 `Offset.zero` 时
+
+那么到这里 `Layer` 的刷新流程就结束了。而本篇文章差不多也快到头了，接下来我们完成上面提到过的，进行一个渲染测试
 
 # 渲染测试
 
@@ -141,7 +294,7 @@ void main(){
 
     canvas.drawRect(Rect.fromLTWH(0, 0, 300, 300), paint);
     pictureLayer.picture = recorder.endRecording();
-    
+
     SceneBuilder sceneBuilder = SceneBuilder();
     rootLayer.addToScene(sceneBuilder);
 
@@ -160,7 +313,7 @@ void main(){
 
 关于 `Layer` 的其他内容，这里也不再深入了，毕竟再深入就是C++了
 
-本篇是我们讲过的四棵树中最后的一颗，而这里非常方便用于测试一个我们之前略过的部分，那就是 **热重载**
+本篇是我们讲过的四棵树中最后的一颗，而这里非常方便用于测试一个我们前三篇都遇到了但是都略过了的部分，那就是 **热重载**
 
 # 额外部分：热重载
 
