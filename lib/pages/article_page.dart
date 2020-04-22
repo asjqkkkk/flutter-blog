@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:markdown_widget/config/style_config.dart';
 import '../config/url_launcher.dart';
 import '../widgets/toc_item.dart';
 import '../json/article_item_bean.dart';
@@ -236,16 +237,6 @@ class _ArticlePageState extends State<ArticlePage> {
   Widget getMarkdownBody(double height, double width, BuildContext context) {
     final isDark =
         Theme.of(context).brightness == Brightness.dark ? true : false;
-    final codeBgColor = isDark
-        ? Color.fromRGBO(85, 85, 85, 1)
-        : Color.fromRGBO(246, 248, 250, 1);
-    final blockColor =
-        isDark ? Color.fromRGBO(100, 100, 100, 1) : defaultBlockColor;
-    final blockBgColor = isDark
-        ? Color.fromRGBO(100, 100, 100, 1)
-        : Color.fromRGBO(223, 226, 229, 1);
-    final textColor =
-        isDark ? Colors.grey : Theme.of(context).textTheme.subtitle2.color;
 
     return MarkdownWidget(
       data: markdownData,
@@ -253,45 +244,10 @@ class _ArticlePageState extends State<ArticlePage> {
       styleConfig: StyleConfig(
         pConfig: PConfig(
           onLinkTap: (url) => launchURL(url),
-          textStyle: TextStyle(color: textColor),
-        ),
-        codeConfig: CodeConfig(
-            decoration: BoxDecoration(
-              color: codeBgColor,
-              borderRadius: BorderRadius.all(
-                Radius.circular(3),
-              ),
-            ),
-          codeStyle: isDark ? TextStyle(color: textColor) : defaultCodeStyle,
         ),
         titleConfig: TitleConfig(
           showDivider: false,
           commonStyle: TextStyle(color: Theme.of(context).textSelectionColor),
-        ),
-        ulConfig: UlConfig(textStyle: TextStyle(color: textColor), dotWidget: (deep, index){
-          return Container(
-            width: 6,
-            height: 6,
-            margin: EdgeInsets.only(left: 5, right: 5, top: 7),
-            decoration: BoxDecoration(
-              border: deep % 2 == 0  ? null : Border.all(color: isDark ? Colors.grey : Colors.black),
-              shape: BoxShape.circle,
-              color: deep % 2 == 0 ? (isDark ? Colors.grey : Colors.black) : null,
-            ),
-          );
-        }),
-        olConfig: OlConfig(textStyle: TextStyle(color: textColor)),
-        blockQuoteConfig: BlockQuoteConfig(
-          blockColor: blockColor,
-        ),
-        preConfig: PreConfig(
-          decoration: BoxDecoration(
-            color: codeBgColor,
-            borderRadius: BorderRadius.all(
-              Radius.circular(10),
-            ),
-          ),
-          theme: isDark ? theme.darkTheme : theme.arduinoLightTheme,
         ),
         imgBuilder: (url, attr) {
           double w;
@@ -311,7 +267,9 @@ class _ArticlePageState extends State<ArticlePage> {
             ),
           );
         },
+        markdownTheme: isDark ? MarkdownTheme.darkTheme : MarkdownTheme.lightTheme
       ),
+
     );
   }
 

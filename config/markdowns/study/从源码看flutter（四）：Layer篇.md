@@ -7,7 +7,7 @@ tags: Flutter系列
 
 # 开篇
 
-这一篇，我们将简单的了解一下 `Layer` 相关内容，因为其中大部分是与C++交互，所以
+这一篇，我们将简单的了解一下 `Layer` 相关内容，因为其中大部分是与C++交互，所以只是从结构上做一个认识与分析
 
 从上一篇中，我们了解到了，如果 `RenderObject` 的 `isRepaintBoundary` 为 **true** 会通过自己的 `Layer` 对象去渲染,如果没有为 `RenderObject` 手动指定 `Layer` 的话，默认会是 `OffestLayer`;为 **false** 则通过父节点的 `Layer` 对象渲染。
 
