@@ -11,7 +11,6 @@ import '../json/article_json_bean.dart';
 import '../widgets/common_layout.dart';
 import '../logic/article_page_logic.dart';
 import 'package:markdown_widget/markdown_widget.dart';
-import 'package:markdown_widget/config/highlight_themes.dart' as theme;
 
 class ArticlePage extends StatefulWidget {
   final ArticleData articleData;

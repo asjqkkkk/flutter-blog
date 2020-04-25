@@ -1,11 +1,12 @@
-import 'dart:math';
 import 'dart:ui';
+import 'dart:math';
 
-import 'package:flutter/material.dart';
-import '../config/url_launcher.dart';
-import '../widgets/hover_tap_image.dart';
-import '../widgets/common_layout.dart';
 import '../widgets/web_bar.dart';
+import '../config/url_launcher.dart';
+import 'package:flutter/material.dart';
+import '../widgets/common_layout.dart';
+import '../widgets/hover_tap_image.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class AboutPage extends StatelessWidget {
   @override
@@ -23,12 +24,12 @@ class AboutPage extends StatelessWidget {
             Container(
               margin: isNotMobile
                   ? EdgeInsets.only(
-                      top: 80, left: width / 10, right: width / 10)
+                      top: 60, left: width / 10, right: width / 10)
                   : const EdgeInsets.fromLTRB(20, 40, 20, 20),
               child: Card(
                 margin: const EdgeInsets.only(bottom: 0),
                 child: Container(
-                  margin: EdgeInsets.only(top: isNotMobile ? 80 : 40),
+                  margin: EdgeInsets.only(top: isNotMobile ? 60 : 40),
                   child: NotificationListener<OverscrollIndicatorNotification>(
                     onNotification: (overScroll) {
                       overScroll.disallowGlow();
@@ -40,12 +41,7 @@ class AboutPage extends StatelessWidget {
                         const SizedBox(
                           height: 5,
                         ),
-                        Center(
-                          child: Text(
-                            "宅/游戏/读书/运动/学习",
-                            style: Theme.of(context).textTheme.bodyText2,
-                          ),
-                        ),
+                        Center(child: Text("宅/游戏/读书/运动/学习")),
                         const SizedBox(
                           height: 10,
                         ),
@@ -53,7 +49,8 @@ class AboutPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             GestureDetector(
-                              onTap: () => launchURL('https://github.com/asjqkkkk'),
+                              onTap: () =>
+                                  launchURL('https://github.com/asjqkkkk'),
                               child: const HoverTapImage(
                                   image: "assets/img/github.png"),
                             ),
@@ -61,39 +58,47 @@ class AboutPage extends StatelessWidget {
                               width: 10,
                             ),
                             GestureDetector(
-                              onTap: () => launchURL('https://steamcommunity.com/id/JiangHun/'),
+                              onTap: () => launchURL(
+                                  'https://steamcommunity.com/id/JiangHun/'),
                               child: const HoverTapImage(
                                   image: 'assets/img/steam.png'),
                             ),
                           ],
                         ),
                         Container(
-                          alignment: Alignment.center,
-                        ),
-                        Container(
                           margin: isNotMobile
-                              ? EdgeInsets.only(left: 40, right: 40, top: 40)
+                              ? EdgeInsets.only(left: 40, right: 40, top: 5)
                               : EdgeInsets.all(5),
-                          child: Text(
-                            '这个博客是在过年期间完成的,从广东回到湖北老家,奈何正值肺炎来袭,出门不便,'
-                            '百般无聊下用flutter实现了这样一个早就构想好的博客效果\n\n'
-                            '目前看来，还只是一个半成品，但对于没有前端技术又想自定义一个博客的人来说,我得到了极大的满足。\n\n'
-                            '后续随着flutter web的更新,我也会继续进行博客的完善\n\n'
-                            '同时,希望这次疫情早点结束。加油吧！',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w100),
+                          child: Column(
+                            children: <Widget>[
+                              Text(
+                                '在 线 求 职',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 40,
+                                ),
+                              ),
+                              Text('👨‍💻有好的内推机会请务必砸向我'),
+                              Text('联系方式如下'),
+                              Image.asset(
+                                'assets/img/wechat.png',
+                                width: isNotMobile ? 250 : null,
+                              ),
+                              FlatButton(
+                                child: Text(
+                                  'agedchen@gmail.com',
+                                  style: TextStyle(
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                onPressed: () =>
+                                    launchURL('mailto:agedchen@gmail.com'),
+                              ),
+                            ],
                           ),
                         ),
-                        Container(
-                          margin: const EdgeInsets.only(
-                              left: 40, right: 60, top: 10),
-                          alignment: Alignment.bottomRight,
-                          child: Text(
-                            '--- 2020.2.1 中午',
-                            style: TextStyle(
-                                fontSize: 10, fontWeight: FontWeight.w100),
-                          ),
-                        )
                       ],
                     ),
                   ),
@@ -103,23 +108,38 @@ class AboutPage extends StatelessWidget {
             Align(
               alignment: Alignment.topCenter,
               child: Container(
-                      width: isNotMobile ? 160 : 100,
-                      height: isNotMobile ? 160 : 100,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(isNotMobile ? 80 : 50)),
-                          color: Colors.primaries[
-                              Random().nextInt(Colors.primaries.length)],
-                          image: DecorationImage(
-                            image: AssetImage(
-                              'assets/img/avatar.jpg',
-                            ),
-                            fit: BoxFit.cover,
-                          )),
-                    ),
+                width: isNotMobile ? 120 : 80,
+                height: isNotMobile ? 120 : 80,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                        Radius.circular(isNotMobile ? 60 : 40)),
+                    color: Colors
+                        .primaries[Random().nextInt(Colors.primaries.length)],
+                    image: DecorationImage(
+                      image: AssetImage(
+                        'assets/img/head.gif',
+                      ),
+                      fit: BoxFit.cover,
+                    )),
+              ),
             ),
           ],
         ),
       ),
     );
+  }
+
+  Shader getShader() => RadialGradient(
+          colors: <Color>[randomColor, randomColor],
+          center: Alignment.topLeft,
+          radius: 1.0,
+          tileMode: TileMode.mirror)
+      .createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
+
+  Color get randomColor =>
+      Colors.primaries[Random().nextInt(Colors.primaries.length)];
+
+  TextSpan getSpan(String text){
+    return TextSpan(text: text,style: TextStyle(color: randomColor));
   }
 }
