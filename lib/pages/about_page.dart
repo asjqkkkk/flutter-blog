@@ -78,7 +78,7 @@ class AboutPage extends StatelessWidget {
                                   fontSize: 40,
                                 ),
                               ),
-                              Text('👨‍💻有好的内推机会请务必砸向我'),
+                              Text('😊有好的内推机会请务必砸向我'),
                               Text('联系方式如下'),
                               Image.asset(
                                 'assets/img/wechat.png',
@@ -117,7 +117,7 @@ class AboutPage extends StatelessWidget {
                         .primaries[Random().nextInt(Colors.primaries.length)],
                     image: DecorationImage(
                       image: AssetImage(
-                        'assets/img/head.gif',
+                        'assets/img/head.png',
                       ),
                       fit: BoxFit.cover,
                     )),
