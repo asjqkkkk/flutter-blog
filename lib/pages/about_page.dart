@@ -71,18 +71,29 @@ class AboutPage extends StatelessWidget {
                               : EdgeInsets.all(5),
                           child: Column(
                             children: <Widget>[
-                              Text(
-                                '在 线 求 职',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 40,
-                                ),
+                              FlatButton(
+                                child: RichText(
+                                    text: TextSpan(
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 30,
+                                        ),
+                                        children: [
+                                      TextSpan(text: '求职中：'),
+                                      TextSpan(
+                                          text: '📃在线简历',
+                                          style: TextStyle(
+                                            color: Colors.blue,
+                                          )),
+                                    ])),
+                                onPressed: () => launchURL(
+                                    'https://oldchen-blog-1256696029.cos.ap-guangzhou.myqcloud.com/%E7%AE%80%E5%8E%86-2020.pdf'),
                               ),
                               Text('😊有好的内推机会请务必砸向我'),
                               Text('联系方式如下'),
                               Image.asset(
                                 'assets/img/wechat.png',
-                                width: isNotMobile ? 250 : null,
+                                width: isNotMobile ? 200 : null,
                               ),
                               FlatButton(
                                 child: Text(
@@ -139,7 +150,7 @@ class AboutPage extends StatelessWidget {
   Color get randomColor =>
       Colors.primaries[Random().nextInt(Colors.primaries.length)];
 
-  TextSpan getSpan(String text){
-    return TextSpan(text: text,style: TextStyle(color: randomColor));
+  TextSpan getSpan(String text) {
+    return TextSpan(text: text, style: TextStyle(color: randomColor));
   }
 }
