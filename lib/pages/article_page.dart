@@ -240,6 +240,7 @@ class _ArticlePageState extends State<ArticlePage> {
     return MarkdownWidget(
       data: markdownData,
       controller: controller,
+      loadingWidget: Container(),
       styleConfig: StyleConfig(
         pConfig: PConfig(
           onLinkTap: (url) => launchURL(url),
