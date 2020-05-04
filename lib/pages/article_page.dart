@@ -68,6 +68,17 @@ class _ArticlePageState extends State<ArticlePage> {
 
     return CommonLayout(
       pageType: PageType.article,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.white.withOpacity(0.8),
+        onPressed: () {
+          showModalBottomSheet(
+              context: context,
+              builder: (ctx) {
+                return buildTocListWidget(fontSize: 18);
+              });
+        },
+        child: Icon(Icons.format_list_bulleted),
+      ),
       child: Container(
           alignment: Alignment.center,
           margin:
@@ -172,24 +183,12 @@ class _ArticlePageState extends State<ArticlePage> {
                         angle: pi,
                       ),
                       onPressed: () {
-                        if (controller.scrollController.isAttached)
-                          controller.scrollController.jumpTo(index: 0);
+                        if (controller.isAttached) controller.jumpTo(index: 0);
                       },
                     ),
                   ),
                   Expanded(
-                    child: TocListWidget(
-                      controller: controller,
-                      tocItem: (toc, isCurrent) {
-                        return TocItemWidget(
-                          isCurrent: isCurrent,
-                          toc: toc,
-                          onTap: () {
-                            controller.jumpTo(index: toc.index);
-                          },
-                        );
-                      },
-                    ),
+                    child: buildTocListWidget(),
                   ),
                   Container(
                     alignment: Alignment.centerLeft,
@@ -212,6 +211,22 @@ class _ArticlePageState extends State<ArticlePage> {
         ));
   }
 
+  TocListWidget buildTocListWidget({double fontSize = 12.0}) {
+    return TocListWidget(
+      controller: controller,
+      tocItem: (toc, isCurrent) {
+        return TocItemWidget(
+          isCurrent: isCurrent,
+          toc: toc,
+          fontSize: fontSize,
+          onTap: () {
+            controller.jumpTo(index: toc.index);
+          },
+        );
+      },
+    );
+  }
+
   Widget getMobileLayout(double width, double height, ArticleItemBean bean) {
     return Container(
       width: width,
@@ -222,8 +237,8 @@ class _ArticlePageState extends State<ArticlePage> {
     );
   }
 
-  Widget getBodyCard(ArticleItemBean bean, double height, double width,
-      BuildContext context) {
+  Widget getBodyCard(
+      ArticleItemBean bean, double height, double width, BuildContext context) {
     return Card(
       margin: EdgeInsets.all(0),
       child: Container(
@@ -242,41 +257,39 @@ class _ArticlePageState extends State<ArticlePage> {
       controller: controller,
       loadingWidget: Container(),
       styleConfig: StyleConfig(
-        pConfig: PConfig(
-          onLinkTap: (url) => launchURL(url),
-        ),
-        titleConfig: TitleConfig(
-          showDivider: false,
-          commonStyle: TextStyle(color: Theme.of(context).textSelectionColor),
-        ),
-        imgBuilder: (url, attr) {
-          double w;
-          double h;
-          if (attr['width'] != null) w = double.parse(attr['width']);
-          if (attr['height'] != null) h = double.parse(attr['height']);
-          return GestureDetector(
-            onTap: () => launchURL(url),
-            child: Card(
-              child: FadeInImage.assetNetwork(
-                placeholder: 'assets/img/loading.gif',
-                image: url ?? '',
-                height: h,
-                width: w,
-                fit: BoxFit.cover,
+          pConfig: PConfig(
+            onLinkTap: (url) => launchURL(url),
+          ),
+          titleConfig: TitleConfig(
+            showDivider: false,
+            commonStyle: TextStyle(color: Theme.of(context).textSelectionColor),
+          ),
+          imgBuilder: (url, attr) {
+            double w;
+            double h;
+            if (attr['width'] != null) w = double.parse(attr['width']);
+            if (attr['height'] != null) h = double.parse(attr['height']);
+            return GestureDetector(
+              onTap: () => launchURL(url),
+              child: Card(
+                child: FadeInImage.assetNetwork(
+                  placeholder: 'assets/img/loading.gif',
+                  image: url ?? '',
+                  height: h,
+                  width: w,
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
-          );
-        },
-        markdownTheme: isDark ? MarkdownTheme.darkTheme : MarkdownTheme.lightTheme
-      ),
-
+            );
+          },
+          markdownTheme:
+              isDark ? MarkdownTheme.darkTheme : MarkdownTheme.lightTheme),
     );
   }
 
   void refresh() {
     if (mounted) setState(() {});
   }
-
 }
 
 class ArticleData {

@@ -26,8 +26,7 @@ class FriendLinkBean {
         linkName: "senfangblog",
         linkAddress: "https://senfangblog.cn/",
         linkDescription: ["和平主义者", "后端开发", "摸鱼宗师", "王者手速"],
-        linkAvatar:
-            "$baseUrl/senfangblog.jpeg"),
+        linkAvatar: "$baseUrl/senfangblog.jpeg"),
     LinkItemBean(
         linkName: "EVILLT的博客",
         linkAddress: "https://evila.me/#/",
@@ -37,8 +36,12 @@ class FriendLinkBean {
     LinkItemBean(
         linkName: "老涛子的博客",
         linkAddress: "http://www.sporoka.com/",
-        linkDescription: ["有猫", "前端开发", "新晋渣男","狮子狗",],
-        linkAvatar:
-        "$baseUrl/old_tao.jpg"),
+        linkDescription: [
+          "有猫",
+          "前端开发",
+          "新晋渣男",
+          "狮子狗",
+        ],
+        linkAvatar: "$baseUrl/old_tao.jpg"),
   ];
 }

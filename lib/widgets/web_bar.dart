@@ -13,8 +13,10 @@ import 'bar_button.dart';
 class WebBar extends StatefulWidget {
   final PageType pageType;
 
-  const WebBar({Key key, this.pageType = PageType.home,})
-      : super(key: key);
+  const WebBar({
+    Key key,
+    this.pageType = PageType.home,
+  }) : super(key: key);
 
   @override
   _WebBarState createState() => _WebBarState();
@@ -37,9 +39,17 @@ class _WebBarState extends State<WebBar> {
     final isNotMobile = !PlatformType().isMobile();
     final fontSize = isNotMobile ? height * 30 / 1200 : 15.0;
 
+    return buildAppBar(isNotMobile, width, height, fontSize, context);
+  }
+
+  Container buildAppBar(bool isNotMobile, double width, double height,
+      double fontSize, BuildContext context) {
     return Container(
       height: 70,
-      width: isNotMobile ? (pageType == PageType.article ? width - 40 : 0.86 * width ): width,
+      margin: EdgeInsets.only(top: isNotMobile ? 0.0 : 20),
+      width: isNotMobile
+          ? (pageType == PageType.article ? width - 40 : 0.86 * width)
+          : width,
       child: Row(
         children: <Widget>[
           if (isNotMobile)
@@ -98,8 +108,9 @@ class _WebBarState extends State<WebBar> {
           onPressed: () {
             print(ModalRoute.of(context).isFirst);
             if (pageType == PageType.home) return;
-            if(ModalRoute.of(context).isFirst){
-              Navigator.of(context).pushNamedAndRemoveUntil(homePage, (route) => false);
+            if (ModalRoute.of(context).isFirst) {
+              Navigator.of(context)
+                  .pushNamedAndRemoveUntil(homePage, (route) => false);
             } else {
               Navigator.of(context).popUntil((route) => route.isFirst);
             }
@@ -185,7 +196,7 @@ class _WebBarState extends State<WebBar> {
               final dynamic data = await ArticleJson.loadArticles();
               final map = Map.from(data);
 
-              showSearchWidget(context,map);
+              showSearchWidget(context, map);
 //              showSearch(context: context, delegate: SearchDelegateWidget(map));
             })
       else
@@ -193,18 +204,24 @@ class _WebBarState extends State<WebBar> {
     ];
   }
 
-  void showSearchWidget(BuildContext context,Map map){
-    FullScreenDialog.getInstance().showDialog(context,  TopAnimationShowWidget(
-      child: SearchWidget(dataMap: map,),
-      distanceY: 100,
-    ),);
+  void showSearchWidget(BuildContext context, Map map) {
+    FullScreenDialog.getInstance().showDialog(
+      context,
+      TopAnimationShowWidget(
+        child: SearchWidget(
+          dataMap: map,
+        ),
+        distanceY: 100,
+      ),
+    );
   }
 
-  void pushAndRemove(BuildContext context, String routeName, {Object argument}) {
+  void pushAndRemove(BuildContext context, String routeName,
+      {Object argument}) {
     if (widget.pageType == PageType.home) {
       Navigator.pushNamed(context, routeName);
     } else {
-      Navigator.pushReplacementNamed(context, routeName,arguments: argument);
+      Navigator.pushReplacementNamed(context, routeName, arguments: argument);
     }
   }
 

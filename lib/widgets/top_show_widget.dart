@@ -21,8 +21,8 @@ class _TopAnimationShowWidgetState extends State<TopAnimationShowWidget>
   void initState() {
     _controller = AnimationController(
         vsync: this, duration: widget.duration ?? Duration(seconds: 1));
-    _animation = Tween(begin: 0.0, end: 1.0)
-        .animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutBack));
+    _animation = Tween(begin: 0.0, end: 1.0).animate(
+        CurvedAnimation(parent: _controller, curve: Curves.easeOutBack));
     _controller.forward();
     super.initState();
   }
@@ -36,7 +36,6 @@ class _TopAnimationShowWidgetState extends State<TopAnimationShowWidget>
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       color: Colors.black.withOpacity(0.1),
       child: AnimatedBuilder(

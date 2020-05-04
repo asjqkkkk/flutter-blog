@@ -6,7 +6,7 @@ class ArchiveItemBean {
   String tag;
   List<YearBean> beans;
 
-  ArchiveItemBean({this.year, this.beans,this.tag});
+  ArchiveItemBean({this.year, this.beans, this.tag});
 
   static ArchiveItemBean fromMap(Map<String, dynamic> map) {
     ArchiveItemBean bean = new ArchiveItemBean();
@@ -28,7 +28,7 @@ class ArchiveItemBean {
     return {
       'year': year,
       'tag': tag,
-      'beans': List.generate(beans.length, (index){
+      'beans': List.generate(beans.length, (index) {
         return beans[index].toMap();
       })
     };
@@ -38,9 +38,6 @@ class ArchiveItemBean {
     final configJson = await loadJsonFile(type);
     return ArchiveItemBean.fromMapList(configJson);
   }
-
-
-
 }
 
 class YearBean {
@@ -79,7 +76,7 @@ class YearBean {
     return list;
   }
 
-  static YearBean fromItemBean(ArticleItemBean bean){
+  static YearBean fromItemBean(ArticleItemBean bean) {
     return YearBean(
       articleAddress: bean.articleAddress,
       articleName: bean.articleName,
@@ -87,8 +84,6 @@ class YearBean {
       lastModifiedTime: bean.lastModifiedTime,
     );
   }
-
-
 
   Map<dynamic, dynamic> toMap() {
     return {
@@ -98,5 +93,4 @@ class YearBean {
       'articleAddress': articleAddress ?? ''
     };
   }
-
 }

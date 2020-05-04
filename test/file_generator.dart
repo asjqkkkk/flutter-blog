@@ -15,17 +15,15 @@ import 'package:path/path.dart' as p;
 import 'config/generate_head.dart';
 
 void main() {
-
-
   ///将node中的text添加到一起
-  String addNodeText(m.Node node, String text){
-    if(node == null) return '';
-    if(node is m.Text){
+  String addNodeText(m.Node node, String text) {
+    if (node == null) return '';
+    if (node is m.Text) {
       return node.text + ' ';
-    } else if(node is m.Element){
-      if(node.children == null) return '';
-      if(node.tag == 'img' || node.tag == 'a') return '';
-      node.children.forEach((n){
+    } else if (node is m.Element) {
+      if (node.children == null) return '';
+      if (node.tag == 'img' || node.tag == 'a') return '';
+      node.children.forEach((n) {
         text += addNodeText(n, '');
       });
     }
@@ -59,7 +57,7 @@ void main() {
     final map = HashMap<String, List<YearBean>>();
     for (var bean in beans) {
       final tag = bean.tag;
-      if (tag?.isEmpty??true) continue;
+      if (tag?.isEmpty ?? true) continue;
       if (map[tag] == null) {
         map[tag] = [YearBean.fromItemBean(bean)];
       } else {
@@ -74,11 +72,10 @@ void main() {
   }
 
   List<ArticleItemBean> printFiles(
-    String markdownFilePath,
-    String dirPath, Map<String, String> result) {
+      String markdownFilePath, String dirPath, Map<String, String> result) {
     final current = Directory.current;
-    final assetPath =
-        Directory(p.join(current.path,'$dirPath','markdowns','$markdownFilePath'));
+    final assetPath = Directory(
+        p.join(current.path, '$dirPath', 'markdowns', '$markdownFilePath'));
     final dirs = assetPath.listSync();
     final List<ArticleItemBean> beans = [];
 
@@ -95,11 +92,12 @@ void main() {
       String subContent;
       if (!content.startsWith('---')) {
         subContent = content.trim();
-        editMarkdown(file, content,data: createTime);
-      } else{
+        editMarkdown(file, content, data: createTime);
+      } else {
         final index = content.indexOf('---', 2);
         subContent = content.substring(index, content.length);
-        List<String> infos = content.substring(0, index).split('---')[1].split("\n");
+        List<String> infos =
+            content.substring(0, index).split('---')[1].split("\n");
         for (var info in infos) {
           if (info.contains("date:")) {
             String date = info.substring(info.indexOf("date: ") + 6);
@@ -120,13 +118,12 @@ void main() {
         extensionSet: m.ExtensionSet.gitHubFlavored,
         encodeHtml: false,
       );
-      final nodes =  document.parseLines(subContent.split(RegExp(r'\r?\n')));
+      final nodes = document.parseLines(subContent.split(RegExp(r'\r?\n')));
       String sub = "";
-      nodes.forEach((m.Node element){
+      nodes.forEach((m.Node element) {
         sub += addNodeText(element, '');
       });
-      sub = sub.substring(
-          0, sub.length > 50 ? 50 : sub.length);
+      sub = sub.substring(0, sub.length > 50 ? 50 : sub.length);
       final bean = ArticleItemBean(
         articleName: name,
         createTime: createTime,
@@ -140,7 +137,8 @@ void main() {
       result[name] = content;
     }
     beans.sort((left, right) => left.compareTo(right));
-    File file = File(p.join(current.path,'assets','json','config_$markdownFilePath.json'));
+    File file = File(p.join(
+        current.path, 'assets', 'json', 'config_$markdownFilePath.json'));
     if (file.existsSync()) {
       file.deleteSync();
     }
@@ -156,7 +154,7 @@ void main() {
   void printTagFile(List<ArticleItemBean> beans) {
     final current = Directory.current;
 
-    File file = File(p.join(current.path,'assets', 'json','config_tag.json'));
+    File file = File(p.join(current.path, 'assets', 'json', 'config_tag.json'));
     if (file.existsSync()) {
       file.deleteSync();
     }
@@ -171,11 +169,12 @@ void main() {
 
   void printFontFile(List<ArticleItemBean> beans) {
     final current = Directory.current;
-    File file = File(p.join(current.path,'config', 'fontData', 'config_font.json'));
+    File file =
+        File(p.join(current.path, 'config', 'fontData', 'config_font.json'));
     if (file.existsSync()) {
       file.deleteSync();
     }
-    if(!file.parent.existsSync()){
+    if (!file.parent.existsSync()) {
       file.parent.createSync();
     }
     file.createSync();
@@ -195,11 +194,10 @@ void main() {
     file.writeAsStringSync(result);
   }
 
-
   void printArchiveFile(List<ArticleItemBean> beans) {
     final current = Directory.current;
     File file =
-    File(p.join(current.path,'assets', 'json','config_archive.json'));
+        File(p.join(current.path, 'assets', 'json', 'config_archive.json'));
     if (file.existsSync()) {
       file.deleteSync();
     }
@@ -212,10 +210,9 @@ void main() {
     file.writeAsStringSync(jsonEncode(archiveDatas));
   }
 
-
-  void printAllArticleFile(Map<String, String> map){
+  void printAllArticleFile(Map<String, String> map) {
     final current = Directory.current;
-    File file = File(p.join(current.path,'assets', 'json','config_all.json'));
+    File file = File(p.join(current.path, 'assets', 'json', 'config_all.json'));
     if (file.existsSync()) {
       file.deleteSync();
     }
@@ -223,31 +220,37 @@ void main() {
     file.writeAsStringSync(jsonEncode(map));
   }
 
-
-
   test('测试文件输出', () {
     final Map<String, String> result = {};
-    final List<ArticleItemBean> topicBeans = printFiles("topic", "config",result);
-    final List<ArticleItemBean> lifeBeans = printFiles("life", "config",result,);
-    final List<ArticleItemBean> studyBeans = printFiles("study", "config",result);
+    final List<ArticleItemBean> topicBeans =
+        printFiles("topic", "config", result);
+    final List<ArticleItemBean> lifeBeans = printFiles(
+      "life",
+      "config",
+      result,
+    );
+    final List<ArticleItemBean> studyBeans =
+        printFiles("study", "config", result);
     List<ArticleItemBean> tagBeans = [];
     tagBeans.addAll(lifeBeans);
     tagBeans.addAll(studyBeans);
+
     ///tag分类
     printTagFile(tagBeans);
     tagBeans.addAll(topicBeans);
+
     ///字体截取
     printFontFile(tagBeans);
+
     ///文章归档
     List<ArticleItemBean> archiveBeans = [];
     archiveBeans.addAll(lifeBeans);
     archiveBeans.addAll(studyBeans);
     printArchiveFile(archiveBeans);
+
     ///文章提取
     printAllArticleFile(result);
   });
 
   //运行命令，编译文件：flutter test test/file_generator.dart
 }
-
-

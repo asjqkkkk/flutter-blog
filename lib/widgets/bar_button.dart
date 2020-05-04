@@ -7,7 +7,9 @@ class BarButton<T> extends StatelessWidget {
 
   const BarButton({
     Key key,
-    this.isChecked = false,@required this.child, this.onPressed,
+    this.isChecked = false,
+    @required this.child,
+    this.onPressed,
   }) : super(key: key);
 
   @override
@@ -16,19 +18,26 @@ class BarButton<T> extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          isChecked ? Container(
-            width: 4,
-            height: 4,
-          ) : Container(),
-          FlatButton(child: child, onPressed: onPressed ?? (){},),
-          isChecked ? Container(
-            width: 4,
-            height: 4,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.grey,
-            ),
-          ) : Container(),
+          isChecked
+              ? Container(
+                  width: 4,
+                  height: 4,
+                )
+              : Container(),
+          FlatButton(
+            child: child,
+            onPressed: onPressed ?? () {},
+          ),
+          isChecked
+              ? Container(
+                  width: 4,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.grey,
+                  ),
+                )
+              : Container(),
         ],
       ),
     );

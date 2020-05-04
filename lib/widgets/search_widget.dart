@@ -5,23 +5,18 @@ import '../pages/article_page.dart';
 import '../logic/query_logic.dart';
 
 class SearchWidget extends StatefulWidget {
-
   final Map dataMap;
 
-  const SearchWidget({Key key,@required this.dataMap}) : super(key: key);
-
-
+  const SearchWidget({Key key, @required this.dataMap}) : super(key: key);
 
   @override
   _SearchWidgetState createState() => _SearchWidgetState();
 }
 
 class _SearchWidgetState extends State<SearchWidget> {
-
   final logic = QueryLogic();
   String query = '';
   final TextEditingController _controller = TextEditingController();
-
 
   @override
   void initState() {
@@ -39,14 +34,12 @@ class _SearchWidgetState extends State<SearchWidget> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
 
-
     final List<Data> showDataList =
-    logic.queryArticles(query, Map.from(widget.dataMap));
+        logic.queryArticles(query, Map.from(widget.dataMap));
 
     return WillPopScope(
       onWillPop: () {
@@ -72,7 +65,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                 child: Column(
                   children: <Widget>[
                     Container(
-                      margin: const EdgeInsets.only(left: 30,right: 30),
+                      margin: const EdgeInsets.only(left: 30, right: 30),
                       child: TextField(
                         controller: _controller,
                         decoration: const InputDecoration(
@@ -83,7 +76,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                     ),
                     Container(
                       height: 2,
-                      margin: const EdgeInsets.only(left: 30,right: 30),
+                      margin: const EdgeInsets.only(left: 30, right: 30),
                       color: Colors.grey,
                     ),
                     Expanded(child: getLoadingWidget(showDataList)),
@@ -97,59 +90,66 @@ class _SearchWidgetState extends State<SearchWidget> {
     );
   }
 
-
-  Widget getLoadingWidget(List<Data> showDataList){
-    if(query.isEmpty) return Container(
-      alignment: Alignment.center,
-      margin: const EdgeInsets.all(20),
-      child: const Text('☕️...',style: TextStyle(fontSize: 30),),
-    );
-    if(showDataList.isEmpty)
+  Widget getLoadingWidget(List<Data> showDataList) {
+    if (query.isEmpty)
       return Container(
         alignment: Alignment.center,
         margin: const EdgeInsets.all(20),
-        child: const Text('😅啥也没有...',style: TextStyle(fontSize: 30),),
+        child: const Text(
+          '☕️...',
+          style: TextStyle(fontSize: 30),
+        ),
       );
-    else return ListView.builder(
-      itemCount: showDataList.length,
-      itemBuilder: (ctx, index) {
-        final Data data = showDataList[index];
-        return Container(
-          margin: const EdgeInsets.only(top: 20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              ListTile(
-                leading: Icon(Icons.sort),
-                title: logic.getTitle(data,query),
-                onTap: () {
-                  final name = showDataList[index].title;
-                  final result = Uri.encodeFull(name);
-                  Navigator.of(context).pushNamed(
-                    articlePage + '/$result',
-                    arguments: ArticleData(
-                      index,
-                      List.generate(
-                        showDataList.length,
-                            (index) => ArticleItemBean(
-                          articleName: showDataList[index].title,
+    if (showDataList.isEmpty)
+      return Container(
+        alignment: Alignment.center,
+        margin: const EdgeInsets.all(20),
+        child: const Text(
+          '😅啥也没有...',
+          style: TextStyle(fontSize: 30),
+        ),
+      );
+    else
+      return ListView.builder(
+        itemCount: showDataList.length,
+        itemBuilder: (ctx, index) {
+          final Data data = showDataList[index];
+          return Container(
+            margin: const EdgeInsets.only(top: 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                ListTile(
+                  leading: Icon(Icons.sort),
+                  title: logic.getTitle(data, query),
+                  onTap: () {
+                    final name = showDataList[index].title;
+                    final result = Uri.encodeFull(name);
+                    Navigator.of(context).pushNamed(
+                      articlePage + '/$result',
+                      arguments: ArticleData(
+                        index,
+                        List.generate(
+                          showDataList.length,
+                          (index) => ArticleItemBean(
+                            articleName: showDataList[index].title,
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                },
-              ),
-              ListTile(
-                leading: Container(
-                  width: 2,
+                    );
+                  },
                 ),
-                title: logic.getContent(data,query),
-              ),
-            ],
-          ),
-        );
-      },
-    );
+                ListTile(
+                  leading: Container(
+                    width: 2,
+                  ),
+                  title: logic.getContent(data, query),
+                ),
+              ],
+            ),
+          );
+        },
+      );
   }
 }

@@ -7,7 +7,6 @@ void main() {
     final de = Uri.decodeFull(en);
     print('转换后:$en     解码后:$de');
 
-
     final en2 = Uri.encodeComponent(name);
     final de2 = Uri.decodeComponent(en2);
     print('转换后:$en2     解码后:$de2');

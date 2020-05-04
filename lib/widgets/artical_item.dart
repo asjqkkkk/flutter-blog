@@ -89,7 +89,10 @@ class ArticleItem extends StatelessWidget {
           ),
         ),
         dateWidget(isNotMobile, cardWidth),
-        if (isNotMobile) Expanded(child: summaryWidget(isNotMobile, cardWidth)) else summaryWidget(isNotMobile, cardWidth),
+        if (isNotMobile)
+          Expanded(child: summaryWidget(isNotMobile, cardWidth))
+        else
+          summaryWidget(isNotMobile, cardWidth),
       ],
     );
   }
@@ -97,41 +100,42 @@ class ArticleItem extends StatelessWidget {
   Widget summaryWidget(bool isNotMobile, num cardWidth) {
     return Container(
       margin: EdgeInsets.only(top: 4),
-        width: isNotMobile ? 0.86 * cardWidth : 0.95 * cardWidth,
-        child: Text(
-          bean.summary + '...',
-          style: const TextStyle(
-            fontSize: 12,
-            color: Color(0xff8D8D8D),
-          ),
-          overflow: TextOverflow.clip,
+      width: isNotMobile ? 0.86 * cardWidth : 0.95 * cardWidth,
+      child: Text(
+        bean.summary + '...',
+        style: const TextStyle(
+          fontSize: 12,
+          color: Color(0xff8D8D8D),
         ),
-      );
+        overflow: TextOverflow.clip,
+      ),
+    );
   }
 
   Container dateWidget(bool isNotMobile, num cardWidth) {
     return Container(
-          width: isNotMobile ? 0.86 * cardWidth : 0.95 * cardWidth,
-          margin: EdgeInsets.only(top: 4),
-          child: Row(
-            children: <Widget>[
-              Icon(
-              Icons.date_range,
-              color: Color(0xff8D8D8D),
-              size: 18,
+      width: isNotMobile ? 0.86 * cardWidth : 0.95 * cardWidth,
+      margin: EdgeInsets.only(top: 4),
+      child: Row(
+        children: <Widget>[
+          Icon(
+            Icons.date_range,
+            color: Color(0xff8D8D8D),
+            size: 18,
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 5),
+            child: Text(
+              getDate(DateTime.parse(bean.createTime)),
+              style: const TextStyle(
+                fontSize: 12,
+                color: Color(0xff8D8D8D),
               ),
-              Container(
-                margin: EdgeInsets.only(left: 5),
-                child: Text(
-                  getDate(DateTime.parse(bean.createTime)),
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: Color(0xff8D8D8D),
-                  ),
-                ),
-              )
-            ],
-          ),);
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   MaterialColor priRandomColor() {

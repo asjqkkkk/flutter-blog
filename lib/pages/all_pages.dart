@@ -5,5 +5,4 @@ export 'friend_link_page.dart';
 export 'home_page.dart';
 export 'tag_page.dart';
 
-
 export '../config/base_config.dart';

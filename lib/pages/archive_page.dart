@@ -93,8 +93,9 @@ class _ArchivePageState extends State<ArchivePage> {
                                                   List.generate(
                                                       yearBeans.length,
                                                       (index) => ArticleItemBean(
-                                                          articleName: yearBeans[index]
-                                                              .articleName)),
+                                                          articleName:
+                                                              yearBeans[index]
+                                                                  .articleName)),
                                                   index2);
                                             },
                                             leading: Text(
@@ -112,11 +113,14 @@ class _ArchivePageState extends State<ArchivePage> {
                                           )
                                         : FlatButton(
                                             onPressed: () => openArticlePage(
-                                                context,  List.generate(
-                                                yearBeans.length,
+                                                context,
+                                                List.generate(
+                                                    yearBeans.length,
                                                     (index) => ArticleItemBean(
-                                                    articleName: yearBeans[index]
-                                                        .articleName)), index2),
+                                                        articleName:
+                                                            yearBeans[index]
+                                                                .articleName)),
+                                                index2),
                                             child: Container(
                                               width: MediaQuery.of(context)
                                                       .size
@@ -150,8 +154,8 @@ class _ArchivePageState extends State<ArchivePage> {
       BuildContext context, List<ArticleItemBean> beans, int index) {
     final name = beans[index].articleName;
     final result = Uri.encodeFull(name);
-    Navigator.of(context)
-        .pushNamed(articlePage + '/$result', arguments: ArticleData(index, beans));
+    Navigator.of(context).pushNamed(articlePage + '/$result',
+        arguments: ArticleData(index, beans));
   }
 
   String getDate(DateTime time) {

@@ -12,33 +12,33 @@ class FriendLinkPage extends StatelessWidget {
     final isNotMobile = !PlatformType().isMobile();
 
     return CommonLayout(
-        pageType: PageType.link,
-        child: Container(
-          child: NotificationListener<OverscrollIndicatorNotification>(
-            onNotification: (overScroll) {
-              overScroll.disallowGlow();
-              return true;
-            },
-            child: isNotMobile
-                ? SingleChildScrollView(
-                    child: Wrap(
-                      children: List.generate(beans.length, (index) {
-                        return FriendLinkItem(
-                          bean: beans[index],
-                        );
-                      }),
-                    ),
-                  )
-                : ListView.builder(
-                    itemBuilder: (ctx, index) {
+      pageType: PageType.link,
+      child: Container(
+        child: NotificationListener<OverscrollIndicatorNotification>(
+          onNotification: (overScroll) {
+            overScroll.disallowGlow();
+            return true;
+          },
+          child: isNotMobile
+              ? SingleChildScrollView(
+                  child: Wrap(
+                    children: List.generate(beans.length, (index) {
                       return FriendLinkItem(
                         bean: beans[index],
                       );
-                    },
-                    itemCount: beans.length,
+                    }),
                   ),
-          ),
+                )
+              : ListView.builder(
+                  itemBuilder: (ctx, index) {
+                    return FriendLinkItem(
+                      bean: beans[index],
+                    );
+                  },
+                  itemCount: beans.length,
+                ),
         ),
-      );
+      ),
+    );
   }
 }

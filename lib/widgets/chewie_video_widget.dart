@@ -19,13 +19,12 @@ class _CheWieVideoWidgetState extends State<CheWieVideoWidget> {
   void initState() {
     _videoPlayerController = VideoPlayerController.network(widget.url);
     _chewieController = ChewieController(
-      videoPlayerController: _videoPlayerController,
-      aspectRatio: 3 / 2,
-      autoPlay: false,
-      autoInitialize: true,
-      looping: false,
-      allowMuting: false
-    );
+        videoPlayerController: _videoPlayerController,
+        aspectRatio: 3 / 2,
+        autoPlay: false,
+        autoInitialize: true,
+        looping: false,
+        allowMuting: false);
     super.initState();
   }
 

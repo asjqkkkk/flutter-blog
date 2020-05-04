@@ -4,19 +4,13 @@ import 'package:flutter/material.dart';
 import '../config/url_launcher.dart';
 import '../json/link_item_bean.dart';
 
-
 class FriendLinkItem extends StatelessWidget {
-
   const FriendLinkItem({Key key, @required this.bean}) : super(key: key);
 
   final LinkItemBean bean;
 
-
   @override
   Widget build(BuildContext context) {
-
-
-
     return Container(
       width: 300,
       height: 380,
@@ -67,7 +61,8 @@ class FriendLinkItem extends StatelessWidget {
                                           fontSize: (Random().nextInt(10) + 15)
                                               .toDouble(),
                                           color: Colors.primaries[Random()
-                                              .nextInt(Colors.primaries.length)],
+                                              .nextInt(
+                                                  Colors.primaries.length)],
                                         )),
                                   );
                                 }),
@@ -88,10 +83,13 @@ class FriendLinkItem extends StatelessWidget {
                 width: 100,
                 height: 100,
                 decoration: BoxDecoration(
-                  color: Colors.primaries[Random().nextInt(Colors.primaries.length)],
-                  borderRadius: const BorderRadius.all(Radius.circular(50.0)),
-                  image: DecorationImage(image: NetworkImage(bean.linkAvatar),fit: BoxFit.cover,)
-                ),
+                    color: Colors
+                        .primaries[Random().nextInt(Colors.primaries.length)],
+                    borderRadius: const BorderRadius.all(Radius.circular(50.0)),
+                    image: DecorationImage(
+                      image: NetworkImage(bean.linkAvatar),
+                      fit: BoxFit.cover,
+                    )),
               ),
             ),
           ),
@@ -104,7 +102,10 @@ class FriendLinkItem extends StatelessWidget {
                     Colors.primaries[Random().nextInt(Colors.primaries.length)],
                 child: Text(
                   "进入博客",
-                  style: TextStyle(color: Colors.white,fontFamily: "huawen_kt",),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: "huawen_kt",
+                  ),
                 ),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0)),

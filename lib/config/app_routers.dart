@@ -4,20 +4,23 @@ import 'base_config.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class AppModule extends MainModule {
-
   @override
   List<Bind> get binds => [];
 
   @override
   List<Router> get routers => [
-    Router(defaultPage, child: (_, args) => HomePage()),
-    Router(homePage, child: (_, args) => HomePage()),
-    Router(tagPage, child: (_, args) => TagPage()),
-    Router(archivePage, child: (_, args) => ArchivePage()),
-    Router(linkPage, child: (_, args) => FriendLinkPage()),
-    Router(aboutPage, child: (_, args) => AboutPage()),
-    Router("$articlePage/:name", child: (_, args) => ArticlePage(name: args.params['name'], articleData: args.data,)),
-  ];
+        Router(defaultPage, child: (_, args) => HomePage()),
+        Router(homePage, child: (_, args) => HomePage()),
+        Router(tagPage, child: (_, args) => TagPage()),
+        Router(archivePage, child: (_, args) => ArchivePage()),
+        Router(linkPage, child: (_, args) => FriendLinkPage()),
+        Router(aboutPage, child: (_, args) => AboutPage()),
+        Router("$articlePage/:name",
+            child: (_, args) => ArticlePage(
+                  name: args.params['name'],
+                  articleData: args.data,
+                )),
+      ];
 
   @override
   Widget get bootstrap => MyApp();
@@ -31,11 +34,10 @@ class MyApp extends StatelessWidget {
       title: '老晨子的flutter blog',
       theme: ThemeData(
         brightness:
-        (curHour > 18 || curHour < 7) ? Brightness.dark : Brightness.light,
+            (curHour > 18 || curHour < 7) ? Brightness.dark : Brightness.light,
       ),
       initialRoute: homePage,
       onGenerateRoute: Modular.generateRoute,
     );
   }
-
 }

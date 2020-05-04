@@ -1,44 +1,31 @@
-
-
-
 import 'package:flutter_test/flutter_test.dart';
 
-
- class A{
-
-
+class A {
   String a = 'aaaa';
 
-  void callA(){
+  void callA() {
     print('callA()');
   }
 }
 
-mixin C on A{
-
+mixin C on A {
   String c = 'cccc';
 
-  void callC(){
+  void callC() {
     print('callC()');
   }
 }
 
 class B extends A with C {
-
-
-  void callB(){
+  void callB() {
     print('callB()');
     callA();
   }
-
 }
 
-
-void main(){
-
-  test('测试', (){
+void main() {
+  test('测试', () {
     B b = B();
     b.callA();
   });
-
 }

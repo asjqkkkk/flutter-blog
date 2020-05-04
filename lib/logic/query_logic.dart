@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class QueryLogic {
   List<Data> queryArticles(String query, Map<String, String> dataMap) {
-    if(query.isEmpty) return [];
+    if (query.isEmpty) return [];
     List<Data> datas = [];
     for (String key in dataMap.keys) {
       final String value = _filterString(dataMap[key]);
@@ -80,7 +80,10 @@ class QueryLogic {
         style: TextStyle(fontWeight: FontWeight.bold),
       );
     else
-      return Text(data.title,style: TextStyle(fontWeight: FontWeight.bold),);
+      return Text(
+        data.title,
+        style: TextStyle(fontWeight: FontWeight.bold),
+      );
   }
 
   Widget getContent(Data data, String query) {

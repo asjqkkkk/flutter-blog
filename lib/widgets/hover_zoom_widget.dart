@@ -6,7 +6,8 @@ class HoverZoomWidget extends StatefulWidget {
   final double scale;
   final Offset origin;
 
-  const HoverZoomWidget({Key key, this.scale = 1.2, @required this.child, this.origin})
+  const HoverZoomWidget(
+      {Key key, this.scale = 1.2, @required this.child, this.origin})
       : super(key: key);
 
   @override
@@ -23,15 +24,15 @@ class _HoverZoomWidgetState extends State<HoverZoomWidget> {
       scale: isHovering ? widget.scale : 1.0,
       child: MouseRegion(
         child: widget.child,
-        onHover: (PointerHoverEvent event){
-          if(!isHovering){
+        onHover: (PointerHoverEvent event) {
+          if (!isHovering) {
             setState(() {
               isHovering = true;
             });
           }
         },
-        onExit: (PointerExitEvent event){
-          if(isHovering){
+        onExit: (PointerExitEvent event) {
+          if (isHovering) {
             setState(() {
               isHovering = false;
             });

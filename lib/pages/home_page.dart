@@ -11,7 +11,6 @@ import '../widgets/artical_item.dart';
 import '../widgets/common_layout.dart';
 import '../widgets/search_delegate_widget.dart';
 
-
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -25,7 +24,6 @@ class _HomePageState extends State<HomePage> {
   Map<ArticleType, List<ArticleItemBean>> dataMap = Map();
   final GlobalKey<ScaffoldState> globalKey = GlobalKey();
 
-
   @override
   void initState() {
     logic.getArticleData('config_study').then((List<ArticleItemBean> data) {
@@ -36,8 +34,6 @@ class _HomePageState extends State<HomePage> {
     });
     super.initState();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -59,46 +55,45 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Row getPcGrid(double height, double fontSizeByHeight, double width, BuildContext context) {
+  Row getPcGrid(double height, double fontSizeByHeight, double width,
+      BuildContext context) {
     return Row(
-              children: <Widget>[
-                getTypeChangeWidegt(height, fontSizeByHeight, true),
-                Expanded(
-                  child: Container(
-                    margin: EdgeInsets.only(
-                        left: 0.06 * width,
-                        right: 0.06 * width,
-                        top: 0.02 * width),
-                    child: showDataList.isEmpty
-                        ? const Center(
-                            child: CircularProgressIndicator(),
-                          )
-                        : NotificationListener<
-                                OverscrollIndicatorNotification>(
-                            onNotification: (overScroll) {
-                              overScroll.disallowGlow();
-                              return true;
-                            },
-                            child: GridView.count(
-                              crossAxisCount: 3,
-                              padding: EdgeInsets.fromLTRB(0.02 * width,
-                                  0.02 * height, 0.02 * width, 0),
-                              children:
-                                  List.generate(showDataList.length, (index) {
-                                return GestureDetector(
-                                  child: ArticleItem(bean: showDataList[index]),
-                                  onTap: () {
-                                    final name = showDataList[index].articleName;
-                                    final result = Uri.encodeFull(name);
-                                    Navigator.of(context).pushNamed(articlePage + '/$result', arguments: ArticleData(index, showDataList));
-                                  },
-                                );
-                              }),
-                            )),
-                  ),
-                )
-              ],
-            );
+      children: <Widget>[
+        getTypeChangeWidegt(height, fontSizeByHeight, true),
+        Expanded(
+          child: Container(
+            margin: EdgeInsets.only(
+                left: 0.06 * width, right: 0.06 * width, top: 0.02 * width),
+            child: showDataList.isEmpty
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : NotificationListener<OverscrollIndicatorNotification>(
+                    onNotification: (overScroll) {
+                      overScroll.disallowGlow();
+                      return true;
+                    },
+                    child: GridView.count(
+                      crossAxisCount: 3,
+                      padding: EdgeInsets.fromLTRB(
+                          0.02 * width, 0.02 * height, 0.02 * width, 0),
+                      children: List.generate(showDataList.length, (index) {
+                        return GestureDetector(
+                          child: ArticleItem(bean: showDataList[index]),
+                          onTap: () {
+                            final name = showDataList[index].articleName;
+                            final result = Uri.encodeFull(name);
+                            Navigator.of(context).pushNamed(
+                                articlePage + '/$result',
+                                arguments: ArticleData(index, showDataList));
+                          },
+                        );
+                      }),
+                    )),
+          ),
+        )
+      ],
+    );
   }
 //
 //  int getCrossCount(double width) {
@@ -253,13 +248,15 @@ class _HomePageState extends State<HomePage> {
         },
         child: ListView.builder(
           itemCount: showDataList.length,
+          padding: EdgeInsets.all(0.0),
           itemBuilder: (ctx, index) {
             return GestureDetector(
               child: ArticleItem(bean: showDataList[index]),
               onTap: () {
                 final name = showDataList[index].articleName;
                 final result = Uri.encodeFull(name);
-                Navigator.of(context).pushNamed(articlePage + '/$result', arguments: ArticleData(index, showDataList));
+                Navigator.of(context).pushNamed(articlePage + '/$result',
+                    arguments: ArticleData(index, showDataList));
               },
             );
           },

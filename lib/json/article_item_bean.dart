@@ -1,6 +1,6 @@
 import 'archive_item_bean.dart';
 
-class ArticleItemBean extends Comparable{
+class ArticleItemBean extends Comparable {
   ///文章标题
   String articleName;
 
@@ -21,7 +21,6 @@ class ArticleItemBean extends Comparable{
 
   ///文章地址
   String articleAddress;
-
 
   ///文章内容(当flutter修复rootbundle.loadString对于中文的识别问题后再去掉这个)
 //  String articleContent;
@@ -50,7 +49,6 @@ class ArticleItemBean extends Comparable{
     return bean;
   }
 
-
   static List<ArticleItemBean> fromMapList(dynamic mapList) {
     List<ArticleItemBean> list = new List(mapList.length);
     for (int i = 0; i < mapList.length; i++) {
@@ -59,7 +57,7 @@ class ArticleItemBean extends Comparable{
     return list;
   }
 
-  static ArticleItemBean fromYearBean(YearBean bean){
+  static ArticleItemBean fromYearBean(YearBean bean) {
     return ArticleItemBean(
       articleAddress: bean.articleAddress,
       articleName: bean.articleName,
@@ -83,10 +81,8 @@ class ArticleItemBean extends Comparable{
 
   @override
   int compareTo(other) {
-    return DateTime.parse(createTime).isAfter(DateTime.parse(other.createTime)) ? -1 : 1;
+    return DateTime.parse(createTime).isAfter(DateTime.parse(other.createTime))
+        ? -1
+        : 1;
   }
-
-
-
-
 }

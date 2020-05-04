@@ -2,9 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 
-
 class ArticleJson {
-
   factory ArticleJson() {
     return _singleton;
   }
@@ -17,9 +15,9 @@ class ArticleJson {
 
   static bool _isLoading = false;
 
-  static Future<dynamic> loadArticles() async{
-    if(articles != null) return articles;
-    if(!_isLoading){
+  static Future<dynamic> loadArticles() async {
+    if (articles != null) return articles;
+    if (!_isLoading) {
       _isLoading = true;
       final result = await rootBundle.loadString('assets/json/config_all.json');
       _isLoading = false;
