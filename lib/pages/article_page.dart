@@ -82,7 +82,7 @@ class _ArticlePageState extends State<ArticlePage> {
       child: Container(
           alignment: Alignment.center,
           margin:
-              isNotMobile ? const EdgeInsets.all(0) : const EdgeInsets.all(20),
+              isNotMobile ? const EdgeInsets.all(0) : const EdgeInsets.only(left: 20,right: 20),
           child: markdownData.isEmpty
               ? const Center(
                   child: CircularProgressIndicator(),
@@ -230,10 +230,8 @@ class _ArticlePageState extends State<ArticlePage> {
   Widget getMobileLayout(double width, double height, ArticleItemBean bean) {
     return Container(
       width: width,
-      child: Container(
-        padding: EdgeInsets.all(4),
-        child: getMarkdownBody(height, width, context),
-      ),
+      padding: EdgeInsets.only(left: 4,right: 4),
+      child: getMarkdownBody(height, width, context),
     );
   }
 
