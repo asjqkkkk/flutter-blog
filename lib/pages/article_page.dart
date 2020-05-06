@@ -68,7 +68,7 @@ class _ArticlePageState extends State<ArticlePage> {
 
     return CommonLayout(
       pageType: PageType.article,
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: isNotMobile ? null : FloatingActionButton(
         backgroundColor: Colors.white.withOpacity(0.8),
         onPressed: () {
           showModalBottomSheet(
