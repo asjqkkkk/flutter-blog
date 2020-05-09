@@ -68,21 +68,24 @@ class _ArticlePageState extends State<ArticlePage> {
 
     return CommonLayout(
       pageType: PageType.article,
-      floatingActionButton: isNotMobile ? null : FloatingActionButton(
-        backgroundColor: Colors.white.withOpacity(0.8),
-        onPressed: () {
-          showModalBottomSheet(
-              context: context,
-              builder: (ctx) {
-                return buildTocListWidget(fontSize: 18);
-              });
-        },
-        child: Icon(Icons.format_list_bulleted),
-      ),
+      floatingActionButton: isNotMobile
+          ? null
+          : FloatingActionButton(
+              backgroundColor: Colors.white.withOpacity(0.8),
+              onPressed: () {
+                showModalBottomSheet(
+                    context: context,
+                    builder: (ctx) {
+                      return buildTocListWidget(fontSize: 18);
+                    });
+              },
+              child: Icon(Icons.format_list_bulleted),
+            ),
       child: Container(
           alignment: Alignment.center,
-          margin:
-              isNotMobile ? const EdgeInsets.all(0) : const EdgeInsets.only(left: 20,right: 20),
+          margin: isNotMobile
+              ? const EdgeInsets.all(0)
+              : const EdgeInsets.only(left: 20, right: 20),
           child: markdownData.isEmpty
               ? const Center(
                   child: CircularProgressIndicator(),
@@ -230,7 +233,7 @@ class _ArticlePageState extends State<ArticlePage> {
   Widget getMobileLayout(double width, double height, ArticleItemBean bean) {
     return Container(
       width: width,
-      padding: EdgeInsets.only(left: 4,right: 4),
+      padding: EdgeInsets.only(left: 4, right: 4),
       child: getMarkdownBody(height, width, context),
     );
   }

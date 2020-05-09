@@ -41,8 +41,15 @@ class TocItemWidget extends StatelessWidget {
             name,
             style: isCurrent
                 ? TextStyle(
-                    color: Theme.of(context).textSelectionColor, fontSize: fontSize)
-                : TextStyle(fontSize: fontSize, color: isDark ? Colors.grey : null),
+                    color: Theme.of(context).textSelectionColor,
+                    fontSize: fontSize,
+                    fontFamily: 'huawen_kt',
+                  )
+                : TextStyle(
+                    fontSize: fontSize,
+                    color: isDark ? Colors.grey : null,
+                    fontFamily: 'huawen_kt',
+                  ),
           ),
         ),
         onTap: () {
