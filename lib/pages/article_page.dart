@@ -80,7 +80,10 @@ class _ArticlePageState extends State<ArticlePage> {
                       return buildTocListWidget(fontSize: 18);
                     });
               },
-              child: Icon(Icons.format_list_bulleted),
+              child: Icon(
+                Icons.format_list_bulleted,
+                color: Colors.black.withOpacity(0.5),
+              ),
             ),
       child: Container(
           alignment: Alignment.center,
@@ -292,31 +295,38 @@ class _ArticlePageState extends State<ArticlePage> {
                   margin: EdgeInsets.only(top: 5, right: 5),
                   alignment: Alignment.topRight,
                   child: FlatButton(
-                      onPressed: () {
-                        Clipboard.setData(ClipboardData(text: text));
-                        Widget toastWidget = Align(
-                          alignment: Alignment.topRight,
-                          child: Container(
-                            margin: EdgeInsets.only(top: 50,right: 50),
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Color(0xff006EDF),width: 2),
-                                borderRadius: BorderRadius.all(Radius.circular(4,)),
-                            ),
-                            width: 100,
-                            height: 30,
-                            child: Center(
-                              child: Material(
-                                child: Text(
-                                  '复制成功',
-                                  style: TextStyle(fontSize: 10),
-                                ),
+                    onPressed: () {
+                      Clipboard.setData(ClipboardData(text: text));
+                      Widget toastWidget = Align(
+                        alignment: Alignment.topRight,
+                        child: Container(
+                          margin: EdgeInsets.only(top: 50, right: 50),
+                          decoration: BoxDecoration(
+                            border:
+                                Border.all(color: Color(0xff006EDF), width: 2),
+                            borderRadius: BorderRadius.all(Radius.circular(
+                              4,
+                            )),
+                          ),
+                          width: 100,
+                          height: 30,
+                          child: Center(
+                            child: Material(
+                              child: Text(
+                                '复制成功',
+                                style: TextStyle(fontSize: 10),
                               ),
                             ),
                           ),
-                        );
-                        ToastWidget().showToast(context, toastWidget, 2);
-                      },
-                      child: Text('复制',style: TextStyle(fontSize: 10),),),
+                        ),
+                      );
+                      ToastWidget().showToast(context, toastWidget, 2);
+                    },
+                    child: Text(
+                      '复制',
+                      style: TextStyle(fontSize: 10),
+                    ),
+                  ),
                 )
               ],
             );
