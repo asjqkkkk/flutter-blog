@@ -4,8 +4,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_blog/widgets/toast_widget.dart';
-import 'package:markdown_widget/config/style_config.dart';
+import '../widgets/toast_widget.dart';
 import '../config/url_launcher.dart';
 import '../widgets/toc_item.dart';
 import '../json/article_item_bean.dart';
@@ -288,9 +287,7 @@ class _ArticlePageState extends State<ArticlePage> {
           preConfig: PreConfig(preWrapper: (child, text) {
             return Stack(
               children: <Widget>[
-                Center(
-                  child: child,
-                ),
+                child,
                 Container(
                   margin: EdgeInsets.only(top: 5, right: 5),
                   alignment: Alignment.topRight,
