@@ -3,6 +3,8 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_blog/widgets/toast_widget.dart';
 import 'package:markdown_widget/config/style_config.dart';
 import '../config/url_launcher.dart';
 import '../widgets/toc_item.dart';
@@ -283,6 +285,45 @@ class _ArticlePageState extends State<ArticlePage> {
               ),
             );
           },
+          preConfig: PreConfig(preWrapper: (child, text) {
+            return Stack(
+              children: <Widget>[
+                Center(
+                  child: child,
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 5, right: 5),
+                  alignment: Alignment.topRight,
+                  child: FlatButton(
+                      onPressed: () {
+                        Clipboard.setData(ClipboardData(text: text));
+                        Widget toastWidget = Align(
+                          alignment: Alignment.topRight,
+                          child: Container(
+                            margin: EdgeInsets.only(top: 50,right: 50),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Color(0xff006EDF),width: 2),
+                                borderRadius: BorderRadius.all(Radius.circular(4,)),
+                            ),
+                            width: 100,
+                            height: 30,
+                            child: Center(
+                              child: Material(
+                                child: Text(
+                                  '复制成功',
+                                  style: TextStyle(fontSize: 10),
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                        ToastWidget().showToast(context, toastWidget, 2);
+                      },
+                      child: Text('复制',style: TextStyle(fontSize: 10),),),
+                )
+              ],
+            );
+          }),
           markdownTheme:
               isDark ? MarkdownTheme.darkTheme : MarkdownTheme.lightTheme),
     );
