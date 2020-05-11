@@ -294,38 +294,37 @@ class _ArticlePageState extends State<ArticlePage> {
                 Container(
                   margin: EdgeInsets.only(top: 5, right: 5),
                   alignment: Alignment.topRight,
-                  child: FlatButton(
+                  child: IconButton(
                     onPressed: () {
                       Clipboard.setData(ClipboardData(text: text));
                       Widget toastWidget = Align(
-                        alignment: Alignment.topRight,
+                        alignment: Alignment.bottomCenter,
                         child: Container(
-                          margin: EdgeInsets.only(top: 50, right: 50),
+                          margin: EdgeInsets.only(bottom: 50),
                           decoration: BoxDecoration(
                             border:
                                 Border.all(color: Color(0xff006EDF), width: 2),
                             borderRadius: BorderRadius.all(Radius.circular(
                               4,
                             )),
+                            color: Color(0xff007FFF)
                           ),
                           width: 100,
                           height: 30,
                           child: Center(
                             child: Material(
+                              color: Colors.transparent,
                               child: Text(
                                 '复制成功',
-                                style: TextStyle(fontSize: 10),
+                                style: TextStyle(fontSize: 10, color: Colors.white),
                               ),
                             ),
                           ),
                         ),
                       );
-                      ToastWidget().showToast(context, toastWidget, 2);
+                      ToastWidget().showToast(context, toastWidget, 1);
                     },
-                    child: Text(
-                      '复制',
-                      style: TextStyle(fontSize: 10),
-                    ),
+                    icon: Icon(Icons.content_copy, size: 10,),
                   ),
                 )
               ],

@@ -43,12 +43,10 @@ class TocItemWidget extends StatelessWidget {
                 ? TextStyle(
                     color: Theme.of(context).textSelectionColor,
                     fontSize: fontSize,
-                    fontFamily: 'huawen_kt',
                   )
                 : TextStyle(
                     fontSize: fontSize,
                     color: isDark ? Colors.grey : null,
-                    fontFamily: 'huawen_kt',
                   ),
           ),
         ),
