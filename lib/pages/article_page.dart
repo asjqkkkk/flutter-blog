@@ -264,6 +264,7 @@ class _ArticlePageState extends State<ArticlePage> {
       styleConfig: StyleConfig(
           pConfig: PConfig(
             onLinkTap: (url) => launchURL(url),
+            selectable: false
           ),
           titleConfig: TitleConfig(
             showDivider: false,
