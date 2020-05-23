@@ -329,7 +329,7 @@ class _ArticlePageState extends State<ArticlePage> {
                 )
               ],
             );
-          }),
+          }, language: 'dart'),
           markdownTheme:
               isDark ? MarkdownTheme.darkTheme : MarkdownTheme.lightTheme),
     );
