@@ -66,50 +66,27 @@ class AboutPage extends StatelessWidget {
                           ],
                         ),
                         Container(
-                          margin: isNotMobile
-                              ? EdgeInsets.only(left: 40, right: 40, top: 5)
-                              : EdgeInsets.all(5),
-                          child: Column(
-                            children: <Widget>[
-                              FlatButton(
-                                child: RichText(
-                                    text: TextSpan(
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 30,
-                                        ),
-                                        children: [
-                                      TextSpan(text: '求职中：'),
-                                      TextSpan(
-                                          text: '📃在线简历',
-                                          style: TextStyle(
-                                            color: Colors.blue,
-                                          )),
-                                    ])),
-                                onPressed: () => launchURL(
-                                    'https://oldchen-blog-1256696029.cos.ap-guangzhou.myqcloud.com/%E7%AE%80%E5%8E%86-2020.pdf'),
-                              ),
-                              Text('😊有好的内推机会请务必砸向我'),
-                              Text('联系方式如下'),
-                              Image.asset(
-                                'assets/img/wechat.png',
-                                width: isNotMobile ? 200 : null,
-                              ),
-                              FlatButton(
-                                child: Text(
-                                  'agedchen@gmail.com',
-                                  style: TextStyle(
-                                    color: Colors.blue,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                                onPressed: () =>
-                                    launchURL('mailto:agedchen@gmail.com'),
-                              ),
-                            ],
-                          ),
+                          margin: EdgeInsets.only(top: 20),
+                          alignment: Alignment.center,
+                          child: Text('不知道放什么,就放一张图片吧'),
                         ),
+                        Container(
+                            width: 400,
+                            height: 400,
+                            alignment: Alignment.center,
+                            margin: EdgeInsets.only(top: 20),
+                            decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(20))),
+                            child: Container(
+                              alignment: Alignment.center,
+                              child: FadeInImage.assetNetwork(
+                                placeholder: 'assets/img/loading.gif',
+                                placeholderScale: 0.2,
+                                image: 'https://api.dujin.org/bing/1366.php',
+                                fit: BoxFit.contain,
+                              ),
+                            ))
                       ],
                     ),
                   ),

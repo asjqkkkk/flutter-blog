@@ -280,6 +280,7 @@ class _ArticlePageState extends State<ArticlePage> {
               child: Card(
                 child: FadeInImage.assetNetwork(
                   placeholder: 'assets/img/loading.gif',
+                  placeholderScale: 0.5,
                   image: url ?? '',
                   height: h,
                   width: w,
