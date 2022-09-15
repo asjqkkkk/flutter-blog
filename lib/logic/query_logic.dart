@@ -1,21 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:new_web/config/all_configs.dart';
 
 class QueryLogic {
-  List<Data> queryArticles(String query, Map<String, String> dataMap) {
+  List<Data> queryArticles(String query, Map? dataMap) {
     if (query.isEmpty) return [];
-    List<Data> datas = [];
-    for (String key in dataMap.keys) {
+    final List<Data> dataList = [];
+    for (final key in dataMap!.keys) {
       final String value = _filterString(dataMap[key]);
-      final Data data = Data(title: key, content: value.trim());
-      final int titleIndex = key.indexOf(query);
+      final bean = GlobalData.instance.getArticleBean(key)!;
+      final title = bean.articleName!;
+      final Data data = Data(
+        title: title,
+        content: value.trim(),
+        id: bean.articleId,
+        path: bean.articlePath,
+      );
+      final int titleIndex = title.indexOf(query);
       final int contentIndex = value.indexOf(query);
       if (titleIndex != -1) {
-        final int length = key.length;
+        final int length = title.length;
         final List<String> titleList = [];
-        titleList.add(key.substring(0, titleIndex));
-        titleList.add(key.substring(titleIndex, titleIndex + query.length));
+        titleList.add(title.substring(0, titleIndex));
+        titleList.add(title.substring(titleIndex, titleIndex + query.length));
         if (titleIndex + query.length < length) {
-          titleList.add(key.substring(titleIndex + query.length, length));
+          titleList.add(title.substring(titleIndex + query.length, length));
         }
         data.titleList = titleList;
       }
@@ -45,14 +53,14 @@ class QueryLogic {
       }
 
       if (data.titleList != null || data.contentList != null) {
-        datas.add(data);
+        dataList.add(data);
       }
     }
-    return datas;
+    return dataList;
   }
 
   String _filterString(String content) {
-    List<String> splits = content.split('---');
+    final splits = content.split('---');
     if (splits.length >= 3) {
       return splits[2];
     } else {
@@ -65,24 +73,24 @@ class QueryLogic {
       return Text.rich(
         TextSpan(
           children: List.generate(
-            data.titleList.length,
+            data.titleList!.length,
             (index) {
-              final text = data.titleList[index];
+              final text = data.titleList![index];
               return TextSpan(
                 text: text,
-                style: TextStyle(
-                  color: text == query ? Colors.redAccent : null,
-                ),
+                style: CTextStyle(
+                    color: text == query ? Colors.redAccent : null,
+                    fontSize: v14),
               );
             },
           ),
         ),
-        style: TextStyle(fontWeight: FontWeight.bold),
+        style: CTextStyle(fontWeight: FontWeight.bold, fontSize: v14),
       );
     else
       return Text(
-        data.title,
-        style: TextStyle(fontWeight: FontWeight.bold),
+        data.title!,
+        style: CTextStyle(fontWeight: FontWeight.bold, fontSize: v14),
       );
   }
 
@@ -91,19 +99,21 @@ class QueryLogic {
       return Text.rich(
         TextSpan(
           children: List.generate(
-            data.contentList.length,
+            data.contentList!.length,
             (index) {
-              final String text = data.contentList[index];
+              final String text = data.contentList![index];
               return TextSpan(
                   text: text,
-                  style: TextStyle(
-                      color: text == query ? Colors.redAccent : null));
+                  style: CTextStyle(
+                    color: text == query ? Colors.redAccent : null,
+                    fontSize: v14,
+                  ));
             },
           ),
         ),
       );
     else
-      return Text(subStringText(data.content));
+      return Text(subStringText(data.content!));
   }
 
   String subStringText(String content) {
@@ -112,10 +122,12 @@ class QueryLogic {
 }
 
 class Data {
-  Data({this.title, this.content});
+  Data({this.title, this.content, this.id, this.path});
 
-  String title;
-  List<String> titleList;
-  List<String> contentList;
-  String content;
+  String? id;
+  String? path;
+  String? title;
+  List<String>? titleList;
+  List<String>? contentList;
+  String? content;
 }

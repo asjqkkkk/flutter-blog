@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 
 class TopAnimationShowWidget extends StatefulWidget {
-  final Widget child;
-  final Duration duration;
-  final double distanceY;
-
-  TopAnimationShowWidget({this.child, this.duration, this.distanceY = 0})
+  const TopAnimationShowWidget(
+      {required this.child, this.duration, this.distanceY = 0})
       : assert(child != null);
 
+  final Widget child;
+  final Duration? duration;
+  final double distanceY;
   @override
   _TopAnimationShowWidgetState createState() => _TopAnimationShowWidgetState();
 }
 
 class _TopAnimationShowWidgetState extends State<TopAnimationShowWidget>
     with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-  Animation<double> _animation;
+  late AnimationController _controller;
+  late Animation<double> _animation;
 
   @override
   void initState() {
     _controller = AnimationController(
-        vsync: this, duration: widget.duration ?? Duration(seconds: 1));
+        vsync: this, duration: widget.duration ?? const Duration(seconds: 1));
     _animation = Tween(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(parent: _controller, curve: Curves.easeOutBack));
     _controller.forward();
@@ -30,7 +30,6 @@ class _TopAnimationShowWidgetState extends State<TopAnimationShowWidget>
   @override
   void dispose() {
     _controller.dispose();
-    debugPrint("top_show销毁");
     super.dispose();
   }
 

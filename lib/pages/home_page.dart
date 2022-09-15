@@ -1,277 +1,209 @@
-import '../pages/article_page.dart';
 
-import '../config/base_config.dart';
-import '../config/platform_type.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../json/article_json_bean.dart';
-import '../json/article_item_bean.dart';
-import '../logic/home_page_logic.dart';
-import '../widgets/artical_item.dart';
-import '../widgets/common_layout.dart';
-import '../widgets/search_delegate_widget.dart';
+import 'package:new_web/items/about_item.dart';
+import 'package:new_web/items/all_items.dart';
+
+import '../config/all_configs.dart';
+import '../util/all_utils.dart';
+import '../widgets/all_widgets.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  final logic = HomePageLogic();
-  ArticleType type = ArticleType.study;
-
-  List<ArticleItemBean> showDataList = [];
-  Map<ArticleType, List<ArticleItemBean>> dataMap = Map();
-  final GlobalKey<ScaffoldState> globalKey = GlobalKey();
+  final _StateDelegate _stateDelegate = _StateDelegate();
+  late HomePageModel _model;
 
   @override
   void initState() {
-    logic.getArticleData('config_study').then((List<ArticleItemBean> data) {
-      dataMap[ArticleType.study] = data;
-      showDataList.addAll(data);
-      refresh();
-      ArticleJson.loadArticles();
-    });
+    _stateDelegate._refreshCallback = _refresh;
+    _model = HomePageModel(_stateDelegate);
+    _model.context ??= context;
+    _model.initState();
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final width = size.width;
-    final height = size.height;
-    final fontSizeByHeight = height * 30 / 1200;
-    final detector = PlatformType();
-    final isNotMobile = !detector.isMobile();
+  void dispose() {
+    _stateDelegate._refreshCallback = null;
+    _model.dispose();
+    super.dispose();
+  }
 
-    return CommonLayout(
-      globalKey: globalKey,
-      drawer: getTypeChangeWidegt(height, fontSizeByHeight, isNotMobile),
-      child: Container(
-        child: isNotMobile
-            ? getPcGrid(height, fontSizeByHeight, width, context)
-            : getMobileList(),
+  void _refresh() => _stateDelegate.refresh();
+
+  @override
+  Widget build(BuildContext context) {
+    ScreenUtil.init(context);
+    final logic = _model.logic;
+    return Scaffold(
+      body: logic.buildBody(),
+    );
+  }
+}
+
+class HomePageModel {
+  HomePageModel(this.stateDelegate) {
+    logic = HomePageLogic(this);
+  }
+
+  final _StateDelegate stateDelegate;
+  late HomePageLogic logic;
+  BuildContext? context;
+
+  List<TabWithPage> pages = [
+    TabWithPage(TabInfo('主 页', Icons.home_outlined), () => HomeItems()),
+    TabWithPage(TabInfo('一 则', Icons.star_border_purple500_sharp),
+        () => OneLineItems()),
+    TabWithPage(
+        TabInfo('友 链', Icons.people_alt_outlined), () => FriendLinkItem()),
+    TabWithPage(TabInfo('关 于', Icons.account_box_outlined), () => AboutItem()),
+    TabWithPage(
+        TabInfo('游 戏', Icons.videogame_asset_outlined), () => GameScreenItem()),
+    TabWithPage(TabInfo('文 章', Icons.article_outlined), () => ArticleItem()),
+  ];
+
+  int get pageCount => pages.length;
+
+  final PageController pageController = PageController();
+
+  final _curIndex = ValueNotifier(0);
+
+  int get curIndex => _curIndex.value;
+
+  void initState() {
+    GlobalData.instance.initialData();
+  }
+
+  void dispose() {}
+
+  void refresh() => stateDelegate.refresh();
+}
+
+class HomePageLogic {
+  HomePageLogic(this._model);
+
+  final HomePageModel _model;
+
+  Widget buildBody() {
+    return Center(
+      child: SelectionArea(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            buildLeftLayout(),
+            buildRightLayout(),
+          ],
+        ),
       ),
     );
   }
 
-  Row getPcGrid(double height, double fontSizeByHeight, double width,
-      BuildContext context) {
-    return Row(
-      children: <Widget>[
-        getTypeChangeWidegt(height, fontSizeByHeight, true),
-        Expanded(
-          child: Container(
-            margin: EdgeInsets.only(
-                left: 0.06 * width, right: 0.06 * width, top: 0.02 * width),
-            child: showDataList.isEmpty
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : NotificationListener<OverscrollIndicatorNotification>(
-                    onNotification: (overScroll) {
-                      overScroll.disallowGlow();
-                      return true;
-                    },
-                    child: GridView.count(
-                      crossAxisCount: 3,
-                      padding: EdgeInsets.fromLTRB(
-                          0.02 * width, 0.02 * height, 0.02 * width, 0),
-                      children: List.generate(showDataList.length, (index) {
-                        return GestureDetector(
-                          child: ArticleItem(bean: showDataList[index]),
-                          onTap: () {
-                            final name = showDataList[index].articleName;
-                            final result = Uri.encodeFull(name);
-                            Navigator.of(context).pushNamed(
-                                articlePage + '/$result',
-                                arguments: ArticleData(index, showDataList));
-                          },
-                        );
-                      }),
-                    )),
-          ),
-        )
-      ],
-    );
-  }
-//
-//  int getCrossCount(double width) {
-//    final result = ((width - 400) ~/ 300) < 1 ? 1 : ((width - 400) ~/ 300);
-//    return result > 3 ? 3 : result;
-//  }
-
-  Column getTypeChangeWidegt(
-      double height, double fontSizeByHeight, bool isNotMobile) {
+  Widget buildLeftLayout() {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Text(
-          "我的\n博客",
-          style: TextStyle(
-            fontSize: getScaleSizeByHeight(height, 90.0),
-            fontFamily: "huawen_kt",
-          ),
-        ),
-        SizedBox(
-          height: getScaleSizeByHeight(height, 40.0),
-        ),
-        FlatButton(
-          onPressed: () {
-            if (type == ArticleType.study) return;
-            type = ArticleType.study;
-            showDataList.clear();
-            if (dataMap[ArticleType.study] != null) {
-              showDataList.addAll(dataMap[ArticleType.study]);
-              refresh();
-            } else {
-              refresh();
-              logic
-                  .getArticleData("config_study")
-                  .then((List<ArticleItemBean> data) {
-                dataMap[ArticleType.study] = data;
-                showDataList.addAll(data);
-                refresh();
-              });
-            }
-          },
-          child: Text(
-            '学习',
-            style: TextStyle(
-              fontSize: fontSizeByHeight,
-              color: type == ArticleType.study ? null : const Color(0xff9E9E9E),
-              fontFamily: 'huawen_kt',
-            ),
-          ),
-        ),
-        SizedBox(
-          height: getScaleSizeByHeight(height, 40.0),
-        ),
-        FlatButton(
-          onPressed: () {
-            if (type == ArticleType.life) return;
-            type = ArticleType.life;
-            showDataList.clear();
-            if (dataMap[ArticleType.life] != null) {
-              showDataList.addAll(dataMap[ArticleType.life]);
-              refresh();
-            } else {
-              refresh();
-              logic
-                  .getArticleData("config_life")
-                  .then((List<ArticleItemBean> data) {
-                dataMap[ArticleType.life] = data;
-                showDataList.addAll(data);
-                refresh();
-              });
-            }
-          },
-          child: Text(
-            '生活',
-            style: TextStyle(
-              fontSize: fontSizeByHeight,
-              color: type == ArticleType.life ? null : Color(0xff9E9E9E),
-              fontFamily: 'huawen_kt',
-            ),
-          ),
-        ),
-        SizedBox(
-          height: getScaleSizeByHeight(height, 40.0),
-        ),
-        FlatButton(
-          onPressed: () {
-            if (type == ArticleType.topic) return;
-            type = ArticleType.topic;
-            showDataList.clear();
-            if (dataMap[ArticleType.topic] != null) {
-              showDataList.addAll(dataMap[ArticleType.topic]);
-              refresh();
-            } else {
-              refresh();
-              logic
-                  .getArticleData('config_topic')
-                  .then((List<ArticleItemBean> data) {
-                dataMap[ArticleType.topic] = data;
-                showDataList.addAll(data);
-                refresh();
-              });
-            }
-          },
-          child: Text(
-            '习题',
-            style: TextStyle(
-              fontSize: fontSizeByHeight,
-              color: type == ArticleType.topic ? null : Color(0xff9E9E9E),
-              fontFamily: 'huawen_kt',
-            ),
-          ),
-        ),
-        if (isNotMobile)
-          Container()
-        else
-          SizedBox(
-            height: getScaleSizeByHeight(height, 40.0),
-          ),
-        if (isNotMobile)
-          Container()
-        else
-          IconButton(
-              icon: Icon(
-                Icons.search,
-                color: const Color(0xff9E9E9E),
-              ),
-              onPressed: () async {
-                final dynamic data = await ArticleJson.loadArticles();
-                final map = Map.from(data);
-                showSearch(
-                    context: context, delegate: SearchDelegateWidget(map));
-              }),
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        buildHeader(),
+        buildDate(),
+        buildHomeMenu(),
+        buildMusicWidget(),
       ],
     );
   }
 
-  void refresh() {
-    setState(() {});
+  Widget buildRightLayout() {
+    final model = _model;
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        WebBar(),
+        Expanded(
+            child: Container(
+          width: v400 * 3,
+          child: ValueListenableBuilder(
+              valueListenable: model._curIndex,
+              builder: (context, dynamic index, _) {
+                return model.pages[index]._widgetBuilder.call();
+              }),
+        )),
+      ],
+    );
   }
 
-  Widget getMobileList() {
-    if (showDataList.isEmpty) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    } else {
-      return NotificationListener<OverscrollIndicatorNotification>(
-        onNotification: (overScroll) {
-          overScroll.disallowGlow();
-          return true;
-        },
-        child: ListView.builder(
-          itemCount: showDataList.length,
-          padding: EdgeInsets.all(0.0),
-          itemBuilder: (ctx, index) {
-            return GestureDetector(
-              child: ArticleItem(bean: showDataList[index]),
-              onTap: () {
-                final name = showDataList[index].articleName;
-                final result = Uri.encodeFull(name);
-                Navigator.of(context).pushNamed(articlePage + '/$result',
-                    arguments: ArticleData(index, showDataList));
-              },
-            );
-          },
+  Widget buildHeader() {
+    const headImage = ExactAssetImage('assets/img/head.png');
+    return Container(
+      margin: EdgeInsets.only(left: v56, top: v58),
+      child: HoverRotateWidget(
+        child: CusInkWell(
+          // onTap: () {
+          //   FullScreenDialog.getInstance().showDialog(
+          //     GlobalData.instance.context,
+          //     TopAnimationShowWidget(
+          //       child: GestureDetector(
+          //         onTap: () => Navigator.of(GlobalData.instance.context).pop(),
+          //         child: Scaffold(
+          //           backgroundColor: Colors.transparent,
+          //           body: Container(
+          //             child: Image(image: headImage),
+          //             alignment: Alignment.topLeft,
+          //           ),
+          //         ),
+          //       ),
+          //       distanceY: MediaQuery.of(_model.context).size.height / 2,
+          //     ),
+          //   );
+          // },
+          child: Container(
+            width: v64,
+            height: v64,
+            decoration: BoxDecoration(
+                color: color1,
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                    image: buildResizeImage(headImage, w: v64, h: v64))),
+          ),
         ),
-      );
-    }
+      ),
+    );
   }
 
-  double getScaleSizeByWidth(double width, double size) {
-    return size * width / 1600;
+  Widget buildDate() => const DateWidget();
+
+  Widget buildHomeMenu() {
+    final model = _model;
+    return Expanded(
+      child: HomeMenu(
+        onTabSelect: (info, index) {
+          if (index == model.curIndex) return;
+          model._curIndex.value = index;
+        },
+        tabs: model.pages,
+      ),
+    );
   }
 
-  double getScaleSizeByHeight(double height, double size) {
-    return size * height / 1200;
+  Widget buildMusicWidget() {
+    return RepaintBoundary(child: MusicWidget());
   }
 }
 
-enum ArticleType { life, study, topic }
+class _StateDelegate {
+  VoidCallback? _refreshCallback;
+
+  void refresh() => _refreshCallback?.call();
+}
+
+typedef _WidgetBuilder = Widget Function();
+
+class TabWithPage {
+  TabWithPage(this.tabInfo, this._widgetBuilder);
+
+  final TabInfo tabInfo;
+  final _WidgetBuilder _widgetBuilder;
+}
