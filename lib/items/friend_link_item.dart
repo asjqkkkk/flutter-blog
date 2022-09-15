@@ -108,22 +108,19 @@ class _Item extends StatelessWidget {
                     height: v64,
                     margin: EdgeInsets.only(top: v48, bottom: v16),
                     child: HoverRotateWidget(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(v32),
-                        child: LoadingImage(
-                          image: buildResizeImage(
-                              ExactAssetImage(friendLinkBean.assetAvatar!),
-                              w: v64,
-                              h: v64),
-                          loadingWidget: Container(
-                              width: v64,
-                              height: v64,
-                              decoration: const BoxDecoration(
-                                color: Colors.black,
-                                shape: BoxShape.circle,
-                              )),
-                        ),
-                      ),
+                      child: Container(
+                          width: v64,
+                          height: v64,
+                          decoration: BoxDecoration(
+                              color: Colors.black,
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: buildResizeImage(
+                                      ExactAssetImage(
+                                          friendLinkBean.assetAvatar ?? ''),
+                                      w: v64,
+                                      h: v64)))),
                     ),
                   ),
                   Text(

@@ -52,7 +52,7 @@ class FriendGenerator extends Generator {
         hasFile = false;
       }
       final Response data =
-          await (ApiStrategy.getApiService()!.get(playUrl).single as FutureOr<Response>);
+          await ApiStrategy.getApiService()!.get(playUrl).single;
       picFile.writeAsBytesSync(data.bodyBytes);
       e.assetAvatar = FileUtils().getAssetFile(picFile.path);
       print(
