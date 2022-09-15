@@ -34,6 +34,6 @@ Now is coding...
 | ![image](https://user-images.githubusercontent.com/30992818/76489367-1f6d0600-6463-11ea-9099-a87f5def26fd.png) | ![image](https://user-images.githubusercontent.com/30992818/76489384-2bf15e80-6463-11ea-8ea6-d24fb7b3c9bc.png)   |  ![image](https://user-images.githubusercontent.com/30992818/76489405-39a6e400-6463-11ea-966b-79f209bbf793.png)| 
 
 
-[github blog url](https://oldchen.top/flutter-blog/#/homePage)
+[github blog url](https://oldchen.top/)
 
 [gitee blog url](http://oldben.gitee.io/flutter-blog/#/homePage)
