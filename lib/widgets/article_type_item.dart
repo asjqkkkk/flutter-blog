@@ -16,8 +16,6 @@ class ArticleTypeItem extends StatelessWidget {
   final ArticleItemBean article;
   final String articlePath;
 
-  bool get hasData => article != null;
-
   String? get imagePath => article.imageAddress;
 
   bool get hasImage => imagePath != null && imagePath!.isNotEmpty;
@@ -34,7 +32,6 @@ class ArticleTypeItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!hasData) return Container(width: v210);
     return Container(
       width: v210,
       padding: EdgeInsets.only(bottom: v30),

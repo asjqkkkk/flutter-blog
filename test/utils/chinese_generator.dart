@@ -23,10 +23,10 @@ class ChineseGenerator extends Generator {
     print('🎈Chinese text extraction complete! :${outPutFile.path}🎈');
   }
 
-  Future _traverseDirs(List<String> result, Directory directory) async {
+  Future _traverseDirs(List<String> result, Directory? directory) async {
     if (directory == null) return;
     final dirs = directory.listSync();
-    if (dirs == null || dirs.isEmpty) return;
+    if (dirs.isEmpty) return;
     await Future.forEach(dirs, (dynamic dir) {
       if (dir is Directory)
         _traverseDirs(result, dir);

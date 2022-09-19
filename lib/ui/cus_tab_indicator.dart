@@ -9,8 +9,7 @@ class CusUnderlineTabIndicator extends Decoration {
     this.borderSide = const BorderSide(width: 2.0, color: Colors.white),
     this.insets = EdgeInsets.zero,
     this.borderHeight = 2.0,
-  })  : assert(borderSide != null),
-        assert(insets != null);
+  });
 
   final BorderSide borderSide;
 
@@ -48,8 +47,6 @@ class CusUnderlineTabIndicator extends Decoration {
   }
 
   Rect _indicatorRectFor(Rect rect, TextDirection textDirection) {
-    assert(rect != null);
-    assert(textDirection != null);
     final Rect indicator = insets.resolve(textDirection).deflateRect(rect);
     return Rect.fromLTWH(
       indicator.left,
@@ -70,15 +67,13 @@ class _UnderlinePainter extends BoxPainter {
     this.decoration,
     VoidCallback? onChanged,
     this.borderHeight,
-  )   : assert(decoration != null),
-        super(onChanged);
+  )   : super(onChanged);
 
   final CusUnderlineTabIndicator decoration;
   final double borderHeight;
 
   @override
   void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
-    assert(configuration != null);
     assert(configuration.size != null);
     final Rect rect = offset & configuration.size!;
     final TextDirection textDirection = configuration.textDirection!;

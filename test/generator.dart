@@ -5,16 +5,18 @@ import 'utils/chinese_generator.dart';
 import 'utils/file_util.dart';
 import 'utils/friend_info_generator.dart';
 import 'utils/game_screen_generator.dart';
-import 'utils/music_info_generator.dart';
+// import 'utils/music_info_generator.dart';
+import 'utils/one_line_generator.dart';
 
 void main() {
   test('生成文件', () async {
     final List<Generator> generators = [
       GameScreenGenerator(),
-      MusicInfoGenerator(),
+      // MusicInfoGenerator(),
       FriendGenerator(),
       ArticleGenerator(),
       ChineseGenerator(),
+      OneLineGenerator(),
     ];
     await Future.forEach<Generator>(
       generators,

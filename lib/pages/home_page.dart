@@ -56,15 +56,15 @@ class HomePageModel {
   BuildContext? context;
 
   List<TabWithPage> pages = [
-    TabWithPage(TabInfo('主 页', Icons.home_outlined), () => HomeItems()),
-    TabWithPage(TabInfo('一 则', Icons.star_border_purple500_sharp),
+    TabWithPage(TabInfo('主 页'), () => HomeItems()),
+    TabWithPage(TabInfo('一 则'),
         () => OneLineItems()),
     TabWithPage(
-        TabInfo('友 链', Icons.people_alt_outlined), () => FriendLinkItem()),
-    TabWithPage(TabInfo('关 于', Icons.account_box_outlined), () => AboutItem()),
+        TabInfo('友 链'), () => FriendLinkItem()),
+    TabWithPage(TabInfo('关 于'), () => AboutItem()),
     TabWithPage(
-        TabInfo('游 戏', Icons.videogame_asset_outlined), () => GameScreenItem()),
-    TabWithPage(TabInfo('文 章', Icons.article_outlined), () => ArticleItem()),
+        TabInfo('游 戏'), () => GameScreenItem()),
+    TabWithPage(TabInfo('文 章'), () => ArticleItem()),
   ];
 
   int get pageCount => pages.length;
@@ -91,15 +91,13 @@ class HomePageLogic {
 
   Widget buildBody() {
     return Center(
-      child: SelectionArea(
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            buildLeftLayout(),
-            buildRightLayout(),
-          ],
-        ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          buildLeftLayout(),
+          buildRightLayout(),
+        ],
       ),
     );
   }

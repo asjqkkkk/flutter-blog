@@ -63,7 +63,7 @@ List<Item> generatorSizes(
     }
   }
 
-  assert(maxCount != null && minCount != null && width != null);
+  assert(minCount != null && width != null);
   assert(() {
     final noError = (maxCount >= minCount!) && (minCount >= 0) && (width! >= 0.0);
     if (!noError)
@@ -74,7 +74,7 @@ List<Item> generatorSizes(
   final List<Item> result = [];
   if (maxCount == 0) return result;
   final tempCount = 1 + Random().nextInt(maxCount);
-  final int? realCount = tempCount < minCount! ? minCount : tempCount;
+  final int realCount = tempCount < minCount! ? minCount : tempCount;
   final halfWidth = width! / 2;
   if (realCount == 1) {
     result.add(Item(width, isFirst: true, isLast: true, type: type));
@@ -83,20 +83,20 @@ List<Item> generatorSizes(
   switch (type) {
     case ItemType.ratio:
       result.addAll(List.generate(
-          realCount!, (index) => Item(width / realCount, type: type)));
+          realCount, (index) => Item(width / realCount, type: type)));
       break;
     case ItemType.halfRatio:
-      if (realCount! > 1)
+      if (realCount > 1)
         result.addAll(List.generate(realCount - 1,
             (index) => Item(halfWidth / (realCount - 1), type: type)));
       result.insert(0, Item(halfWidth, type: type));
       break;
     case ItemType.halfRandom:
-      calculateForRandom(realCount! - 1, halfWidth, result);
+      calculateForRandom(realCount - 1, halfWidth, result);
       result.insert(0, Item(halfWidth, type: type));
       break;
     case ItemType.random:
-      calculateForRandom(realCount!, width, result);
+      calculateForRandom(realCount, width, result);
       break;
     case ItemType.specificRatio:
       specificRatio ??= 0.5;
@@ -151,7 +151,7 @@ List<List<Item>> buildLists(
   int ratioIndex = 0;
   while (restSize > 0) {
     final realMaxCount = maxCount! > restSize ? restSize : maxCount;
-    final int? realMinCount = minCount! > realMaxCount ? realMaxCount : minCount;
+    final int realMinCount = minCount! > realMaxCount ? realMaxCount : minCount;
     final curType = types[typeIndex % types.length];
     final curRatio = ratios[ratioIndex % ratios.length];
     final list = generatorSizes(

@@ -124,10 +124,9 @@ class _HomeMenuState extends State<HomeMenu> {
 }
 
 class TabInfo {
-  TabInfo(this.name, this.iconData);
+  TabInfo(this.name);
 
   String name;
-  IconData iconData;
 }
 
 typedef OnTabSelect = void Function(TabInfo tabInfo, int index);

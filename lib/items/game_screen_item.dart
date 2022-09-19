@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:markdown_widget/scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:new_web/config/all_configs.dart';
 import 'package:new_web/json/game_item_json.dart';
 import 'package:new_web/util/all_utils.dart';
 import 'package:new_web/widgets/all_widgets.dart';
-import 'package:markdown_widget/scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class GameScreenItem extends StatefulWidget {
   @override
@@ -97,7 +97,7 @@ class _GameScreenItemState extends State<GameScreenItem> {
                 child: ValueListenableBuilder<Iterable<ItemPosition>>(
                   valueListenable: _itemPositionsListener.itemPositions,
                   builder: (ctx, value, _) {
-                    if (value == null || value.isEmpty) return const SizedBox();
+                    if (value.isEmpty) return const SizedBox();
                     final first = value.first.index;
                     if (first == 0) return const SizedBox();
                     return Center(
@@ -135,7 +135,7 @@ class _GameScreenItemState extends State<GameScreenItem> {
                   child: ValueListenableBuilder<Iterable<ItemPosition>>(
                     valueListenable: _itemPositionsListener.itemPositions,
                     builder: (ctx, value, _) {
-                      if (value == null || value.isEmpty)
+                      if (value.isEmpty)
                         return const SizedBox();
                       final first = value.first.index;
                       final list = value.toList();
@@ -310,7 +310,7 @@ class _GameScreenItemState extends State<GameScreenItem> {
 
   int get curIndex => _curIndex.value;
 
-  bool get hasData => dataList != null && dataList.isNotEmpty;
+  bool get hasData => dataList.isNotEmpty;
 
   bool get isWaiting => _isWaiting.value;
 

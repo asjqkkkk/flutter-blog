@@ -37,31 +37,29 @@ class _FriendLinkItem extends StatelessWidget {
   }
 
   Widget buildBody() {
-    return SelectionArea(
-      child: ListView.builder(
-        padding: EdgeInsets.only(top: v110),
-        itemBuilder: (ctx, index) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: List.generate(
-              _crossCount,
-              (i) {
-                final isFirstInRow = i == 0;
-                final curIndex = index * _crossCount + i;
-                final isOver = curIndex + 1 > linkLength;
-                return Padding(
-                  padding: EdgeInsets.only(left: isFirstInRow ? 0 : v66),
-                  child: isOver
-                      ? SizedBox(width: v180, height: v280)
-                      : RepaintBoundary(
-                          child: _Item(friendLinkBean: links[curIndex])),
-                );
-              },
-            ),
-          );
-        },
-        itemCount: (linkLength / _crossCount).ceil(),
-      ),
+    return ListView.builder(
+      padding: EdgeInsets.only(top: v110),
+      itemBuilder: (ctx, index) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: List.generate(
+            _crossCount,
+            (i) {
+              final isFirstInRow = i == 0;
+              final curIndex = index * _crossCount + i;
+              final isOver = curIndex + 1 > linkLength;
+              return Padding(
+                padding: EdgeInsets.only(left: isFirstInRow ? 0 : v66),
+                child: isOver
+                    ? SizedBox(width: v180, height: v280)
+                    : RepaintBoundary(
+                        child: _Item(friendLinkBean: links[curIndex])),
+              );
+            },
+          ),
+        );
+      },
+      itemCount: (linkLength / _crossCount).ceil(),
     );
   }
 }
@@ -167,7 +165,7 @@ class _Item extends StatelessWidget {
                       ),
                     ),
                     onTap: () {
-                      launch(friendLinkBean.linkAddress!);
+                      toLaunch(friendLinkBean.linkAddress!);
                     },
                   ),
                 ],

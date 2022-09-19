@@ -10,15 +10,13 @@ import '../config/all_configs.dart';
 class HomeItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SelectionArea(
-      child: ListView(
-        padding: EdgeInsets.fromLTRB(v76, v40, v40, v64),
-        children: [
-          buildRow1(),
-          buildRow2(),
-          buildRow3(),
-        ],
-      ),
+    return ListView(
+      padding: EdgeInsets.fromLTRB(v76, v40, v40, v64),
+      children: [
+        buildRow1(),
+        buildRow2(),
+        buildRow3(),
+      ],
     );
   }
 
@@ -212,7 +210,7 @@ class HomeItems extends StatelessWidget {
               offset: Offset(0, -v20),
               child: CusInkWell(
                 borderRadius: BorderRadius.circular(v20),
-                onTap: () => launch(bean.link!),
+                onTap: () => toLaunch(bean.link!),
                 child: Container(
                   padding: EdgeInsets.all(v10),
                   decoration: BoxDecoration(
@@ -282,7 +280,7 @@ class HomeItems extends StatelessWidget {
       child: CusInkWell(
         borderRadius: BorderRadius.circular(v20),
         onTap: () =>
-            launch('https://weread.qq.com/web/reader/ce032b305a9bc1ce0b0dd2a'),
+            toLaunch('https://weread.qq.com/web/reader/ce032b305a9bc1ce0b0dd2a'),
         child: Container(
           height: v300,
           width: v130,
@@ -332,7 +330,7 @@ class HomeItems extends StatelessWidget {
       offset: Offset(0, -v20),
       child: CusInkWell(
         borderRadius: BorderRadius.circular(v20),
-        onTap: () => launch('https://github.com/asjqkkkk'),
+        onTap: () => toLaunch('https://github.com/asjqkkkk'),
         child: Container(
           height: v300,
           width: v400 * 2 + v70,
@@ -372,17 +370,17 @@ class HomeItems extends StatelessWidget {
                             buildLinkSpan('markdown_widget', richStyle,
                                 left: '[',
                                 right: '], ',
-                                onTap: () => launch(
+                                onTap: () => toLaunch(
                                     'https://github.com/asjqkkkk/markdown_widget')),
                             buildLinkSpan('memory_checker', richStyle,
                                 left: '[',
                                 right: '],',
-                                onTap: () => launch(
+                                onTap: () => toLaunch(
                                     'https://github.com/asjqkkkk/memory_checker')),
                             buildLinkSpan('flutter-blog', richStyle,
                                 left: '\n[',
                                 right: ']',
-                                onTap: () => launch(
+                                onTap: () => toLaunch(
                                     'https://github.com/asjqkkkk/flutter-blog')),
                           ]),
                         ),

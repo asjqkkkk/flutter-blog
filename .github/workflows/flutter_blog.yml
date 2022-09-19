@@ -16,22 +16,24 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install Flutter
-        uses: subosito/flutter-action@v1
+        uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.3.1'
-
 
       - name: Get dependencies
         run: flutter pub get
 
-      - name: Test project
-        run: flutter test
+      - name: Run dart code to generator assets files
+        run: flutter test test/generator.dart
 
       - name: Build release project
-        run: flutter build web
+        run: flutter build web && ls
+
+#      - name: Change build files by code
+#        run: flutter test test/regenerator_assets.dart
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v2

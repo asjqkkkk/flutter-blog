@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -20,17 +19,17 @@ void main() {
 
 class OneLineGenerator extends Generator {
   Future<Location> getLocation() async {
-    final Response data = await (ApiStrategy.getApiService()!
-        .get('http://ip-api.com/json/?lang=zh-CN')
-        .single as FutureOr<Response>);
+    final Response data = await ApiStrategy.getApiService()!
+        .get('http://ip-api.com/json/?lang=h-CN')
+        .single;
     return Location.fromMap(jsonDecode(data.body));
   }
 
   Future<String?> getWeather(String location) async {
-    final Response data = await (ApiStrategy.getApiService()!
+    final Response data = await ApiStrategy.getApiService()!
         .get(
             'https://devapi.qweather.com/v7/weather/now?location=$location&key=d381a4276ed349daa3bf63646f12d8ae')
-        .single as FutureOr<Response>);
+        .single;
     return jsonDecode(data.body)['now']['text'];
   }
 

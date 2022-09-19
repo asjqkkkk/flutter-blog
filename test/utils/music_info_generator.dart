@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -15,9 +14,9 @@ import 'file_util.dart';
 class MusicInfoGenerator extends Generator {
   @override
   Future generatorJsonFile() async {
-    final Response data = await (ApiStrategy.getApiService()!
+    final Response data = await ApiStrategy.getApiService()!
         .get('$NEMusicPlaylist?id=874911495')
-        .single as FutureOr<Response>);
+        .single;
     final jsonPath = FileUtils().getJsonDir();
     if (!jsonPath.existsSync()) {
       jsonPath.createSync(recursive: true);
@@ -54,12 +53,12 @@ class MusicInfoGenerator extends Generator {
           title: e.name);
       if (!musicFile.existsSync()) {
         final Response data =
-            await (ApiStrategy.getApiService()!.get(playUrl).single as FutureOr<Response>);
+            await ApiStrategy.getApiService()!.get(playUrl).single;
         musicFile.writeAsBytesSync(data.bodyBytes);
         print('🎈 ${e.name} donwload complete!🎈');
       }
       if (!picFile.existsSync()) {
-        final Response data = await (ApiStrategy.getApiService()!.get(pic).single as FutureOr<Response>);
+        final Response data = await ApiStrategy.getApiService()!.get(pic).single;
         picFile.writeAsBytesSync(data.bodyBytes);
       }
       result.add(musicInfo);

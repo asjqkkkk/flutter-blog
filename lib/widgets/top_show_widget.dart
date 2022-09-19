@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 
 class TopAnimationShowWidget extends StatefulWidget {
   const TopAnimationShowWidget(
-      {required this.child, this.duration, this.distanceY = 0})
-      : assert(child != null);
+      {required this.child, this.duration, this.distanceY = 0});
 
   final Widget child;
   final Duration? duration;

@@ -8,10 +8,6 @@ ImageProvider buildResizeImage(
   num? h,
 }) {
   if (w == null || h == null) return image;
-  if (w == null && h == null)
-    return ResizeImage(image, height: h.toInt(), allowUpscaling: true);
-  if (h == null && w == null)
-    return ResizeImage(image, width: w.toInt(), allowUpscaling: true);
   return ResizeImage(image, width: w.toInt(), height: h.toInt());
 }
 

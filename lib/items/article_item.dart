@@ -123,35 +123,33 @@ class _ArticleItemState extends State<_ArticleItem>
             final curList = articleMap[cur.tab];
             if (curList == null || curList.isEmpty) return buildEmptyLayout();
             final length = curList.length;
-            return SelectionArea(
-              child: ListView.builder(
-                padding: EdgeInsets.only(top: v26),
-                itemBuilder: (ctx, index) {
-                  return Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: List.generate(_crossCount, (i) {
-                      final isFirstInLine = i == 0;
-                      final curIndex = index * _crossCount + i;
-                      final isOver = curIndex + 1 > length;
-                      if (isOver) {
-                        return Container(
-                              width: v210,
-                            );
-                      } else {
-                        return Padding(
-                              padding:
-                                  EdgeInsets.only(left: isFirstInLine ? 0 : v66),
-                              child: ArticleTypeItem(
-                                article: curList[curIndex],
-                                articlePath: cur.tab,
-                              ),
-                            );
-                      }
-                    }),
-                  );
-                },
-                itemCount: (length / _crossCount).ceil(),
-              ),
+            return ListView.builder(
+              padding: EdgeInsets.only(top: v26),
+              itemBuilder: (ctx, index) {
+                return Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: List.generate(_crossCount, (i) {
+                    final isFirstInLine = i == 0;
+                    final curIndex = index * _crossCount + i;
+                    final isOver = curIndex + 1 > length;
+                    if (isOver) {
+                      return Container(
+                            width: v210,
+                          );
+                    } else {
+                      return Padding(
+                            padding:
+                                EdgeInsets.only(left: isFirstInLine ? 0 : v66),
+                            child: ArticleTypeItem(
+                              article: curList[curIndex],
+                              articlePath: cur.tab,
+                            ),
+                          );
+                    }
+                  }),
+                );
+              },
+              itemCount: (length / _crossCount).ceil(),
             );
           }),
     );

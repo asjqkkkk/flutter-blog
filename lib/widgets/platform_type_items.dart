@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:new_web/config/all_configs.dart';
 import 'package:new_web/items/about_item.dart';
 
+import '../util/launch_util.dart';
 import 'basic_widgets/cus_inkwell.dart';
 
 class GameTypeItem extends StatelessWidget {
@@ -64,7 +65,7 @@ class _CommonWidget extends StatelessWidget {
         if (gameItem.link != null)
           CusInkWell(
             onTap: () {
-              launch(gameItem.link!);
+              toLaunch(gameItem.link!);
             },
             child: Container(
               width: v112,

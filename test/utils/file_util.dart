@@ -42,10 +42,10 @@ class FileUtils {
     return result;
   }
 
-  Future _traverseDirs(List<Directory> result, Directory directory) async {
+  Future _traverseDirs(List<Directory> result, Directory? directory) async {
     if (directory == null) return;
     final dirs = directory.listSync();
-    if (dirs == null || dirs.isEmpty) {
+    if (dirs.isEmpty) {
       result.add(directory);
       return;
     }

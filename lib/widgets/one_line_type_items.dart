@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:new_web/config/all_configs.dart';
 import 'package:new_web/json/one_line_json.dart';
 
+import '../util/launch_util.dart';
 import 'basic_widgets/cus_inkwell.dart';
 
 class OneLineTypeItems extends StatelessWidget {
@@ -170,7 +171,7 @@ class InternetItem extends StatelessWidget {
                 height: 1),
           ),
           onTap: () {
-            launch(content!.sourceLink!);
+            toLaunch(content!.sourceLink!);
           },
         )
       ],

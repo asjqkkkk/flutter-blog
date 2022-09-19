@@ -10,6 +10,9 @@ class PathConfig {
   static const gameScreenPath = 'game_screens';
   static const oneLinePath = 'one_line';
   static const assets = 'assets';
+  static const build = 'build';
+  static const web = 'web';
+  static const fontManifest = 'FontManifest.json';
   static const jsons = 'jsons';
   static const thumbnails = 'thumbnails';
   static const gameThumb = 'gameThumb';

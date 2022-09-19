@@ -52,7 +52,6 @@ class ArticleGenerator extends Generator {
 
   ///将node中的text添加到一起
   String addNodeText(m.Node node, String text) {
-    if (node == null) return '';
     if (node is m.Text) {
       return node.text + ' ';
     } else if (node is m.Element) {

@@ -8,6 +8,7 @@ import 'package:new_web/json/all_jsons.dart';
 import 'package:new_web/widgets/all_widgets.dart';
 import 'package:new_web/widgets/article_list.dart';
 
+import '../util/launch_util.dart';
 
 class ArticleArg {
   ArticleArg(this.id, this.path);
@@ -51,7 +52,7 @@ class _ArticlePageState extends State<ArticlePage> {
         _markdownData.value = content;
       }
       if (!isInitial)
-        WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
           controller.jumpTo(index: 0);
         });
     });
@@ -99,7 +100,7 @@ class _ArticlePageState extends State<ArticlePage> {
         onTap: (article) {
           id = article.articleId;
           loadArticle(isInitial: false);
-          if (article != null) _article.value = article;
+          _article.value = article;
         },
         // onArticleInitial: (article) {
         //   if (article != null) _article.value = article;
@@ -174,35 +175,32 @@ class _ArticlePageState extends State<ArticlePage> {
         });
   }
 
-
-
   void refresh() {
     if (mounted) setState(() {});
   }
-
-
 }
 
 double get defaultFontSize => v18.ceilToDouble();
 
 TextStyle _titleStyle(double fontSize) => CTextStyle(
-  fontSize: fontSize,
-  fontWeight: FontWeight.bold,
-  color: defaultTitleColor,
-  fontFamily: siYuanFont,
-);
+      fontSize: fontSize,
+      fontWeight: FontWeight.bold,
+      color: defaultTitleColor,
+      fontFamily: siYuanFont,
+    );
 
-MarkdownWidget buildMarkdownWidget(String value, bool isDark, TocController controller) {
+MarkdownWidget buildMarkdownWidget(
+    String value, bool isDark, TocController controller) {
   return MarkdownWidget(
     data: value,
     controller: controller,
     styleConfig: StyleConfig(
         pConfig: PConfig(
             onLinkTap: (url) => launchUrl(Uri.tryParse(url ?? '')!),
-            textStyle: defaultPStyle!.copyWith(
-                fontSize: defaultFontSize, fontFamily: siYuanFont),
-            linkStyle: defaultLinkStyle!.copyWith(
-                fontSize: defaultFontSize, fontFamily: siYuanFont),
+            textStyle: defaultPStyle!
+                .copyWith(fontSize: defaultFontSize, fontFamily: siYuanFont),
+            linkStyle: defaultLinkStyle!
+                .copyWith(fontSize: defaultFontSize, fontFamily: siYuanFont),
             strongStyle: defaultStrongStyle.copyWith(
                 fontSize: defaultFontSize, fontFamily: siYuanFont),
             delStyle: defaultDelStyle.copyWith(
@@ -217,14 +215,16 @@ MarkdownWidget buildMarkdownWidget(String value, bool isDark, TocController cont
               return Container();
             }),
         olConfig: OlConfig(
-            textStyle: defaultPStyle!.copyWith(
-                fontSize: defaultFontSize, fontFamily: siYuanFont)),
+            textStyle: defaultPStyle!
+                .copyWith(fontSize: defaultFontSize, fontFamily: siYuanFont)),
         ulConfig: UlConfig(
-            textStyle: defaultPStyle!.copyWith(
-                fontSize: defaultFontSize, fontFamily: siYuanFont)),
+            textStyle: defaultPStyle!
+                .copyWith(fontSize: defaultFontSize, fontFamily: siYuanFont)),
         codeConfig: CodeConfig(
           codeStyle: defaultCodeStyle!.copyWith(
-              fontSize: defaultFontSize, fontFamily: siYuanFont),
+              fontSize: defaultFontSize,
+              fontFamily: siYuanFont,
+              color: Colors.redAccent),
         ),
         titleConfig: TitleConfig(
           showDivider: false,
@@ -246,7 +246,7 @@ MarkdownWidget buildMarkdownWidget(String value, bool isDark, TocController cont
             final halfW = maxW / 2;
             final realW = hasSize ? (w ?? halfW) : halfW;
             return CusInkWell(
-              onTap: () => launch(url),
+              onTap: () => toLaunch(url),
               child: LoadingImage(
                 image: ResizeImage(NetworkImage(url),
                     width: realW.toInt(), allowUpscaling: true),
@@ -257,13 +257,13 @@ MarkdownWidget buildMarkdownWidget(String value, bool isDark, TocController cont
           });
         },
         blockQuoteConfig: BlockQuoteConfig(
-            blockStyle: defaultBlockStyle!.copyWith(
-                fontSize: defaultFontSize, fontFamily: siYuanFont)),
+            blockStyle: defaultBlockStyle!
+                .copyWith(fontSize: defaultFontSize, fontFamily: siYuanFont)),
         tableConfig: TableConfig(
-            bodyStyle: defaultPStyle!.copyWith(
-                fontSize: defaultFontSize, fontFamily: siYuanFont),
-            headerStyle: defaultPStyle!.copyWith(
-                fontSize: defaultFontSize, fontFamily: siYuanFont)),
+            bodyStyle: defaultPStyle!
+                .copyWith(fontSize: defaultFontSize, fontFamily: siYuanFont),
+            headerStyle: defaultPStyle!
+                .copyWith(fontSize: defaultFontSize, fontFamily: siYuanFont)),
         preConfig: PreConfig(
           textStyle: CTextStyle(fontSize: defaultFontSize),
           preWrapper: (child, text) {
@@ -289,9 +289,8 @@ MarkdownWidget buildMarkdownWidget(String value, bool isDark, TocController cont
           },
           language: 'dart',
         ),
-        markdownTheme: isDark
-            ? MarkdownTheme.darkTheme
-            : MarkdownTheme.lightTheme),
+        markdownTheme:
+            isDark ? MarkdownTheme.darkTheme : MarkdownTheme.lightTheme),
   );
 }
 

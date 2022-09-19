@@ -139,7 +139,7 @@ enum OneLineType {
   internet,
 }
 
-int _oneLineTypeToInt(OneLineType type) {
+int _oneLineTypeToInt(OneLineType? type) {
   if (type == null) return 0;
   int result = 0;
   switch (type) {
