@@ -81,16 +81,14 @@ class _ArticlePageState extends State<ArticlePage> {
   }
 
   Widget getWebLayout(double width, double height, BuildContext context) {
-    return SelectionArea(
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          buildArticleList(),
-          buildArticleBody(height, width, context),
-          buildTocListWidget(),
-        ],
-      ),
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        buildArticleList(),
+        buildArticleBody(height, width, context),
+        buildTocListWidget(),
+      ],
     );
   }
 
@@ -278,10 +276,7 @@ MarkdownWidget buildMarkdownWidget(
                       Clipboard.setData(ClipboardData(text: text));
                       ToastWidget().showToast('复制成功');
                     },
-                    icon: Icon(
-                      Icons.content_copy,
-                      size: v10,
-                    ),
+                    icon: SvgPicture.asset(Svg.copy, width: v12),
                   ),
                 )
               ],

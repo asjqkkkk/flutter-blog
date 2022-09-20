@@ -32,8 +32,8 @@ jobs:
       - name: Build release project
         run: flutter build web && ls
 
-#      - name: Change build files by code
-#        run: flutter test test/regenerator_assets.dart
+      - name: Copy CNAME
+        run: mv CNAME build/web/CNAME
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v2

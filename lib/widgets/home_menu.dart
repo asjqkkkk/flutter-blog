@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:new_web/pages/home_page.dart';
 
@@ -25,17 +24,15 @@ class _HomeMenuState extends State<HomeMenu> {
   Widget build(BuildContext context) {
     final length = tabs.length;
     return Container(
-      margin: EdgeInsets.only(top: v70),
+      padding: EdgeInsets.only(top: v60),
       child: buildSingleChildScrollView(length),
     );
   }
 
   Widget buildSingleChildScrollView(int length) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: buildTabs(length),
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: buildTabs(length),
     );
   }
 
@@ -73,14 +70,14 @@ class _HomeMenuState extends State<HomeMenu> {
                       Container(
                         width: v40,
                         height: v40,
+                        padding: EdgeInsets.all(v8),
                         decoration: BoxDecoration(
                             color: selected ? color4 : color6,
                             borderRadius:
                                 BorderRadius.all(Radius.circular(v8))),
-                        child: Icon(
-                          Icons.star_border_purple500_sharp,
+                        child: SvgPicture.asset(
+                          cur.tabInfo.svg,
                           color: selected ? Colors.white : color5,
-                          size: v14,
                         ),
                       ),
                       SizedBox(width: v25),
@@ -124,9 +121,13 @@ class _HomeMenuState extends State<HomeMenu> {
 }
 
 class TabInfo {
-  TabInfo(this.name);
+  TabInfo(
+    this.name,
+    this.svg,
+  );
 
-  String name;
+  final String name;
+  final String svg;
 }
 
 typedef OnTabSelect = void Function(TabInfo tabInfo, int index);

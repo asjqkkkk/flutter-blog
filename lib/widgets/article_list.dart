@@ -111,7 +111,7 @@ class __ArticleListState extends State<_ArticleList> {
           SizedBox(height: v40),
           Text(
             '目录:',
-            style: CTextStyle(fontWeight: FontWeight.bold, fontSize: v20),
+            style: CTextStyle(fontWeight: FontWeight.bold, fontSize: v24),
           ),
           Expanded(
             child: ListView.builder(
@@ -126,13 +126,20 @@ class __ArticleListState extends State<_ArticleList> {
                     hoverColor: Colors.transparent,
                     splashColor: Colors.transparent, colorScheme: ColorScheme.fromSwatch().copyWith(secondary: color4),
                   ),
-                  child: ExpansionTile(
+                  child: CustomExpansionTile(
                     tilePadding: EdgeInsets.zero,
                     childrenPadding: EdgeInsets.zero,
                     title: Text(
                       articleNameMap[key]!,
-                      style: CTextStyle(fontSize: v14),
+                      style: CTextStyle(fontSize: v18),
                     ),
+                    trailing: (value){
+                      return Container(
+                        width: v30,
+                        padding:  EdgeInsets.only(right: v4),
+                        child: SvgPicture.asset(value ? Svg.arrowUp : Svg.arrowDown, color: value ? color4 : Colors.grey,),
+                      );
+                    },
                     initiallyExpanded: widget.path == key,
                     children: List.generate(articleList.length, (i) {
                       final article = articleList[i];
@@ -140,6 +147,7 @@ class __ArticleListState extends State<_ArticleList> {
                         alignment: Alignment.centerLeft,
                         child: InkWell(
                           child: Container(
+                            width: double.infinity,
                             margin: EdgeInsets.fromLTRB(v5, v10, v6, v10),
                             child: ValueListenableBuilder(
                                 valueListenable: _id,

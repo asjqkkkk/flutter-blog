@@ -44,6 +44,15 @@ class Svg {
   static String home4 = 'home_4'.svg;
   static String home5 = 'home_5'.svg;
   static String home6 = 'home_6'.svg;
+  static String tabHome = 'tab_home'.svg;
+  static String tabArticle = 'tab_article'.svg;
+  static String tabGame = 'tab_game'.svg;
+  static String tabAbout = 'tab_about'.svg;
+  static String tabLink = 'tab_link'.svg;
+  static String tabPen = 'tab_pen'.svg;
+  static String arrowUp = 'arrow_up'.svg;
+  static String arrowDown = 'arrow_down'.svg;
+  static String copy = 'copy'.svg;
 }
 
 extension SvgExtensions on String {

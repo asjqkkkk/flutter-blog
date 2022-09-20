@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:new_web/items/about_item.dart';
 import 'package:new_web/items/all_items.dart';
@@ -56,15 +55,12 @@ class HomePageModel {
   BuildContext? context;
 
   List<TabWithPage> pages = [
-    TabWithPage(TabInfo('主 页'), () => HomeItems()),
-    TabWithPage(TabInfo('一 则'),
-        () => OneLineItems()),
-    TabWithPage(
-        TabInfo('友 链'), () => FriendLinkItem()),
-    TabWithPage(TabInfo('关 于'), () => AboutItem()),
-    TabWithPage(
-        TabInfo('游 戏'), () => GameScreenItem()),
-    TabWithPage(TabInfo('文 章'), () => ArticleItem()),
+    TabWithPage(TabInfo('主 页', Svg.tabHome), () => HomeItems()),
+    TabWithPage(TabInfo('一 则', Svg.tabPen), () => OneLineItems()),
+    TabWithPage(TabInfo('友 链', Svg.tabLink), () => FriendLinkItem()),
+    TabWithPage(TabInfo('关 于', Svg.tabAbout), () => AboutItem()),
+    TabWithPage(TabInfo('游 戏', Svg.tabGame), () => GameScreenItem()),
+    TabWithPage(TabInfo('文 章', Svg.tabArticle), () => ArticleItem()),
   ];
 
   int get pageCount => pages.length;
