@@ -36,4 +36,4 @@ Now is coding...
 
 [github blog url](https://oldchen.top/)
 
-[gitee blog url](http://oldben.gitee.io/flutter-blog/#/homePage)
+[gitee blog url](http://oldben.gitee.io/flutter-blog/)
