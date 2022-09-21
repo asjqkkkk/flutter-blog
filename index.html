@@ -34,9 +34,12 @@
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
   <script>
+    window.flutterConfiguration = {
+      canvasKitBaseUrl: "./canvas_kit/"
+    };
     if ('serviceWorker' in navigator) {
       window.addEventListener('flutter-first-frame', function () {
-        navigator.serviceWorker.register('flutter_service_worker.js?v=137532411');
+        navigator.serviceWorker.register('flutter_service_worker.js?v=393509501');
       });
     }
   </script>
