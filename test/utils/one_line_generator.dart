@@ -61,7 +61,7 @@ class OneLineGenerator extends Generator {
       items.map((e) => jsonEncode(e.toJson())).toList().toString(),
     );
     print(
-        '🎈:Json file has been created successfully!🎈 ------: ${jsonFile.path}');
+        '🎈 :Json file has been created successfully!🎈 ------: ${jsonFile.path} 🎈');
   }
 }
 

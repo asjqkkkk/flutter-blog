@@ -53,6 +53,13 @@ class Svg {
   static String arrowUp = 'arrow_up'.svg;
   static String arrowDown = 'arrow_down'.svg;
   static String copy = 'copy'.svg;
+  static String search = 'search'.svg;
+  static String sort = 'sort'.svg;
+  static String image = 'image'.svg;
+  static String hourglass = 'hourglass'.svg;
+  static String cloudFill = 'cloud-fill'.svg;
+  static String location = 'location'.svg;
+  static String timer = 'timer'.svg;
 }
 
 extension SvgExtensions on String {

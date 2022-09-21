@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:new_web/util/all_utils.dart';
 import 'package:new_web/widgets/all_widgets.dart';
@@ -23,7 +22,9 @@ class WebBar extends StatelessWidget {
             TextSpan(
                 text: '${_timeMap[timeType]}好呀，',
                 children: [
-                  TextSpan(text: '陌生人', style: CTextStyle(color: color10, fontSize: v33)),
+                  TextSpan(
+                      text: '陌生人',
+                      style: CTextStyle(color: color10, fontSize: v33)),
                 ],
                 style: CTextStyle(color: Colors.black, fontSize: v33)),
           ),
@@ -70,10 +71,10 @@ class WebBar extends StatelessWidget {
                         child: Container(
                           width: v50,
                           height: v50,
-                          child: Icon(
-                            Icons.search,
+                          padding: EdgeInsets.all(v12),
+                          child: SvgPicture.asset(
+                            Svg.search,
                             color: Colors.white,
-                            size: v18,
                           ),
                         ),
                       ),

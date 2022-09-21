@@ -121,7 +121,12 @@ class _ArticlePageState extends State<ArticlePage> {
             },
           );
         },
-        emptyWidget: Icon(Icons.hourglass_empty, size: v30, color: color4),
+        emptyWidget: SvgPicture.asset(
+          Svg.location,
+          width: v30,
+          height: v30,
+          color: color4,
+        ),
       ),
     );
   }

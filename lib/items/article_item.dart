@@ -81,9 +81,9 @@ class _ArticleItemState extends State<_ArticleItem>
     return TabBar(
       indicatorSize: TabBarIndicatorSize.label,
       labelColor: color4,
-      labelStyle: TextStyle(fontSize: v16, fontWeight: FontWeight.bold),
+      labelStyle: CTextStyle(fontSize: v16, fontWeight: FontWeight.bold),
       unselectedLabelStyle:
-          TextStyle(fontSize: v16, fontWeight: FontWeight.normal),
+          CTextStyle(fontSize: v16, fontWeight: FontWeight.normal),
       unselectedLabelColor: color22,
       indicator: CusUnderlineTabIndicator(
         borderSide: BorderSide(width: v2, color: color4),
@@ -134,17 +134,16 @@ class _ArticleItemState extends State<_ArticleItem>
                     final isOver = curIndex + 1 > length;
                     if (isOver) {
                       return Container(
-                            width: v210,
-                          );
+                        width: v210,
+                      );
                     } else {
                       return Padding(
-                            padding:
-                                EdgeInsets.only(left: isFirstInLine ? 0 : v66),
-                            child: ArticleTypeItem(
-                              article: curList[curIndex],
-                              articlePath: cur.tab,
-                            ),
-                          );
+                        padding: EdgeInsets.only(left: isFirstInLine ? 0 : v66),
+                        child: ArticleTypeItem(
+                          article: curList[curIndex],
+                          articlePath: cur.tab,
+                        ),
+                      );
                     }
                   }),
                 );

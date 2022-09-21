@@ -106,9 +106,10 @@ class _SearchWidgetState extends State<SearchWidget> {
   Widget getLoadingWidget(List<Data> showDataList) {
     if (query.isEmpty)
       return Center(
-        child: Icon(
-          Icons.article,
-          size: v30,
+        child: SvgPicture.asset(
+          Svg.tabArticle,
+          width: v30,
+          height: v30,
           color: color12,
         ),
       );
@@ -118,7 +119,7 @@ class _SearchWidgetState extends State<SearchWidget> {
         margin: EdgeInsets.all(v20),
         child: Text(
           '啥也没有...',
-          style: TextStyle(fontSize: v30),
+          style: CTextStyle(fontSize: v30),
         ),
       );
     else
@@ -133,7 +134,7 @@ class _SearchWidgetState extends State<SearchWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 ListTile(
-                  leading: Icon(Icons.sort, size: v26),
+                  leading: SvgPicture.asset(Svg.sort, width: v26, height: v26),
                   title: logic.getTitle(data, query),
                   onTap: () {
                     RouteConfig.instance.push(RouteConfig.article,

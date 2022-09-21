@@ -225,9 +225,10 @@ class _OneLineItemsState extends State<_OneLineItems> {
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(
-                        Icons.timer,
-                        size: v10,
+                      SvgPicture.asset(
+                        Svg.timer,
+                        width: v10,
+                        height: v10,
                         color: color,
                       ),
                       SizedBox(width: v4),
@@ -240,9 +241,10 @@ class _OneLineItemsState extends State<_OneLineItems> {
                   const Spacer(),
                   Row(
                     children: [
-                      Icon(
-                        Icons.location_on_outlined,
-                        size: v10,
+                      SvgPicture.asset(
+                        Svg.location,
+                        width: v10,
+                        height: v10,
                         color: color,
                       ),
                       SizedBox(width: v4),
@@ -256,9 +258,10 @@ class _OneLineItemsState extends State<_OneLineItems> {
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(
-                                Icons.cloud,
-                                size: v10,
+                              SvgPicture.asset(
+                                Svg.cloudFill,
+                                width: v10,
+                                height: v10,
                                 color: color,
                               ),
                               SizedBox(width: v4),

@@ -118,10 +118,11 @@ class ArticleTypeItem extends StatelessWidget {
               color: randomColor,
             ),
             child: Center(
-              child: Icon(
-                Icons.image,
+              child: SvgPicture.asset(
+                Svg.image,
+                width: v50,
+                height: v50,
                 color: Colors.white,
-                size: v50,
               ),
             ),
           );

@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 
 import 'utils/article_generator.dart';
+import 'utils/canvaskit_generator.dart';
 import 'utils/chinese_generator.dart';
 import 'utils/file_util.dart';
 import 'utils/friend_info_generator.dart';
