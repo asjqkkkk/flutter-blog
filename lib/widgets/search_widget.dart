@@ -1,11 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:new_web/config/all_configs.dart';
 
 import '../logic/query_logic.dart';
 import '../pages/article_page.dart';
+import 'top_show_widget.dart';
 
 class SearchWidget extends StatefulWidget {
-  const SearchWidget({Key? key}) : super(key: key);
+
+  const SearchWidget({Key? key, required this.onTap}) : super(key: key);
+
+  final FutureCallback onTap;
 
   @override
   _SearchWidgetState createState() => _SearchWidgetState();
@@ -53,8 +59,8 @@ class _SearchWidgetState extends State<SearchWidget> {
         return Future.value(false);
       },
       child: GestureDetector(
-        onTap: () {
-          Navigator.of(context).pop();
+        onTap: (){
+           widget.onTap.call().then((value) => Navigator.of(context).pop());
         },
         child: Scaffold(
           backgroundColor: Colors.transparent,
@@ -75,6 +81,11 @@ class _SearchWidgetState extends State<SearchWidget> {
                       margin: EdgeInsets.only(left: v30, right: v30),
                       child: TextField(
                         controller: _controller,
+                        autofocus: true,
+                        style: CTextStyle(
+                          fontSize: v18,
+                          height: 1,
+                        ),
                         decoration: InputDecoration(
                           hintText: '输入标题、内容进行搜索吧',
                           hintStyle: CTextStyle(
@@ -123,32 +134,34 @@ class _SearchWidgetState extends State<SearchWidget> {
         ),
       );
     else
-      return ListView.builder(
-        itemCount: showDataList.length,
-        itemBuilder: (ctx, index) {
-          final Data data = showDataList[index];
-          return Container(
-            margin: EdgeInsets.only(top: v20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                ListTile(
-                  leading: SvgPicture.asset(Svg.sort, width: v26, height: v26),
-                  title: logic.getTitle(data, query),
-                  onTap: () {
-                    RouteConfig.instance.push(RouteConfig.article,
-                        arguments: ArticleArg(data.id, data.path));
-                  },
-                ),
-                ListTile(
-                  leading: Container(width: v2),
-                  title: logic.getContent(data, query),
-                ),
-              ],
-            ),
-          );
-        },
+      return SelectionArea(
+        child: ListView.builder(
+          itemCount: showDataList.length,
+          itemBuilder: (ctx, index) {
+            final Data data = showDataList[index];
+            return Container(
+              margin: EdgeInsets.only(top: v20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  ListTile(
+                    leading: SvgPicture.asset(Svg.sort, width: v26, height: v26),
+                    title: logic.getTitle(data, query),
+                    onTap: () {
+                      RouteConfig.instance.push(RouteConfig.article,
+                          arguments: ArticleArg(data.id, data.path));
+                    },
+                  ),
+                  ListTile(
+                    leading: Container(width: v2),
+                    title: logic.getContent(data, query),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
       );
   }
 }

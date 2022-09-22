@@ -93,8 +93,10 @@ class WebBar extends StatelessWidget {
     FullScreenDialog.getInstance()!.showDialog(
       GlobalData.instance.context!,
       TopAnimationShowWidget(
-        child: const SearchWidget(),
-        distanceY: v100,
+        // child: SearchWidget(onTap: Future.value(),),
+        builder: (ctx, future){
+          return SearchWidget(onTap: future);
+        }
       ),
     );
   }
