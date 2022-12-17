@@ -279,8 +279,8 @@ class HomeItems extends StatelessWidget {
       offset: Offset(0, -v20),
       child: CusInkWell(
         borderRadius: BorderRadius.circular(v20),
-        onTap: () =>
-            toLaunch('https://weread.qq.com/web/reader/ce032b305a9bc1ce0b0dd2a'),
+        onTap: () => toLaunch(
+            'https://weread.qq.com/web/reader/ce032b305a9bc1ce0b0dd2a'),
         child: Container(
           height: v300,
           width: v130,
@@ -432,15 +432,16 @@ class HomeItems extends StatelessWidget {
 // ignore: flutter_style_todos
 ///TODO:目前主页的数据格式暂时没想好，后面不会使用这种写死的
 ArticleItemBean _box1 = ArticleItemBean.fromMap({
-  'articleName': '从源码看flutter（五）：GestureDetector篇',
-  'createTime': '2020-04-23T10:43:35.000',
-  'lastModifiedTime': '2021-05-06T23:51:16.000',
-  'tag': 'Flutter系列',
-  'summary': '开篇 flutter的触摸事件涉及到的东西比较多，本篇文章将会从   GestureDetector',
-  'imageAddress': '/img/flutter_05.png',
-  'articleAddress': 'temp/input/study/从源码看flutter（五）：GestureDetector篇.md',
-  'articleId': '5bb7aebf',
-  'articlePath': 'study'
+  "articleName": "2022清单总结",
+  "createTime": "2022-12-17T14:40:05.000",
+  "lastModifiedTime": "2022-12-17T14:41:25.000",
+  "tag": "总结",
+  "summary":
+      "2022清单总结 通关游戏：  《超级马里奥：奥德赛》👍👍👍👍👍 超强的游戏性，不同的关卡不同的玩法，每个关卡都有许多仔细搜查都不一定能发现 ",
+  "imageAddress": "/img/zongjie_2022.jpg",
+  "articleAddress": "temp/input/life/2022清单总结.md",
+  "articleId": "0cf99325",
+  "articlePath": "life"
 });
 
 ArticleItemBean _box2 = ArticleItemBean.fromMap({
