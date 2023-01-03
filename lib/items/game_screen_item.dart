@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:markdown_widget/scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:new_web/config/all_configs.dart';
 import 'package:new_web/json/game_item_json.dart';
 import 'package:new_web/util/all_utils.dart';
 import 'package:new_web/widgets/all_widgets.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class GameScreenItem extends StatefulWidget {
   @override

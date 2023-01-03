@@ -2,13 +2,15 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:markdown_widget/config/configs.dart';
+import 'package:markdown_widget/config/markdown_generator.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 import 'package:new_web/config/all_configs.dart';
 import 'package:new_web/json/all_jsons.dart';
 import 'package:new_web/widgets/all_widgets.dart';
 import 'package:new_web/widgets/article_list.dart';
 
-import '../util/launch_util.dart';
+import '../config/video.dart';
 
 class ArticleArg {
   ArticleArg(this.id, this.path);
@@ -51,11 +53,11 @@ class _ArticlePageState extends State<ArticlePage> {
       } else {
         _markdownData.value = content;
       }
-      if (!isInitial)
-        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-          controller.jumpTo(index: 0);
-        });
     });
+    if (!isInitial)
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        controller.jumpToIndex(0);
+      });
   }
 
   @override
@@ -109,24 +111,19 @@ class _ArticlePageState extends State<ArticlePage> {
     return Container(
       width: v300,
       padding: EdgeInsets.only(top: v140, left: v20),
-      child: TocListWidget(
+      child: TocWidget(
         controller: controller,
-        tocItem: (toc, isCurrent) {
+        itemBuilder: (data) {
           return TocItemWidget(
-            isCurrent: isCurrent,
-            toc: toc,
+            isCurrent: data.index == data.currentIndex,
+            toc: data.toc,
             fontSize: fontSize ?? v12,
             onTap: () {
-              controller.jumpTo(index: toc.index);
+              data.refreshIndexCallback.call(data.toc.widgetIndex);
+              controller.jumpToIndex(data.toc.widgetIndex);
             },
           );
         },
-        emptyWidget: SvgPicture.asset(
-          Svg.location,
-          width: v30,
-          height: v30,
-          color: color4,
-        ),
       ),
     );
   }
@@ -185,112 +182,22 @@ class _ArticlePageState extends State<ArticlePage> {
 
 double get defaultFontSize => v18.ceilToDouble();
 
-TextStyle _titleStyle(double fontSize) => CTextStyle(
-      fontSize: fontSize,
-      fontWeight: FontWeight.bold,
-      color: defaultTitleColor,
-      fontFamily: siYuanFont,
-    );
-
 MarkdownWidget buildMarkdownWidget(
     String value, bool isDark, TocController controller) {
   return MarkdownWidget(
     data: value,
-    controller: controller,
-    styleConfig: StyleConfig(
-        pConfig: PConfig(
-            onLinkTap: (url) => launchUrl(Uri.tryParse(url ?? '')!),
-            textStyle: defaultPStyle!
-                .copyWith(fontSize: defaultFontSize, fontFamily: siYuanFont),
-            linkStyle: defaultLinkStyle!
-                .copyWith(fontSize: defaultFontSize, fontFamily: siYuanFont),
-            strongStyle: defaultStrongStyle.copyWith(
-                fontSize: defaultFontSize, fontFamily: siYuanFont),
-            delStyle: defaultDelStyle.copyWith(
-                fontSize: defaultFontSize, fontFamily: siYuanFont),
-            emStyle: defaultEmStyle.copyWith(
-                fontSize: defaultFontSize, fontFamily: siYuanFont),
-            custom: (element) {
-              if (element.tag == 'youtube') {
-                final youtubeId = element.attributes['id'];
-                return YoutubePlayer(youtubeId: youtubeId);
-              }
-              return Container();
-            }),
-        olConfig: OlConfig(
-            textStyle: defaultPStyle!
-                .copyWith(fontSize: defaultFontSize, fontFamily: siYuanFont)),
-        ulConfig: UlConfig(
-            textStyle: defaultPStyle!
-                .copyWith(fontSize: defaultFontSize, fontFamily: siYuanFont)),
-        codeConfig: CodeConfig(
-          codeStyle: defaultCodeStyle!.copyWith(
-              fontSize: defaultFontSize,
-              fontFamily: siYuanFont,
-              color: Colors.redAccent),
-        ),
-        titleConfig: TitleConfig(
-          showDivider: false,
-          h1: _titleStyle(v28),
-          h2: _titleStyle(v26),
-          h3: _titleStyle(v23),
-          h4: _titleStyle(v20),
-          h5: _titleStyle(v16),
-          h6: _titleStyle(v14),
-        ),
-        imgBuilder: (url, attr) {
-          double? w;
-          double? h;
-          if (attr['width'] != null) w = double.parse(attr['width']!);
-          if (attr['height'] != null) h = double.parse(attr['height']!);
-          final hasSize = w != null && h != null;
-          return LayoutBuilder(builder: (context, constrains) {
-            final maxW = constrains.maxWidth;
-            final halfW = maxW / 2;
-            final realW = hasSize ? (w ?? halfW) : halfW;
-            return CusInkWell(
-              onTap: () => toLaunch(url),
-              child: LoadingImage(
-                image: ResizeImage(NetworkImage(url),
-                    width: realW.toInt(), allowUpscaling: true),
-                width: realW,
-                loadingWidget: buildShimmer(realW, realW),
-              ),
-            );
-          });
-        },
-        blockQuoteConfig: BlockQuoteConfig(
-            blockStyle: defaultBlockStyle!
-                .copyWith(fontSize: defaultFontSize, fontFamily: siYuanFont)),
-        tableConfig: TableConfig(
-            bodyStyle: defaultPStyle!
-                .copyWith(fontSize: defaultFontSize, fontFamily: siYuanFont),
-            headerStyle: defaultPStyle!
-                .copyWith(fontSize: defaultFontSize, fontFamily: siYuanFont)),
-        preConfig: PreConfig(
-          textStyle: CTextStyle(fontSize: defaultFontSize),
-          preWrapper: (child, text) {
-            return Stack(
-              children: <Widget>[
-                child,
-                Container(
-                  margin: EdgeInsets.only(top: v5, right: v5),
-                  alignment: Alignment.topRight,
-                  child: IconButton(
-                    onPressed: () {
-                      Clipboard.setData(ClipboardData(text: text));
-                      ToastWidget().showToast('复制成功');
-                    },
-                    icon: SvgPicture.asset(Svg.copy, width: v12),
-                  ),
-                )
-              ],
-            );
-          },
-          language: 'dart',
-        ),
-        markdownTheme:
-            isDark ? MarkdownTheme.darkTheme : MarkdownTheme.lightTheme),
+    tocController: controller,
+    config: MarkdownConfig(configs: [
+      PreConfig(textStyle: CTextStyle(fontSize: defaultFontSize)),
+      PConfig(textStyle: CTextStyle(fontSize: defaultFontSize)),
+      CodeConfig(
+          style: CTextStyle(
+              fontSize: defaultFontSize, backgroundColor: const Color(0xffeff1f3))),
+    ]),
+    markdownGeneratorConfig: MarkdownGeneratorConfig(
+        generators: [videoGeneratorWithTag, youtubeGenerator],
+        textGenerator: (node, config, visitor) =>
+            CustomTextNode(node.textContent, config, visitor)),
   );
 }
 

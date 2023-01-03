@@ -24,8 +24,20 @@ class TocItemWidget extends StatelessWidget {
 
   Widget getNodeWidget(Toc toc, BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final name = toc.name;
-    final level = toc.tagLevel;
+    final tag = toc.node.headingConfig.tag;
+    final level = _tag2Level[tag] ?? 1;
+    final node = toc.node.copy(
+        headingConfig: _TocHeadingConfig(
+            isCurrent
+                ? CTextStyle(
+                    color: color4,
+                    fontSize: fontSize,
+                  )
+                : CTextStyle(
+                    fontSize: fontSize,
+                    color: isDark ? Colors.grey : null,
+                  ),
+            tag));
     return Container(
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
@@ -35,18 +47,7 @@ class TocItemWidget extends StatelessWidget {
       child: InkWell(
         child: Container(
           margin: EdgeInsets.fromLTRB(4.0 + 10 * level, 4, 4, 4),
-          child: Text(
-            name,
-            style: isCurrent
-                ? CTextStyle(
-                    color: color4,
-                    fontSize: fontSize,
-                  )
-                : CTextStyle(
-                    fontSize: fontSize,
-                    color: isDark ? Colors.grey : null,
-                  ),
-          ),
+          child: Text.rich(node.build()),
         ),
         onTap: () {
           if (!isCurrent) {
@@ -56,4 +57,21 @@ class TocItemWidget extends StatelessWidget {
       ),
     );
   }
+}
+
+///every heading tag has a special level
+final _tag2Level = <String, int>{
+  'h1': 1,
+  'h2': 2,
+  'h3': 3,
+  'h4': 5,
+  'h5': 5,
+  'h6': 6,
+};
+
+class _TocHeadingConfig extends HeadingConfig {
+  final TextStyle style;
+  final String tag;
+
+  _TocHeadingConfig(this.style, this.tag);
 }
