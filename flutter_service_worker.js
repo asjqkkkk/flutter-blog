@@ -3,7 +3,7 @@ const MANIFEST = 'flutter-app-manifest';
 const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
-  "main.dart.js": "a6bbf27b7ef684624c40224806af9804",
+  "main.dart.js": "1a8eae9ad0807c5cce46287c22056038",
 "canvaskit/canvaskit.wasm": "bf50631470eb967688cca13ee181af62",
 "canvaskit/profiling/canvaskit.wasm": "95a45378b69e77af5ed2bc72b2209b94",
 "canvaskit/profiling/canvaskit.js": "38164e5a72bdad0faa4ce740c9b8e564",
@@ -12,11 +12,10 @@ const RESOURCES = {
 "icons/Icon-512.png": "8d6e2a81246fb0595cd0e61576988b8c",
 "icons/Icon-192.png": "c272ed6503898850493a9fadfdfe44c8",
 "flutter.js": "f85e6fb278b0fd20c349186fb46ae36d",
-"assets/AssetManifest.json": "06e3c1665cabdc55fc1eea6388a61ac1",
+"assets/AssetManifest.json": "3dfb641d0d79c31e2549f46468cc9db5",
 "assets/shaders/ink_sparkle.frag": "ab4751ef630837e294889ca64470bb70",
 "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "6d342eb68f170c97609e9da345464e5e",
-"assets/packages/flutter_inappwebview/assets/t_rex_runner/t-rex.css": "5a8d0222407e388155d7d1395a75d5b9",
-"assets/packages/flutter_inappwebview/assets/t_rex_runner/t-rex.html": "16911fcc170c8af1c5457940bd0bf055",
+"assets/packages/youtube_player_iframe/assets/player.html": "dc7a0426386dc6fd0e4187079900aea8",
 "assets/FontManifest.json": "b48f1d339781b5411b6d619946384b9a",
 "assets/fonts/MaterialIcons-Regular.otf": "95db9098c58fd6db106f1116bae85a0b",
 "assets/assets/img/kotlin_5.png": "4b91717f23bbe0207c589df77e5969d2",
@@ -73,7 +72,7 @@ const RESOURCES = {
 "assets/assets/jsons/one_line.json": "fff447d75b9deec9a0d31aa4993f820d",
 "assets/assets/jsons/article_life.json": "7522ed25adc5ae7675ffa0c3982c5f01",
 "assets/assets/jsons/article_study.json": "76a431e9742cda951b7bcee93826f046",
-"assets/assets/jsons/article_all.json": "af08253771d5c04336c54a45e48ec6b4",
+"assets/assets/jsons/article_all.json": "fa3db2308144b8705ed9f1410f8b1272",
 "assets/assets/jsons/game_screens.json": "3b62848c228cfd088f15b68ed740e4aa",
 "assets/assets/jsons/article_topic.json": "062a00c375ea89789a7b2a7b04a51bd9",
 "assets/assets/friend/1663247766107.png": "f6282d1ce617cc4c0d378bbf301bf6c1",
@@ -421,9 +420,9 @@ const RESOURCES = {
 "assets/assets/game_screens/guJian3/thumbnails/20181222105523_1.jpg": "aadc21aa871f90adc95f6f417635d2d1",
 "assets/assets/game_screens/guJian3/20181222133355_1.jpg": "e275135f0ac103f5fdc4a73b929b1809",
 "assets/assets/game_screens/guJian3/20181222105523_1.jpg": "4e69bd2029133d9f364bdff14cb27ec6",
-"assets/NOTICES": "4b8819ee6d24b0aff0aed4e96ab7232c",
-"index.html": "db577c23d94f6422ecb5b670db4c5e69",
-"/": "db577c23d94f6422ecb5b670db4c5e69",
+"assets/NOTICES": "073a28f25a9c8808f9637db86355d55e",
+"index.html": "6b88480163029160c0bf837da7d182ad",
+"/": "6b88480163029160c0bf837da7d182ad",
 "favicon.png": "43a7a8aa911ac20600297c413160a32c",
 "version.json": "e295eea9e581da6c5011023a7996f457"
 };
